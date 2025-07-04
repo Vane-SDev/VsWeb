@@ -9,7 +9,7 @@ const contactMethods = [
   {
     label: 'WhatsApp',
     icon: <FaWhatsapp />,
-    href: 'https://wa.me/5491123456789', // Cambia por tu número real
+    href: 'https://wa.me/5492645207128', // Cambia por tu número real
     description: '¡Respondemos rápido!'
   },
   {
