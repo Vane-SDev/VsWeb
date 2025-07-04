@@ -1,0 +1,140 @@
+/* src/App.css - Versión Final y Limpia */
+
+/* --- Variables y Estilos Base --- */
+/* Mantenemos tus excelentes variables y estilos base */
+:root {
+  --color-dark: #0a0a0a;
+  --color-accent: #e87a5d;
+  --color-accent-spark: #e91e63;
+  --color-accent-strong: #ff6b9d;
+  --color-text-light: #ffffff;
+  --color-text-dark: #1a1a1a;
+  --color-text-muted: #666666;
+  --color-background: #0a0a0a;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  /* ... y el resto de tus variables ... */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-light);
+  overflow-x: hidden;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  /* El z-index lo manejaremos en los wrappers para evitar conflictos */
+}
+
+/* --- ESTILOS PARA LA ANIMACIÓN DE SCROLL (LA PARTE IMPORTANTE) --- */
+
+/* 1. El contenedor que GSAP va a "fijar" en la pantalla */
+.animation-container {
+  min-height: 150vh;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+.animation-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* height: 120px; */
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(180deg, rgba(20,20,30,0.95) 0%, rgba(255,255,255,0.0) 100%);
+}
+
+/* 2. Un wrapper común para las secciones que se apilan */
+.section-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Evita que el contenido se desborde durante la animación */
+}
+
+/* 3. Posición inicial de cada wrapper */
+.hero-wrapper {
+  z-index: 2; /* El Hero empieza por encima */
+}
+
+.hero-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 2rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.services-section {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  /* display: flex;  <-- lo quitamos aquí */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Si necesitas el flex, agrégalo a .services-container */
+.services-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 11;
+}
+
+/* 4. Contenedor para el resto del contenido que fluye normalmente */
+.main-content {
+  position: relative;
+  z-index: 10; /* Un z-index alto para que aparezca sobre la animación cuando termine */
+  /* El color de fondo de cada sección dentro de main-content lo definirá su propio CSS */
+}
+
+/* --- Scrollbar Personalizada (La mantenemos porque es un gran detalle) --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-accent), var(--color-accent-spark));
+  border-radius: 4px;
+}
+
+.hero-container,
+.services-section,
+.services-container > * {
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}

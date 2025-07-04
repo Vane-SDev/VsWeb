@@ -1,0 +1,253 @@
+/* src/components/Header.css */
+/* src/components/Header.css */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.5rem 6%;
+    background: linear-gradient(90deg, rgba(35,35,35,0.82) 60%, rgba(60,0,40,0.13) 100%);
+    backdrop-filter: blur(18px) saturate(1.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+    border-bottom: 1.5px solid rgba(255,255,255,0.10);
+    z-index: 100;
+    transition: background 0.3s, box-shadow 0.3s;
+    min-height: 56px;
+}
+.main-header:hover {
+    background: linear-gradient(90deg, rgba(35,35,35,0.92) 60%, rgba(60,0,40,0.18) 100%);
+    box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.18);
+}
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    height: 48px;
+}
+.logo-container img {
+    height: 38px;
+    max-width: 140px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.logo-text {
+    width: 150px;;
+    /* font-size: 2.1rem;
+    font-weight: 900;
+    color: var(--color-text-light);
+    text-decoration: none;
+    letter-spacing: -1.2px;
+    padding: 0.2rem 1.2rem 0.2rem 0.2rem;
+    border-radius: 12px;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 2px 12px 0 rgba(60,60,90,0.08);
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+}
+.logo-text:hover {
+    transform: scale(1.07) translateY(-2px);
+    
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 3.2rem;
+    align-items: center;
+}
+.nav-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.18rem;
+    letter-spacing: 0.2px;
+    position: relative;
+    padding: 0.2rem 0.5rem;
+    transition: color 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.nav-links a::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0.8;
+}
+.nav-links a:hover, .nav-links a:focus {
+    color: var(--color-accent);
+}
+.nav-links a:hover::after, .nav-links a:focus::after {
+    transform: scaleX(1);
+}
+
+/* --- Media Query para Móviles --- */
+@media (max-width: 768px) {
+    .main-nav {
+        justify-content: center;
+        position: relative;
+    }
+    .logo-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        z-index: 120;
+    }
+    .nav-links {
+        display: none;
+    }
+    .logo-text {
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 0 auto;
+        padding: 0.2rem 0.8rem;
+    }
+    .main-header {
+        padding: 0.8rem 5%;
+        width:23rem;
+        max-width: 100vw;
+        overflow-x: hidden;
+
+    }
+    .hamburger-menu {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 130;
+    }
+}
+
+.hamburger-menu {
+    display: none;
+}
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+}
+
+/* Drawer/Overlay personalizado para el menú móvil */
+.MuiDrawer-paper {
+    background: linear-gradient(120deg, rgba(30,30,40,0.85) 80%, rgba(233,30,99,0.13) 100%);
+    backdrop-filter: blur(22px) saturate(1.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22);
+    border-radius: 18px 0 0 18px;
+    border: 1.5px solid rgba(255,255,255,0.13);
+    color: #fff;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 240px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.MuiList-root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.2rem;
+    margin-top: 2.5rem;
+}
+.MuiListItemButton-root {
+    justify-content: center;
+    border-radius: 12px;
+    padding: 1.1rem 0.5rem;
+    transition: background 0.22s, color 0.22s;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+.MuiListItemButton-root:hover, .MuiListItemButton-root:focus {
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+    color: #fff;
+}
+.MuiListItemText-root span {
+    text-align: center;
+    width: 100%;
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.hamburger-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 140;
+  position: relative;
+  padding: 0;
+  transition: background 0.2s;
+}
+.hamburger-icon span {
+  display: block;
+  width: 28px;
+  height: 3.2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+  border-radius: 2px;
+  margin: 4.2px 0;
+  transition: all 0.32s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.5);
+}
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+.hamburger-icon:focus {
+  outline: 2px solid var(--color-accent);
+}
+.hamburger-icon.open span {
+  background: #fff !important;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+}
+
+@media (max-width: 600px) {
+  .logo-container img {
+    height: 28px;
+    max-width: 90px;
+  }
+  .main-header {
+    min-height: 44px;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
+  .main-nav {
+    max-width: 100vw;
+    padding: 0;
+  }
+  .logo-container {
+    max-width: 70vw;
+  }
+}

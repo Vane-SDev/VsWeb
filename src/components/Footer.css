@@ -1,0 +1,42 @@
+/* src/components/Footer.css */
+.main-footer {
+  padding: 2rem 5%;
+  background-color: rgba(26, 26, 26, 0.9); /* #1a1a1a con transparencia */
+  backdrop-filter: blur(10px);
+  border-top: 1px solid #333;
+  color: var(--color-text-secondary);
+  position: relative; /* ¡CLAVE! Crea un nuevo contexto de apilamiento */
+  z-index: 2;       /* ¡CLAVE! Lo pone en una capa superior a los blobs y al main */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .social-links a {
+    margin: 0 0.8rem;
+  }
+}

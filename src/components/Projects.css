@@ -1,0 +1,254 @@
+/* Projects.css - Diseño moderno, flotante y minimalista */
+
+.projects-section {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(120deg, rgba(255,255,255,0.98) 0%, rgba(245,245,245,0.98) 100%);
+  padding: 80px 0 80px 0;
+  margin-top: 5rem;
+  position: relative;
+  z-index: 5;
+  overflow-x: hidden;
+}
+
+.projects-title {
+  text-align: center;
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  font-weight: 300;
+  color: #1a1a1a;
+  margin-bottom: 3.5rem;
+  letter-spacing: -0.02em;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.project-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3.5rem;
+  background: rgba(255,255,255,0.7);
+  border-radius: 32px;
+  box-shadow: 0 8px 40px rgba(30,30,60,0.08);
+  padding: 3.5rem 2.5rem;
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(232, 122, 93, 0.10);
+  transition: box-shadow 0.3s, transform 0.3s;
+  z-index: 2;
+}
+
+.project-card:hover {
+  box-shadow: 0 20px 60px rgba(232, 122, 93, 0.13);
+  transform: translateY(-8px) scale(1.025);
+  border-color: var(--color-accent, #e87a5d);
+}
+
+/* Posiciones flotantes alternadas */
+.float-left { align-self: flex-start; margin-left: 0; margin-right: auto; }
+.float-right { align-self: flex-end; margin-right: 0; margin-left: auto; }
+.float-center { align-self: center; }
+.float-top-left { align-self: flex-start; margin-left: 5vw; }
+.float-bottom-right { align-self: flex-end; margin-right: 5vw; }
+
+/* Mockup de monitor */
+.project-mockup {
+  flex-shrink: 0;
+  width: 340px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: relative;
+}
+.monitor {
+  width: 100%;
+  height: 100%;
+  background: #222;
+  border-radius: 18px 18px 12px 12px;
+  box-shadow: 0 4px 24px rgba(30,30,60,0.10);
+  position: relative;
+  overflow: hidden;
+  border: 2.5px solid #e87a5d22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.monitor-image {
+  width: 98%;
+  height: 92%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(30,30,60,0.10);
+  background: #fff;
+}
+
+/* Info del proyecto */
+.project-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.1rem;
+}
+.project-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+.project-type {
+  font-size: 1.05rem;
+  color: var(--color-accent, #e87a5d);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.project-desc {
+  font-size: 1.08rem;
+  color: #444;
+  font-weight: 400;
+  margin: 0 0 0.5rem 0;
+}
+.project-link {
+  margin-top: 0.5rem;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-accent, #e87a5d);
+  padding: 0.7rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 10px rgba(232, 122, 93, 0.08);
+  border: 1.5px solid rgba(232, 122, 93, 0.13);
+  transition: all 0.22s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+}
+.project-link:hover, .project-link:focus {
+  background: rgba(255,255,255,0.32);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(232, 122, 93, 0.18);
+  border-color: var(--color-accent, #e87a5d);
+}
+
+.projects-cta-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 3.5rem;
+}
+.projects-cta {
+  background: linear-gradient(90deg, var(--color-accent, #e87a5d), var(--color-accent-spark, #e91e63));
+  color: #fff;
+  padding: 1.1rem 3rem;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(232, 122, 93, 0.13);
+  transition: all 0.22s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.projects-cta:hover, .projects-cta:focus {
+  background: linear-gradient(90deg, var(--color-accent-spark, #e91e63), var(--color-accent, #e87a5d));
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 30px rgba(232, 122, 93, 0.18);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .project-card {
+    flex-direction: column;
+    gap: 2.2rem;
+    padding: 2.2rem 1.2rem;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    max-width: 98vw;
+  }
+  .project-mockup {
+    width: 90vw;
+    max-width: 340px;
+    height: 180px;
+  }
+  .float-left,
+  .float-right,
+  .float-center,
+  .float-top-left,
+  .float-bottom-right {
+    align-self: center !important;
+    margin: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  .projects-section {
+    padding: 40px 0 24px 0;
+    margin-top:49rem
+  }
+  .projects-title {
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-bottom: 1.3rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .projects-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 1.2rem;
+    padding: 0 4vw;
+    scroll-snap-type: x mandatory;
+  }
+  .project-card {
+    min-width: 85vw;
+    max-width: 85vw;
+    padding: 0.7rem 1.2rem;
+    border-radius: 12px;
+    width: 85vw;
+    margin: 0;
+    scroll-snap-align: center;
+    box-sizing: border-box;
+  }
+  .project-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: 110px;
+  }
+  .project-info {
+    gap: 0.4rem;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .project-name {
+    font-size: 0.98rem;
+  }
+  .project-type {
+    font-size: 0.92rem;
+  }
+  .project-desc {
+    font-size: 0.92rem;
+  }
+  .projects-cta {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+  }
+}

@@ -1,0 +1,39 @@
+/* src/index.css - Versión Simplificada */
+
+/* 1. Importar la fuente desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+
+/* 2. Definir variables de color para usar en todo el sitio */
+:root {
+  --color-dark: #232323;            /* Gris Carbón para fondos */
+  --color-accent: #E87A5D;           /* Naranja/Coral principal */
+  --color-accent-strong: #FF5733;    /* Naranja Intenso para luces */
+  --color-accent-spark: #E91E63;     /* Fucsia/Magenta para la "chispa" */
+  --color-text-light: #F5F5F5;       /* Blanco Hueso para títulos */
+  --color-text-secondary: #B0B0B0;   /* Gris Claro para párrafos */
+}
+
+/* 3. Reseteo y estilos base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-dark);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  color: var(--color-text-light);
+  font-weight: 700;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
