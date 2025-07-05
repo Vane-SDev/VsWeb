@@ -51,14 +51,17 @@ const Header = () => {
                         anchor="right"
                         open={drawerOpen}
                         onClose={toggleDrawer(false)}
-                        PaperProps={{
-                            sx: {
-                                background: 'rgba(30, 30, 40, 0.55)',
-                                backdropFilter: 'blur(18px) saturate(160%)',
-                                boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-                                borderRadius: '18px 0 0 18px',
-                                border: '1px solid rgba(255,255,255,0.12)',
-                                color: '#fff',
+                        slotProps={{
+                            paper: {
+                                sx: {
+                                    background: 'rgba(30, 30, 40, 0.55)',
+                                    backdropFilter: 'blur(18px) saturate(160%)',
+                                    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                                    borderRadius: '18px 0 0 18px',
+                                    border: '1px solid rgba(255,255,255,0.12)',
+                                    color: '#fafafa',
+                                    marginTop: '3.6rem',
+                                }
                             }
                         }}
                     >

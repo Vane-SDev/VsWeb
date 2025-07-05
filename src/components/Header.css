@@ -249,6 +249,7 @@
     position: relative; /* Usamos relative para que se mantenga en el flujo del flexbox */
     z-index: 1300; /* Lo mantenemos alto para que esté sobre el menú desplegable */
   }
+ 
 }
 
 @media (max-width: 600px) {
