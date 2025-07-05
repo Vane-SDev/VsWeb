@@ -4,13 +4,14 @@
   background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.98) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 140px 5% 100px 5%;
+  padding: 140px 5% 100px 5%; /* El padding-top da el espacio inicial */
   color: #1a1a1a;
   position: relative;
   z-index: 10;
   min-height: 120vh;
   display: flex;
-  align-items: center;
+  /* Cambiamos 'center' por 'flex-start' para alinear el contenido arriba */
+  align-items: flex-start; 
   justify-content: center;
 }
 
