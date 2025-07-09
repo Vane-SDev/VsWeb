@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import logo from '../assets/logoNegro.svg'; 
+import logo from '../assets/LogoNegro.svg'; 
 
 
 const navLinks = [
