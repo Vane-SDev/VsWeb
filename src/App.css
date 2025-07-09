@@ -13,6 +13,14 @@
   --color-background: #0a0a0a;
   --color-surface: rgba(255, 255, 255, 0.05);
   --color-border: rgba(255, 255, 255, 0.1);
+  /* Variables para títulos de sección */
+  --section-title-size: clamp(2.2rem, 6vw, 3.5rem);
+  --section-title-size-mobile: 1.35rem;
+  --section-title-weight: 300;
+  --section-title-color: #1a1a1a;
+  --section-title-color-dark: var(--color-text-light);
+  --section-title-spacing: -0.02em;
+  --section-title-margin: 3.5rem;
   /* ... y el resto de tus variables ... */
 }
 
@@ -142,4 +150,65 @@ main {
 
 .App {
   overflow-x: hidden;
+}
+
+/* ==========================================================================
+   OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
+   ========================================================================== */
+
+  @media (max-width: 768px) {
+    /*
+      Desactivado de los efectos de 'blur' y 'backdrop-filter' 
+      m
+      
+    */
+    .blob,
+    .main-header,
+    .services-section,
+    .service-card,
+    .service-cta,
+    .project-card,
+    .project-link,
+    .testimonials-section,
+    .testimonial-card,
+    .contact-card,
+    .MuiDrawer-paper {
+      filter: none !important;
+      backdrop-filter: none !important;
+    }
+  
+    /*
+      Tarjetas con un fondo un poco más opaco para asegurar la legibilidad.
+    */
+    .service-card,
+    .project-card,
+    .contact-card {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  
+    .main-header {
+      background: rgba(35, 35, 35, 0.95);
+    }
+  }
+
+.section-title {
+  text-align: center;
+  font-size: var(--section-title-size);
+  font-weight: var(--section-title-weight);
+  color: var(--section-title-color);
+  margin-bottom: var(--section-title-margin);
+  letter-spacing: var(--section-title-spacing);
+  line-height: 1.2;
+}
+.section-title--dark {
+  color: var(--section-title-color-dark);
+}
+@media (max-width: 600px) {
+  .section-title {
+    font-size: var(--section-title-size-mobile);
+    font-weight: 500;
+    margin-bottom: 1.3rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
 }

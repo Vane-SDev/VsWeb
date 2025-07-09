@@ -5,19 +5,10 @@
   min-height: 100vh;
   background: linear-gradient(120deg, rgba(255,255,255,0.98) 0%, rgba(245,245,245,0.98) 100%);
   padding: 80px 0 80px 0;
-  margin-top: 5rem;
+  margin-top: 1rem;
   position: relative;
   z-index: 5;
   overflow-x: hidden;
-}
-
-.projects-title {
-  text-align: center;
-  font-size: clamp(2.2rem, 6vw, 3.5rem);
-  font-weight: 300;
-  color: #1a1a1a;
-  margin-bottom: 3.5rem;
-  letter-spacing: -0.02em;
 }
 
 .projects-list {
@@ -34,11 +25,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 3.5rem;
+  gap: .5rem;
   background: rgba(255,255,255,0.7);
   border-radius: 32px;
   box-shadow: 0 8px 40px rgba(30,30,60,0.08);
-  padding: 3.5rem 2.5rem;
+  padding: .5rem 0.5rem;
   position: relative;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -60,37 +51,40 @@
 .float-top-left { align-self: flex-start; margin-left: 5vw; }
 .float-bottom-right { align-self: flex-end; margin-right: 5vw; }
 
-/* Mockup de monitor */
+/* Para alternar la disposición de imagen-texto */
+.project-card.reversed {
+  flex-direction: row-reverse;
+}
+
+.project-image-wrapper {
+  flex: 1.2;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-image-wrapper {
+  transform: scale(1.05) translateY(-5px);
+}
+
 .project-mockup {
-  flex-shrink: 0;
-  width: 340px;
-  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 420px;
+  max-width: 90vw;
+  aspect-ratio: 16/9;
   background: transparent;
-  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
 }
-.monitor {
+
+.project-mockup-image {
   width: 100%;
   height: 100%;
-  background: #222;
-  border-radius: 18px 18px 12px 12px;
-  box-shadow: 0 4px 24px rgba(30,30,60,0.10);
-  position: relative;
-  overflow: hidden;
-  border: 2.5px solid #e87a5d22;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.monitor-image {
-  width: 98%;
-  height: 92%;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(30,30,60,0.10);
-  background: #fff;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  filter: drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.15));
+  transition: filter 0.3s;
 }
 
 /* Info del proyecto */
@@ -100,7 +94,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 1.1rem;
+  gap: 0.8rem; /* Ajustamos un poco el gap para los nuevos elementos */
 }
 .project-name {
   font-size: 1.5rem;
@@ -113,67 +107,105 @@
   color: var(--color-accent, #e87a5d);
   font-weight: 500;
   letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
 }
 .project-desc {
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   color: #444;
   font-weight: 400;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
 }
+
+/* --- NUEVOS ESTILOS AÑADIDOS --- */
+.project-context {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #666;
+  background-color: #f0f0f0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  background-color: #e9e9e9;
+  color: #555;
+  padding: 0.3rem 0.7rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+/* --- FIN DE NUEVOS ESTILOS --- */
+
+
 .project-link {
-  margin-top: 0.5rem;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  margin-top: 1rem;
+  background: transparent;
   color: var(--color-accent, #e87a5d);
   padding: 0.7rem 2rem;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.05rem;
-  box-shadow: 0 2px 10px rgba(232, 122, 93, 0.08);
-  border: 1.5px solid rgba(232, 122, 93, 0.13);
+  border: 1.5px solid rgba(232, 122, 93, 0.3);
   transition: all 0.22s cubic-bezier(0.25,0.46,0.45,0.94);
   display: inline-block;
-  outline: none;
-  cursor: pointer;
 }
 .project-link:hover, .project-link:focus {
-  background: rgba(255,255,255,0.32);
+  background: var(--color-accent);
   color: #fff;
-  box-shadow: 0 8px 24px rgba(232, 122, 93, 0.18);
-  border-color: var(--color-accent, #e87a5d);
+  border-color: var(--color-accent);
 }
 
 .projects-cta-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 3.5rem;
+  margin-top: 4.5rem; /* Aumentamos el margen para separar del último proyecto */
 }
-.projects-cta {
-  background: linear-gradient(90deg, var(--color-accent, #e87a5d), var(--color-accent-spark, #e91e63));
-  color: #fff;
-  padding: 1.1rem 3rem;
-  border-radius: 40px;
+
+/* --- NUEVO ESTILO PARA EL BOTÓN SECUNDARIO "Explorar" --- */
+.projects-cta-secondary {
+  display: inline-block;
+  padding: 0.8rem 2.5rem;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  border-radius: 30px;
   font-weight: 600;
   font-size: 1.1rem;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(232, 122, 93, 0.13);
-  transition: all 0.22s cubic-bezier(0.25,0.46,0.45,0.94);
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
-.projects-cta:hover, .projects-cta:focus {
-  background: linear-gradient(90deg, var(--color-accent-spark, #e91e63), var(--color-accent, #e87a5d));
+
+.projects-cta-secondary:hover {
+  background-color: var(--color-accent);
   color: #fff;
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 10px 30px rgba(232, 122, 93, 0.18);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(232, 122, 93, 0.2);
 }
+/* --- FIN DE NUEVO ESTILO --- */
 
 /* Responsive */
-@media (max-width: 900px) {
-
-
+@media (max-width: 768px) {
+  .project-mockup {
+    width: 95vw;
+    max-width: 340px;
+    aspect-ratio: 16/9;
+    height: auto;
+    min-height: 120px;
+  }
+  .projects-section {
+    opacity: 100 !important;
+    transform: translate(0%, 0%) !important;
+    margin-top: 15rem;
+  }
   .project-card {
     flex-direction: column;
     gap: 2.2rem;
@@ -182,11 +214,6 @@
     width: 100%;
     min-width: 0;
     max-width: 98vw;
-  }
-  .project-mockup {
-    width: 90vw;
-    max-width: 340px;
-    height: 180px;
   }
   .float-left,
   .float-right,
@@ -199,16 +226,8 @@
 }
 @media (max-width: 600px) {
   .projects-section {
-    padding: 40px 0 24px 0;
-    margin-top:26.5rem;
-    margin-bottom: -20rem;
-  }
-  .projects-title {
-    font-size: 1.35rem;
-    font-weight: 500;
-    margin-bottom: 1.3rem;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+    padding: 70px 0 24px 0;
+    
   }
   .projects-list {
     display: flex;
@@ -221,7 +240,7 @@
   .project-card {
     min-width: 85vw;
     max-width: 85vw;
-    padding: 0.7rem 1.2rem;
+    padding: 1rem 1.2rem;
     border-radius: 12px;
     width: 85vw;
     margin: 0;
@@ -231,8 +250,13 @@
   .project-mockup {
     width: 100%;
     max-width: 100%;
-    height: 110px;
+    aspect-ratio: 16/9;
+    min-height: 90px;
+    height: auto;
   }
+  /* .project-mockup-image {
+    
+  } */
   .project-info {
     gap: 0.4rem;
     align-items: flex-start;
@@ -257,12 +281,12 @@
 }
 
 @media (max-width: 360px) {
-
+  .project-mockup {
+    min-height: 60px;
+  }
   .projects-section {
     padding: 32px 0 16px 0;
     margin-top: 53rem;
     margin-bottom: -6rem;
   }
- 
-  
 }

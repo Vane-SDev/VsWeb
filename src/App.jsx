@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useEffect} from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const mainRef = useRef(null);
+  const originalTitleRef = useRef(document.title);
 
   useLayoutEffect(() => {
     // --- SETUP DE SCROLL SUAVE (LENIS) ---
@@ -79,6 +80,44 @@ function App() {
 
     }, mainRef);
     return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    let intervalId = null;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // El usuario cambió de pestaña
+        const messages = [
+          "¡No te vayas! 👀",
+          "Tenemos lo que buscás...",
+          "✨ Tu web te espera ✨",
+          "¡Volvé! رجع", 
+          "VS Web Design"
+        ];
+        let messageIndex = 0;
+
+        // Empezamos a cambiar el título cada 1.5 segundos
+        intervalId = setInterval(() => {
+          document.title = messages[messageIndex];
+          messageIndex = (messageIndex + 1) % messages.length;
+        }, 1500);
+
+      } else {
+        // El usuario volvió
+        clearInterval(intervalId); // Detenemos la animación
+        document.title = originalTitleRef.current; // Restauramos el título original
+      }
+    };
+
+    // "Escuchamos" el evento de cambio de visibilidad
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Función de limpieza para cuando el componente se desmonte
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (

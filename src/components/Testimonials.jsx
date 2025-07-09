@@ -2,32 +2,36 @@ import React, { useRef, useEffect } from 'react';
 import './Testimonials.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import logoAxiaval from '../assets/AXIAVAL-LOGO-06.png';
+import logoCamex from '../assets/CamexTrans.png';
+import logoSGA from '../assets/LogoSGAcomex.png';
+import logoVG from '../assets/LogoVGRecurso 7@2x.png';
 gsap.registerPlugin(ScrollTrigger);
 
 const testimonialsData = [
   {
-    name: 'María González',
-    role: 'CEO, Creativa Studio',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    text: 'El equipo superó nuestras expectativas. El sitio es rápido, moderno y nos ayudó a captar más clientes. ¡Recomiendo 100%!' 
+    name: 'Leandro Pietra',
+    role: 'Selección y Reclutamiento, Axiaval',
+    logo: logoAxiaval,
+    text: 'Valoro su actitud de servicio, buena predisposición y rápida respuesta durante todo el proceso. Me brindó un asesoramiento que fue más allá del desarrollo web.'
   },
   {
-    name: 'Juan Pérez',
-    role: 'Fundador, Tienda Online',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    text: 'La automatización que implementaron nos ahorró horas de trabajo cada semana. El soporte es excelente y siempre atentos.'
+    name: 'Marcela Carol',
+    role: 'Presidenta de CAMEX',
+    logo: logoCamex,
+    text: 'Si lo que buscas es aumentar visitas y seguidores, transmitir confianza y mostrar tus verdaderos valores, Vanesa es la profesional indicada.'
   },
   {
-    name: 'Lucía Fernández',
-    role: 'Directora, ONG Futuro',
-    avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    text: 'Nos guiaron en todo el proceso y el resultado fue una web profesional y fácil de actualizar. ¡Gracias por el compromiso!'
+    name: 'Gabriela Salatino',
+    role: 'Despachante de Aduana, SGA Comex',
+    logo: logoSGA,
+    text: 'Excelente profesional. Es destacable su dedicación y profesionalismo en la realización de cada etapa del proyecto. Muy conforme con su trabajo.'
   },
   {
-    name: 'Carlos Ramírez',
-    role: 'CTO, Analytics Pro',
-    avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
-    text: 'El dashboard es intuitivo y visualmente atractivo. La integración con nuestros sistemas fue impecable.'
+    name: 'Valentina Guanco',
+    role: 'Ejecutiva de Cuentas, Grupo VG',
+    logo: logoVG,
+    text: 'Fue muy accesible con todos los pedidos que le hice y su trabajo como diseñadora es súper recomendable.'
   }
 ];
 
@@ -81,23 +85,20 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="testimonials-section" ref={sectionRef}>
-      <h2 className="testimonials-title">Testimonios de Clientes</h2>
+    <section id="testimonios" className="testimonials-section" ref={sectionRef}>
+      <h2 className="section-title section-title--dark">Construyendo Alianzas, no solo Proyectos</h2>
       <div className="testimonials-list">
-        {testimonialsData.map((t, idx) => (
-          <div
-            className="testimonial-card"
-            key={t.name}
-            ref={el => cardsRef.current[idx] = el}
-          >
-            <div className="testimonial-avatar-wrapper">
-              <img src={t.avatar} alt={t.name} className="testimonial-avatar" />
+        {testimonialsData.map((testimonial) => (
+          <div className="testimonial-card" key={testimonial.name}>
+            {/* 3. Reemplazamos el avatar por el logo del cliente */}
+            <div className="testimonial-logo-wrapper">
+              <img src={testimonial.logo} alt={`Logo de ${testimonial.name}`} className="testimonial-logo" />
             </div>
             <div className="testimonial-content">
-              <p className="testimonial-text">“{t.text}”</p>
+              <p className="testimonial-text">"{testimonial.text}"</p>
               <div className="testimonial-meta">
-                <span className="testimonial-name">{t.name}</span>
-                <span className="testimonial-role">{t.role}</span>
+                <span className="testimonial-name">{testimonial.name}</span>
+                <span className="testimonial-role">{testimonial.role}</span>
               </div>
             </div>
           </div>

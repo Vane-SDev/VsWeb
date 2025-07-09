@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './Hero.css';
-import logoVS from '../assets/Logo_vs.png';
+import logoVS from '../assets/LogoBlanco.svg';
 
 const Hero = () => {
     return (

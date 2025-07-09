@@ -1,202 +1,133 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import './Projects.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import img1 from '../assets/SandraMarzzan.svg';
+import img2 from '../assets/GenteDeDerecho.svg'; 
+import img3 from '../assets/SylvieBurstin.svg'; // Asegúrate de tener estas imágenes en la ruta correcta
+
 gsap.registerPlugin(ScrollTrigger);
 
+// Dejamos solo nuestros 3 casos de éxito seleccionados
 const projectsData = [
   {
     id: 1,
-    name: 'Portfolio Creativo',
-    type: 'Landing Page',
-    description: 'Sitio web personal para mostrar trabajos creativos, animaciones y contacto.',
-    image: 'https://placehold.co/600x400/222/fff?text=Portfolio',
-    url: '#'
+    name: 'E-commerce Sandra Marzzan',
+    type: 'Tienda Online con WooCommerce',
+    context: 'Proyecto reciente y actualmente online.',
+    challenge: 'El cliente necesitaba una plataforma de venta robusta e independiente para expandir su alcance y tener control total sobre sus productos y promociones.',
+    solution: 'Desarrollamos un e-commerce completo con WordPress y WooCommerce, implementando un diseño atractivo, pasarelas de pago y un sistema de gestión de inventario fácil de usar.',
+    image: img1,
+    url: 'https://sandramarzzanar.com.ar/',
+    tags: ['WordPress', 'WooCommerce', 'E-commerce']
   },
   {
     id: 2,
-    name: 'E-commerce Moderno',
-    type: 'Tienda Online',
-    description: 'Tienda online con carrito, pagos y panel de administración intuitivo.',
-    image: 'https://placehold.co/600x400/333/fff?text=E-commerce',
-    url: '#'
+    name: 'Reconstrucción y Modernización: "Gente de Derecho"',
+    type: 'Re-platforming y Hub de Contenidos',
+    context: 'Proyecto realizado en 2022. El diseño actual del sitio puede haber variado.',
+    challenge: 'El cliente poseía un sitio web obsoleto: lento y difícil de actualizar. Su valioso contenido multimedia estaba disperso y perdía impacto.',
+    solution: 'Se realizó una reconstrucción completa desde cero, optimizando el rendimiento y la seguridad. El nuevo sitio integra sus contenidos, transformando un activo obsoleto en una herramienta de comunicación potente.',
+    image: img2,
+    url: '#',
+    tags: ['Re-platforming', 'Performance', 'API Integration']
   },
   {
-    id: 3,
-    name: 'Blog Minimalista',
-    type: 'Blog',
-    description: 'Blog con diseño limpio, optimizado para lectura y SEO.',
-    image: 'https://placehold.co/600x400/444/fff?text=Blog',
-    url: '#'
-  },
-  {
-    id: 4,
-    name: 'Web Corporativa',
-    type: 'Empresa',
-    description: 'Página institucional para empresas con secciones de servicios y contacto.',
-    image: 'https://placehold.co/600x400/555/fff?text=Corporativa',
-    url: '#'
-  },
-  {
-    id: 5,
-    name: 'Landing Producto',
-    type: 'Landing',
-    description: 'Landing page para lanzamiento de producto con formularios y animaciones.',
-    image: 'https://placehold.co/600x400/666/fff?text=Producto',
-    url: '#'
-  },
-  {
-    id: 6,
-    name: 'App de Reservas',
-    type: 'Web App',
-    description: 'Sistema de reservas online para turnos y citas, con notificaciones.',
-    image: 'https://placehold.co/600x400/777/fff?text=Reservas',
-    url: '#'
-  },
-  {
-    id: 7,
-    name: 'Portfolio Fotografía',
-    type: 'Portfolio',
-    description: 'Galería de fotos profesional con animaciones y carga optimizada.',
-    image: 'https://placehold.co/600x400/888/fff?text=Fotografía',
-    url: '#'
-  },
-  {
-    id: 8,
-    name: 'Web de Eventos',
-    type: 'Eventos',
-    description: 'Sitio para eventos con agenda, inscripciones y galería multimedia.',
-    image: 'https://placehold.co/600x400/999/fff?text=Eventos',
-    url: '#'
-  },
-  {
-    id: 9,
-    name: 'Dashboard Analytics',
-    type: 'Dashboard',
-    description: 'Panel de métricas y estadísticas con gráficos interactivos.',
-    image: 'https://placehold.co/600x400/aaa/fff?text=Dashboard',
-    url: '#'
-  },
-  {
-    id: 10,
-    name: 'Sitio ONG',
-    type: 'Institucional',
-    description: 'Web para ONG con donaciones, blog y voluntariado.',
-    image: 'https://placehold.co/600x400/bbb/fff?text=ONG',
-    url: '#'
+    id: 3, 
+    name: 'Sylvie Burstin: Renacimiento Digital de Alta Costura',
+    type: 'Migración, Diseño UI/UX y Social Media Hub',
+    context: 'El diseño actual del sitio puede haber variado.',
+    challenge: 'La marca de alta costura estaba "atrapada" en un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario.',
+    solution: 'Se ejecutó una migración de servidor vía FTP y se reconstruyó la plataforma desde una base de código limpia. El nuevo sitio, enfocado en la performance visual, integra dinámicamente los feeds de Instagram y YouTube, creando una galería viva y siempre actualizada que refleja la esencia de la marca.',
+    image: img3, // <-- REEMPLAZÁ ESTA RUTA
+    url: '#',
+    tags: ['Server Migration', 'UI/UX Design', 'Social API', 'WordPress']
   }
 ];
 
+// Tu función de posicionamiento se mantiene
 const getFloatPosition = idx => {
-  const positions = [
-    'float-left',
-    'float-right',
-    'float-center',
-    'float-top-left',
-    'float-bottom-right',
-  ];
+  const positions = ['float-left', 'float-right', 'float-center'];
   return positions[idx % positions.length];
 };
 
 const Projects = () => {
-  const [showAll, setShowAll] = useState(false);
-  const projectsToShow = showAll ? projectsData : projectsData.slice(0, 5);
-  const projectsRefs = useRef([]);
   const sectionRef = useRef(null);
 
-  // Limpiar refs antes de renderizar
-  projectsRefs.current = [];
-
-  useEffect(() => {
-    const validRefs = projectsRefs.current.filter(Boolean);
-    validRefs.forEach((el, i) => {
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 80, scale: 0.92, filter: 'blur(8px)' },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 1,
-          delay: i * 0.18,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-    });
-
-    if (sectionRef.current) {
-      gsap.fromTo(
-        sectionRef.current,
-        { opacity: 0, xPercent: 40 },
-        {
-          opacity: 1,
-          xPercent: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.animation-container',
-            start: 'bottom bottom',
-            end: '+=100',
-            scrub: 1,
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-    }
-  }, [showAll]);
+  useLayoutEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray('.project-card-container');
+      if (isMobile) {
+        cards.forEach(card => {
+          gsap.from(card, {
+            opacity: 0,
+            scale: 0.92,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'left 90%',
+              horizontal: true,
+              toggleActions: 'play none none none',
+            }
+          });
+        });
+      } else {
+        cards.forEach(card => {
+          gsap.from(card, {
+            opacity: 0,
+            y: 80,
+            scale: 0.95,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            }
+          });
+        });
+      }
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="projects-section" ref={sectionRef}>
-      <h2 className="projects-title">Mis Proyectos</h2>
-      <div className="projects-list" id="projects-list">
-        {projectsToShow.map((project, idx) => (
-          <article
-            key={project.id}
-            ref={el => (projectsRefs.current[idx] = el)}
-            className={`project-card ${getFloatPosition(idx)}`}
-            tabIndex={0}
-            aria-label={`Proyecto: ${project.name}`}
-          >
+    <section id="proyectos" className="projects-section" ref={sectionRef}>
+      <h2 className="section-title">Proyectos Destacados</h2>
+      <div className="projects-list">
+        {projectsData.map((project, idx) => (
+          <article key={project.id} className={`project-card ${getFloatPosition(idx)}`}>
+            {/* ... toda la estructura de tu tarjeta se mantiene igual ... */}
             <div className="project-mockup">
-              <div className="monitor">
-                <img
-                  src={project.image}
-                  alt={`Mockup de ${project.name}`}
-                  className="monitor-image"
-                />
+              <div className="project-image-wrapper">
+                <img src={project.image} alt={`Mockup de ${project.name}`} className="project-mockup-image" />
               </div>
             </div>
             <div className="project-info">
               <h3 className="project-name">{project.name}</h3>
               <p className="project-type">{project.type}</p>
-              <p className="project-desc">{project.description}</p>
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-link"
-              >
-                Ver Proyecto
-              </a>
+              {project.context && <p className="project-context">{project.context}</p>}
+              <p className="project-desc"><strong>Desafío:</strong> {project.challenge}</p>
+              <p className="project-desc"><strong>Solución:</strong> {project.solution}</p>
+              <div className="project-tags">
+                {project.tags.map(tag => <span className="tag" key={tag}>{tag}</span>)}
+              </div>
+              {project.url !== '#' && (
+                <a href={project.url} className="project-link" target="_blank" rel="noopener noreferrer">
+                  Visitar sitio
+                </a>
+              )}
             </div>
           </article>
         ))}
       </div>
+      {/* AQUÍ ESTÁ LA PUERTA AL CATÁLOGO COMPLETO */}
       <div className="projects-cta-wrapper">
-        <button
-          className="projects-cta"
-          onClick={() => setShowAll(prev => !prev)}
-          aria-expanded={showAll}
-          aria-controls="projects-list"
-        >
-          {showAll ? 'Mostrar menos' : 'Mostrar más'}
-        </button>
+        <a href="#" className="projects-cta-secondary">
+          Explorar todos los trabajos
+        </a>
       </div>
     </section>
   );

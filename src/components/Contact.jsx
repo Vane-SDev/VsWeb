@@ -80,7 +80,7 @@ const Contact = () => {
 
   return (
     <section className="contact-section" ref={sectionRef}>
-      <h2 className="contact-title">¿Listo para transformar tu proyecto? <span>Hablemos</span></h2>
+      <h2 className="section-title">¿Listo para transformar tu proyecto? <span>Hablemos</span></h2>
       <p className="contact-microcopy">Respondemos rápido y nos encanta escuchar ideas nuevas. Sin compromiso.</p>
       <div className="contact-cards-wrapper">
         {contactMethods.map((m, idx) => (

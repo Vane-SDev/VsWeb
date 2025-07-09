@@ -37,21 +37,21 @@
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    height: 48px;
+    height:4rem;
   }
   
   .logo-container img {
     display: block;
-    width: auto;
-    height: 38px;
-    max-width: 140px;
-    margin: 0;
+    width: 8rem;
+    height: auto;
+    margin-top: -0.5rem;
     padding: 0;
-    object-fit: contain;
+    object-fit:contain ;
+
   }
   
   .logo-text {
-    width: 150px;
+    width: 8rem;
   }
   
   .logo-text:hover {
@@ -228,7 +228,7 @@
   .logo-container {
     /* Quitamos el ancho y centrado para que se alinee a la izquierda */
     display: flex;
-    width: auto;
+    width: 2rem;
     justify-content: flex-start;
     z-index: 120;
   }

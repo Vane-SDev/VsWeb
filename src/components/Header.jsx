@@ -5,8 +5,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import logo from '../assets/Logo_vs.png'; // Asegúrate de tener el logo en esta ruta
-// import logo from '../assets/logo-v2.svg'; // Cuando tengas el logo nuevo
+import logo from '../assets/logoNegro.svg'; 
+
 
 const navLinks = [
     { label: 'Servicios', href: '#servicios' },
