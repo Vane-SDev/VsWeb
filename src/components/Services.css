@@ -4,11 +4,11 @@
   background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.98) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 140px 5% 100px 5%; /* El padding-top da el espacio inicial */
+  padding: 140px 5% 180px 5%; /* El padding-top da el espacio inicial */
   color: #1a1a1a;
   position: relative;
   z-index: 10;
-  min-height: 120vh;
+  /* min-height: 120vh; */
   display: flex;
   /* Cambiamos 'center' por 'flex-start' para alinear el contenido arriba */
   align-items: flex-start; 
@@ -37,8 +37,9 @@
 
 @media (max-width: 768px) {
   .services-section {
-    padding: 80px 2% 60px 2%;
-    min-height: auto;
+    padding: 80px 2% 120px 2%;
+    background-color: green;
+    
   }
 }
 

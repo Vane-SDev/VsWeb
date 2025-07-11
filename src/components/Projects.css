@@ -5,7 +5,7 @@
   min-height: 100vh;
   background: linear-gradient(120deg, rgba(255,255,255,0.98) 0%, rgba(245,245,245,0.98) 100%);
   padding: 80px 0 80px 0;
-  margin-top: 1.1rem;
+  /* margin-top: 1.1rem; */
   position: relative;
   z-index: 5;
   overflow-x: hidden;
@@ -204,7 +204,7 @@
   .projects-section {
     opacity: 100 !important;
     transform: translate(0%, 0%) !important;
-    margin-top: 15rem;
+    /* margin-top: 15rem; */
   }
   .project-card {
     flex-direction: column;
@@ -286,7 +286,7 @@
   }
   .projects-section {
     padding: 32px 0 16px 0;
-    margin-top: 53rem;
+    /* margin-top: 53rem; */
     margin-bottom: -6rem;
   }
 }

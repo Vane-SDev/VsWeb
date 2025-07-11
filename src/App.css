@@ -51,7 +51,7 @@ main {
 
 /* 1. El contenedor que GSAP va a "fijar" en la pantalla */
 .animation-container {
-  min-height: 150vh;
+  min-height: 100dvh;
   position: relative;
   z-index: 2;
   overflow: visible;
@@ -97,7 +97,7 @@ main {
 }
 
 .services-section {
-  position: absolute !important;
+  /* position: absolute !important; */
   top: 0;
   left: 0;
   width: 100%;
@@ -153,7 +153,7 @@ main {
 }
 
 /* ==========================================================================
-   OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
+  OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
    ========================================================================== */
 
   @media (max-width: 768px) {
