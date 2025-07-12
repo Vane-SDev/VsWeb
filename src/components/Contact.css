@@ -1,132 +1,211 @@
-/* Contact.css - Diseño moderno, profesional y minimalista */
+/* ==========================================================================
+   Componente: Contact
+   Versión Final: Tarjetas de Cristal (Desktop) + Acordeón (Móvil)
+   ========================================================================== */
 
+/* --- 1. Contenedor Principal --- */
 .contact-section {
   width: 100%;
-  min-height: 50vh;
-  background: linear-gradient(120deg, rgba(255,255,255,0.98) 0%, rgba(245,245,245,0.98) 100%);
-  padding: 100px 0 80px 0;
+  background-color: #f8f9fa;
+  padding: 120px 5%;
   position: relative;
   z-index: 5;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+.contact-container {
+  max-width: 1200px; /* Un poco más de ancho para las tarjetas */
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-section .section-title span {
+  color: var(--color-accent);
 }
 
 .contact-microcopy {
   text-align: center;
   color: #666;
-  font-size: 1.13rem;
-  margin-bottom: 3.5rem;
+  font-size: 1.1rem;
+  margin-top: -3rem;
+  margin-bottom: 4rem;
   font-weight: 400;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.contact-cards-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-  justify-content: center;
+/* --- 2. Layout para ESCRITORIO (Grid de Tarjetas) --- */
+.contact-accordion-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
   align-items: stretch;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
 .contact-card {
-  background: rgba(255,255,255,0.7);
-  border-radius: 28px;
-  box-shadow: 0 8px 32px rgba(30,30,60,0.10);
-  padding: 2.2rem 2rem 1.7rem 2rem;
-  min-width: 220px;
-  max-width: 260px;
-  flex: 1 1 200px;
+  /* --- El Efecto Glass --- */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(232, 122, 93, 0.10);
-  transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
-  z-index: 2;
+  text-align: center;
   text-decoration: none;
-  outline: none;
-  cursor: pointer;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.contact-card:hover, .contact-card:focus {
-  box-shadow: 0 16px 48px rgba(232, 122, 93, 0.13);
-  transform: translateY(-8px) scale(1.045);
-  border-color: var(--color-accent, #e87a5d);
-  background: rgba(255,255,255,0.92);
+.contact-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  border-color: var(--color-accent);
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column; /* Cambiamos para alinear icono y label */
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
 }
 
 .contact-icon {
-  font-size: 2.5rem;
-  color: var(--color-accent, #e87a5d);
-  margin-bottom: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s;
-}
-
-.contact-card:hover .contact-icon,
-.contact-card:focus .contact-icon {
-  color: var(--color-accent-spark, #e91e63);
+  font-size: 2.2rem;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  line-height: 1;
 }
 
 .contact-label {
-  font-size: 1.18rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 0.5rem;
+}
+
+.expand-indicator {
+  display: none; /* Oculto en desktop */
+}
+
+/* En desktop, el contenido es siempre visible */
+.card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .contact-description {
-  font-size: 1.05rem;
-  color: #444;
-  font-weight: 400;
-  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin: 0.75rem 0 1.5rem 0;
 }
 
-@media (max-width: 900px) {
-  .contact-cards-wrapper {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  .contact-card {
-    max-width: 98vw;
-    min-width: 0;
-    padding: 1.7rem 1rem 1.2rem 1rem;
-  }
+.contact-cta {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  transition: color 0.3s;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  width: 100%;
 }
-@media (max-width: 600px) {
+
+.contact-card:hover .contact-cta {
+  color: var(--color-text-light);
+}
+
+/* ==========================================================================
+  3. Layout para MÓVIL (Acordeón Interactivo)
+   ========================================================================== */
+@media (max-width: 768px) {
   .contact-section {
-    padding: 40px 0 24px 0;
+    padding: 80px 5%;
   }
+
   .contact-microcopy {
-    font-size: 0.95rem;
-    margin-bottom: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
   }
-  .contact-cards-wrapper {
+  
+  /* Transformamos la grilla en una pila para el acordeón */
+  .contact-accordion-wrapper {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    padding: 0 4vw;
   }
+
   .contact-card {
-    padding: 0.8rem 1.2rem 0.7rem 1.2rem;
-    border-radius: 12px;
-    min-width: 90vw;
-    max-width: 90vw;
-    width: 90vw;
-    margin: 0 auto;
+    cursor: pointer;
+    overflow: hidden; /* Clave para el efecto de expansión */
   }
+
+  .card-header {
+    flex-direction: row; /* En móvil, el header es una fila */
+    justify-content: flex-start;
+    width: 100%;
+  }
+
   .contact-icon {
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+    margin-bottom: 0;
   }
+
   .contact-label {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
   }
-  .contact-description {
-    font-size: 0.92rem;
+
+  .expand-indicator {
+    display: block; /* Mostramos el indicador +/- en móvil */
+    margin-left: auto;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #ccc;
+    transition: transform 0.3s ease;
   }
-} 
+
+  .contact-card.expanded .expand-indicator {
+    transform: rotate(45deg);
+    color: var(--color-accent);
+  }
+
+  /* La magia del acordeón en móvil */
+  .card-content {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out, padding 0.5s ease-in-out;
+    padding: 0 1.5rem;
+    flex-grow: 0;
+    text-align: left;
+  }
+
+  .contact-card.expanded .card-content {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 1rem;
+  }
+  
+  .contact-cta {
+    display: inline-block; /* El botón es más chico */
+    width: auto;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    background: var(--color-accent);
+    color: #fff;
+    border-top: none;
+    margin-top: 0;
+  }
+}

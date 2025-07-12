@@ -1,105 +1,107 @@
-
-
-/* --- Main Header Container --- */
+/* --- Estilo Base del Header (Estado Inicial Transparente) --- */
 .main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    width: 100%;
-    min-height: 56px;
-    padding: 0.5rem 6%;
-    background: linear-gradient(90deg, rgba(35, 35, 35, 0.82) 60%, rgba(60, 0, 40, 0.13) 100%);
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.10);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
-    backdrop-filter: blur(18px) saturate(1.2);
-    transition: background 0.3s, box-shadow 0.3s;
-  }
-  
-  .main-header:hover {
-    background: linear-gradient(90deg, rgba(35, 35, 35, 0.92) 60%, rgba(60, 0, 40, 0.18) 100%);
-    box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.18);
-  }
-  
-  /* --- Navigation --- */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  
-  /* --- Logo --- */
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    height:4rem;
-  }
-  
-  .logo-container img {
-    display: block;
-    width: 8rem;
-    height: auto;
-    margin-top: -0.5rem;
-    padding: 0;
-    object-fit:contain ;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.5rem 6%;
+  /* El estado inicial es transparente */
+  background: transparent;
+  border-bottom: 1.5px solid transparent;
+  box-shadow: none;
+  backdrop-filter: blur(0px) saturate(1);
+  /* La transición hará suave el cambio al estado .scrolled */
+  transition: background 0.4s ease-out, box-shadow 0.4s ease-out, backdrop-filter 0.4s ease-out, border-color 0.4s ease-out;
+}
 
-  }
-  
-  .logo-text {
-    width: 8rem;
-  }
-  
-  .logo-text:hover {
-    transform: scale(1.07) translateY(-2px);
-  }
-  
-  /* --- Desktop Navigation Links --- */
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 3.2rem;
-    list-style: none;
-  }
-  
-  .nav-links a {
-    position: relative;
-    padding: 0.2rem 0.5rem;
-    color: var(--color-text-secondary);
-    font-size: 1.18rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    text-decoration: none;
-    transition: color 0.22s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
-    border-radius: 2px;
-    opacity: 0.8;
-    transform: scaleX(0);
-    transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  
-  .nav-links a:hover,
-  .nav-links a:focus {
-    color: var(--color-accent);
-  }
-  
-  .nav-links a:hover::after,
-  .nav-links a:focus::after {
-    transform: scaleX(1);
-  }
-  
+/* --- Estado "Scrolled" con Efecto Glass --- */
+/* Estas reglas se aplican SOLO cuando el header tiene la clase .scrolled */
+.main-header.scrolled {
+  background: linear-gradient(90deg, rgba(35, 35, 35, 0.82) 60%, rgba(60, 0, 40, 0.13) 100%);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+/* El hover también lo aplicamos solo al estado scrolled para consistencia */
+.main-header.scrolled:hover {
+  background: linear-gradient(90deg, rgba(35, 35, 35, 0.92) 60%, rgba(60, 0, 40, 0.18) 100%);
+  box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.18);
+}
+
+/* --- El resto de tus estilos se mantiene casi igual --- */
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  height: 3rem;
+}
+
+.logo-container img {
+  display: block;
+  height: 7rem; /* Usamos height para controlar el tamaño */
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+  transform: scale(1.07);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 3.2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 0.2rem 0.5rem;
+  color: #fafafa; /* Color de texto claro para que contraste con fondos oscuros y claros */
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Sombra para legibilidad */
+  transition: color 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+  border-radius: 2px;
+  opacity: 0.8;
+  transform: scaleX(0);
+  transition: transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: var(--color-accent);
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus::after {
+  transform: scaleX(1);
+}
   /* --- Hamburger Menu (Mobile) --- */
   .hamburger-menu {
     display: none; /* Oculto por defecto, se activa en media query */
@@ -206,9 +208,9 @@
     text-align: center;
   }
   
- /* ==========================================================================
-   Responsive Styles (Versión Corregida y Unificada)
-   ========================================================================== */
+/* --- Responsive Styles --- */
+
+
 
 @media (max-width: 768px) {
   .main-header {
@@ -216,26 +218,16 @@
   }
 
   .main-nav {
-    position: relative;
-    align-items: center;
-    /* 1. ESTA ES LA CLAVE: Cambiamos 'center' por 'space-between' 
-       para separar el logo y el menú a los extremos. */
     justify-content: space-between;
   }
 
   .logo-container {
-    /* Quitamos el ancho y centrado para que se alinee a la izquierda */
-    display: flex;
-    width: 2rem;
-    justify-content: flex-start;
+    width: auto; /* Dejamos que el logo defina el ancho */
     z-index: 120;
   }
-
-  .logo-text {
-    margin: 0; /* Quitamos el centrado automático */
-    padding: 0.2rem 0;
-    font-size: 1.2rem;
-    text-align: left;
+  
+  .logo-container img {
+    height: 5rem; /* Ajustamos el logo en móvil */
   }
 
   .nav-links {
@@ -244,10 +236,8 @@
 
   .hamburger-menu {
     display: block;
-    position: relative; /* Usamos relative para que se mantenga en el flujo del flexbox */
-    z-index: 1300; /* Lo mantenemos alto para que esté sobre el menú desplegable */
+    z-index: 1300;
   }
- 
 }
 
 @media (max-width: 600px) {
@@ -263,7 +253,7 @@
 
   .logo-container img {
     /* 2. Aumentamos el tamaño del logo en pantallas chicas */
-    height: 38px;
+    height: 100px;
     max-width: 120px;
   }
 }
