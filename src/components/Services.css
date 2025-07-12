@@ -1,21 +1,22 @@
-/* src/components/Services.css - Diseño Sofisticado Inspirado en Videinfra.com */
+/* ==========================================================================
+   Componente: Services
+   Versión Final Corregida y Ordenada
+   ========================================================================== */
 
+/* --- 1. Contenedor Principal de la Sección --- */
 .services-section {
-  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.98) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.98) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 140px 5% 180px 5%; /* El padding-top da el espacio inicial */
+  padding: 140px 5% 180px 5%;
   color: #1a1a1a;
   position: relative;
   z-index: 10;
-  /* min-height: 120vh; */
   display: flex;
-  /* Cambiamos 'center' por 'flex-start' para alinear el contenido arriba */
-  align-items: flex-start; 
+  align-items: flex-start;
   justify-content: center;
 }
 
-/* Efecto de fondo sutil */
 .services-section::before {
   content: '';
   position: absolute;
@@ -29,20 +30,7 @@
   z-index: -1;
 }
 
-@media (max-width: 1200px) {
-  .services-section {
-    padding: 100px 3% 80px 3%;
-  }
-}
-
-@media (max-width: 768px) {
-  .services-section {
-    padding: 80px 2% 120px 2%;
-    background-color: green;
-    
-  }
-}
-
+/* --- 2. Contenedor del Contenido Interno --- */
 .services-container {
   max-width: 1200px;
   width: 100%;
@@ -52,6 +40,7 @@
   z-index: 11;
 }
 
+/* --- 3. Tipografía General de la Sección --- */
 .section-subtitle {
   font-size: clamp(1.1rem, 3vw, 1.3rem);
   color: #666;
@@ -61,87 +50,63 @@
   font-weight: 400;
 }
 
-@media (max-width: 768px) {
-  .section-subtitle {
-    font-size: 1rem;
-    margin-bottom: 3rem;
-  }
-}
-
-/* Grid de cards moderno y minimalista */
+/* --- 4. "Acto 1": Grid de Servicios de Creación --- */
 .services-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  /* 👇 Configuración para 3 columnas en desktop */
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
   margin-top: 2rem;
+  align-items: stretch;
 }
 
-@media (max-width: 1024px) {
-  .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .services-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-top: 1.5rem;
-  }
-}
-
-/* Cards minimalistas con efectos sutiles */
 .service-card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
-  padding: 3rem 2.5rem;
+  padding: 3rem 2.5rem 2rem 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   min-height: 400px;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(232, 122, 93, 0.3), transparent);
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
 .service-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(232, 122, 93, 0.2);
 }
 
-.service-card:hover::before {
-  transform: scaleX(1);
+.service-card.featured {
+  border-color: var(--color-accent);
+  transform: translateY(-15px);
+  box-shadow: 0 25px 50px rgba(232, 122, 93, 0.2);
 }
 
-@media (max-width: 768px) {
-  .service-card {
-    padding: 2rem 1.5rem;
-    min-height: 350px;
-  }
+.service-card.featured:hover {
+  transform: translateY(-20px) scale(1.02);
 }
 
-/* Iconos modernos y minimalistas */
+.featured-badge {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-spark));
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
 .service-icon-wrapper {
   width: 80px;
   height: 80px;
@@ -152,22 +117,8 @@
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-}
-
-.service-icon-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
 
 .service-card:hover .service-icon-wrapper {
@@ -175,82 +126,353 @@
   box-shadow: 0 10px 30px rgba(232, 122, 93, 0.3);
 }
 
-.service-card:hover .service-icon-wrapper::before {
-  opacity: 1;
+.service-title {
+  color: #1a1a1a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.service-card-subtitle {
+  color: #888;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.service-benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  text-align: left;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.service-benefits-list li {
+  color: #333;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.service-benefits-list .feature-icon {
+  color: var(--color-accent);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.service-starting-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  background-color: rgba(232, 122, 93, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-top: auto;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.service-card .service-cta {
+  text-decoration: none;
+  color: var(--color-accent);
+  font-weight: 600;
+  border: 1px solid var(--color-accent);
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  transition: all 0.3s;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-card .service-cta:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+
+/* --- 5. "Acto 2": Sección de Planes de Mantenimiento --- */
+.maintenance-section {
+  width: 100%;
+  margin-top: 8rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.maintenance-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
+}
+
+.maintenance-icon-wrapper {
+  display: inline-flex;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: var(--color-accent);
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.maintenance-title {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.maintenance-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.billing-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 30px;
+  padding: 0.5rem;
+  margin: 0 auto 3rem auto;
+  max-width: fit-content;
+  border: 1px solid #e0e0e0;
+}
+
+.billing-toggle label {
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.billing-toggle label.active {
+  background-color: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(232, 122, 93, 0.3);
+}
+
+.billing-toggle input[type="radio"] {
+  display: none;
+}
+
+.discount-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  transform: rotate(10deg);
+}
+
+.maintenance-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.maintenance-plan-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.maintenance-plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.maintenance-plan-card.featured {
+  border-color: var(--color-accent);
+  transform: scale(1.05);
+  box-shadow: 0 20px 50px rgba(232, 122, 93, 0.2);
+}
+
+.plan-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.featured .plan-name {
+  color: #1a1a1a;
+}
+
+.plan-price-wrapper {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.plan-price-currency {
+  font-size: 1.2rem;
+  font-weight: 500;
+  vertical-align: super;
+  margin-right: 4px;
+}
+
+.plan-price-amount {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.plan-price-cycle {
+  font-size: 1rem;
+  color: #666;
+}
+
+.original-price {
+  display: block;
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 0.25rem;
+}
+
+.plan-description {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  min-height: 50px;
+}
+
+.plan-features-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.plan-features-list li {
+  color: #333;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.feature-icon {
+  color: var(--color-accent);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.plan-cta {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.plan-cta:hover {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.maintenance-plan-card.featured .plan-cta {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.maintenance-plan-card.featured .plan-cta:hover {
+  background-color: #1a1a1a;
+}
+
+.payment-note-ar {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 3rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- 6. Media Queries --- */
+@media (max-width: 1200px) {
+  .services-section {
+    padding: 100px 3% 80px 3%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .services-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .services-section {
+    padding: 80px 2% 120px 2%;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .services-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem; /* Aumentamos el gap vertical en móvil */
+  }
+
+  .maintenance-plans-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .service-card {
+    padding: 2rem 1.5rem;
+    min-height: auto;
+  }
+
+  .service-card.featured,
+  .maintenance-plan-card.featured {
+    transform: scale(1) translateY(0);
+  }
+
   .service-icon-wrapper {
     width: 70px;
     height: 70px;
     font-size: 2rem;
     margin-bottom: 1.5rem;
   }
-}
-
-/* Tipografía moderna */
-.service-title {
-  color: #1a1a1a;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-
-.service-description {
-  font-size: 1.1rem;
-  color: #666;
-  line-height: 1.6;
-  font-weight: 400;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
+  
   .service-title {
     font-size: 1.3rem;
-    margin-bottom: 0.8rem;
-  }
-  .service-description {
-    font-size: 1rem;
-  }
-}
-
-.service-cta {
-  margin-top: 2rem;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #1a1a1a;
-  padding: 1rem 2.5rem;
-  border-radius: 40px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.08rem;
-  box-shadow: 0 4px 20px rgba(232, 122, 93, 0.10);
-  transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
-  display: inline-flex;
-  align-items: center;
-  border: 1.5px solid rgba(232, 122, 93, 0.18);
-  outline: none;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  gap: 0.5rem;
-}
-.service-cta:hover, .service-cta:focus {
-  background: rgba(255,255,255,0.32);
-  color: var(--color-accent);
-  box-shadow: 0 10px 30px rgba(232, 122, 93, 0.18);
-  transform: translateY(-3px) scale(1.04);
-  border-color: var(--color-accent);
-}
-@media (max-width: 768px) {
-  .service-cta {
-    font-size: 1rem;
-    padding: 0.9rem 1.5rem;
-    margin-top: 1.2rem;
   }
 }
 
@@ -258,13 +480,12 @@
   .services-section {
     padding-left: 4vw;
     padding-right: 4vw;
-    box-sizing: border-box;
-    max-width: 100vw;
-    overflow-x: hidden;
   }
-  .section-subtitle {
-    font-size: 1rem;
-    word-break: break-word;
-    overflow-wrap: break-word;
+}
+
+@media (max-width: 480px) {
+  .billing-toggle {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }

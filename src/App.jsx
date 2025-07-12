@@ -1,9 +1,10 @@
 // src/App.jsx
-import React, { useLayoutEffect, useRef, useEffect} from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import React, { useLayoutEffect, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
-
+import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -14,11 +15,19 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import './App.css';
 
+const MEASUREMENT_ID = "G-FYSX7E4Y67";
+ReactGA.initialize(MEASUREMENT_ID);
+
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const mainRef = useRef(null);
   const originalTitleRef = useRef(document.title);
+
+  useEffect(() => {
+    // --- INICIALIZACIÓN DE GOOGLE ANALYTICS ---
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname + window.location.search, title: "Página de Inicio" });
+  }, []);
 
   useLayoutEffect(() => {
     // --- SETUP DE SCROLL SUAVE (LENIS) ---
@@ -44,7 +53,7 @@ function App() {
           scrub: 1,
           pin: true,
           anticipatePin: 1,
-          
+
         }
       });
 
@@ -92,7 +101,7 @@ function App() {
           "¡No te vayas! 👀",
           "Tenemos lo que buscás...",
           "✨ Tu web te espera ✨",
-          "¡Volvé! رجع", 
+          "¡Volvé! رجع",
           "VS Web Design"
         ];
         let messageIndex = 0;
@@ -121,26 +130,52 @@ function App() {
   }, []);
 
   return (
-    <div className="App" ref={mainRef}>
-      <BlobsBackground />
-      <Header />
-      <main>
-        {/* Este contenedor es clave para la animación de pin */}
-        <div className="animation-container">
-          <div className="hero-container">
-            <Hero />
+    <HelmetProvider>
+
+      <div className="App" ref={mainRef}>
+        <Helmet>
+          {/* --- TÍTULO ENFOCADO EN EL BENEFICIO PARA TU NICHO --- */}
+          <title>Webs que Venden y Sistemas a Medida para Pymes | VS Web Design</title>
+
+          {/* --- DESCRIPCIÓN QUE HABLA EL IDIOMA DE TU CLIENTE --- */}
+          <meta name="description" content="Ayudo a pymes, emprendedores y profesionales a crecer con webs autogestionables en WordPress y sistemas a medida. Tomá el control de tu negocio y automatizá tus procesos." />
+
+          {/* --- KEYWORDS (recordá que no son para Google, pero ayudan a centrar ideas) --- */}
+          <meta name="keywords" content="desarrollo web para pymes, web autogestionable, experto wordpress para negocios, sistemas para emprendedores, tienda online, automatización, argentina, latinoamérica" />
+
+          {/* --- OPEN GRAPH (PARA REDES SOCIALES) --- */}
+          <meta property="og:title" content="Webs que Venden y Sistemas a Medida para Pymes | VS Web Design" />
+          <meta property="og:description" content="Ayudo a pymes y emprendedores a tomar el control de su negocio con webs en WordPress y sistemas que automatizan procesos." />
+          {/* El resto de tus etiquetas OG y Twitter están bien. */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://www.vswebdesign.online" />
+          <meta property="og:image" content="https://www.vswebdesign.online/og-image.jpg" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Webs que Venden y Sistemas a Medida para Pymes | VS Web Design" />
+          <meta name="twitter:description" content="Ayudo a pymes y emprendedores a tomar el control de su negocio con webs en WordPress y sistemas que automatizan procesos." />
+          <meta name="twitter:image" content="https://www.vswebdesign.online/og-image.jpg" />
+        </Helmet>
+
+        <BlobsBackground />
+        <Header />
+        <main>
+          {/* Este contenedor es clave para la animación de pin */}
+          <div className="animation-container">
+            <div className="hero-container">
+              <Hero />
+            </div>
+            <Services />
           </div>
-          <Services />
-        </div>
-        {/* Sección de proyectos después de la animación */}
-        <Projects />
-        <Testimonials />
-        <Contact />
-        {/* Las futuras secciones irían aquí, fuera del contenedor de animación */}
-        {/* <Testimonials /> */}
-      </main>
-      <Footer />
-    </div>
+          {/* Sección de proyectos después de la animación */}
+          <Projects />
+          <Testimonials />
+          <Contact />
+          {/* Las futuras secciones irían aquí, fuera del contenedor de animación */}
+          {/* <Testimonials /> */}
+        </main>
+        <Footer />
+      </div>
+    </HelmetProvider>
   );
 }
 
