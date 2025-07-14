@@ -1,14 +1,13 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import './Projects.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import img1 from '../assets/SandraMarzzan.svg';
 import img2 from '../assets/GenteDeDerecho.svg'; 
-import img3 from '../assets/SylvieBurstin.svg'; // Asegúrate de tener estas imágenes en la ruta correcta
+import img3 from '../assets/SylvieBurstin.svg';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Dejamos solo nuestros 3 casos de éxito seleccionados
 const projectsData = [
   {
     id: 1,
@@ -39,95 +38,220 @@ const projectsData = [
     context: 'El diseño actual del sitio puede haber variado.',
     challenge: 'La marca de alta costura estaba "atrapada" en un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario.',
     solution: 'Se ejecutó una migración de servidor vía FTP y se reconstruyó la plataforma desde una base de código limpia. El nuevo sitio, enfocado en la performance visual, integra dinámicamente los feeds de Instagram y YouTube, creando una galería viva y siempre actualizada que refleja la esencia de la marca.',
-    image: img3, // <-- REEMPLAZÁ ESTA RUTA
+    image: img3,
     url: '#',
     tags: ['Server Migration', 'UI/UX Design', 'Social API', 'WordPress']
   }
 ];
 
-// Tu función de posicionamiento se mantiene
-const getFloatPosition = idx => {
-  const positions = ['float-left', 'float-right', 'float-center'];
-  return positions[idx % positions.length];
-};
-
 const Projects = () => {
   const sectionRef = useRef(null);
+  const carouselRef = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+
+
+  const goToSlide = (index) => {
+    if (isAnimating || index === currentSlide) return;
+    setIsAnimating(true);
+    setCurrentSlide(index);
+    setTimeout(() => setIsAnimating(false), 800);
+  };
 
   useLayoutEffect(() => {
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray('.project-card-container');
-      if (isMobile) {
-        cards.forEach(card => {
-          gsap.from(card, {
-            opacity: 0,
-            scale: 0.92,
-            duration: 0.7,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'left 90%',
-              horizontal: true,
-              toggleActions: 'play none none none',
-            }
-          });
-        });
-      } else {
-        cards.forEach(card => {
-          gsap.from(card, {
-            opacity: 0,
-            y: 80,
-            scale: 0.95,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            }
-          });
-        });
-      }
+      // Animación de entrada de la sección
+      gsap.fromTo(sectionRef.current, 
+        { opacity: 0, y: 50 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Animación del título
+      gsap.fromTo('.section-title', 
+        { opacity: 0, y: 30 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8,
+          delay: 0.2,
+          ease: 'power2.out'
+        }
+      );
+
+      // Animación inicial de las tarjetas
+      // gsap.fromTo('.project-card', 
+      //   { opacity: 0, scale: 0.9, y: 30 },
+      //   { 
+      //     opacity: 1, 
+      //     scale: 1, 
+      //     y: 0, 
+      //     duration: 0.8,
+      //     delay: 0.4,
+      //     ease: 'power2.out'
+      //   }
+      // );
+
+
+
+      // Animación de los indicadores
+      gsap.fromTo('.carousel-indicators', 
+        { opacity: 0, scale: 0.8 },
+        { 
+          opacity: 1, 
+          scale: 1, 
+          duration: 0.6,
+          delay: 0.8,
+          ease: 'back.out(1.7)'
+        }
+      );
+
     }, sectionRef);
+
     return () => ctx.revert();
   }, []);
 
+  // Animación de cambio de slide
+  useLayoutEffect(() => {
+    if (carouselRef.current) {
+      const cards = carouselRef.current.querySelectorAll('.project-card');
+      
+      cards.forEach((card, index) => {
+        if (index === currentSlide) {
+          gsap.to(card, {
+            opacity: 1,
+            scale: 1,
+            x: 0,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        } else {
+          gsap.to(card, {
+            opacity: 0.3,
+            scale: 0.85,
+            x: index < currentSlide ? -50 : 50,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }
+  }, [currentSlide]);
+
   return (
     <section id="proyectos" className="projects-section" ref={sectionRef}>
-      <h2 className="section-title">Proyectos Destacados</h2>
-      <div className="projects-list">
-        {projectsData.map((project, idx) => (
-          <article key={project.id} className={`project-card ${getFloatPosition(idx)}`}>
-            {/* ... toda la estructura de tu tarjeta se mantiene igual ... */}
-            <div className="project-mockup">
-              <div className="project-image-wrapper">
-                <img src={project.image} alt={`Mockup de ${project.name}`} className="project-mockup-image" />
+      <div className="projects-container">
+        <h2 className="section-title">Proyectos Destacados</h2>
+        
+        {/* Carrusel Principal */}
+        <div className="carousel-container">
+          <div className="carousel-track" ref={carouselRef}>
+            {projectsData.map((project, index) => (
+              <div 
+                key={project.id} 
+                className={`project-card ${index === currentSlide ? 'active' : ''}`}
+                style={{ 
+                  transform: `translateX(${(index - currentSlide) * 100}%)`,
+                  zIndex: index === currentSlide ? 10 : 1
+                }}
+              >
+                <div className="project-card-glass">
+                  <div className="project-image-section">
+                    <div className="project-image-wrapper">
+                      <img 
+                        src={project.image} 
+                        alt={`Mockup de ${project.name}`} 
+                        className="project-image" 
+                      />
+                    </div>
+                    <div className="project-overlay">
+                      <div className="project-badge">
+                        <span className="project-number">0{index + 1}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="project-content">
+                    <div className="project-header">
+                      <h3 className="project-name">{project.name}</h3>
+                      <p className="project-type">{project.type}</p>
+                      {project.context && (
+                        <div className="project-context-badge">
+                          {project.context}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="project-details">
+                      <div className="project-challenge">
+                        <h4>Desafío</h4>
+                        <p>{project.challenge}</p>
+                      </div>
+                      <div className="project-solution">
+                        <h4>Solución</h4>
+                        <p>{project.solution}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="project-footer">
+                      <div className="project-tags">
+                        {project.tags.map(tag => (
+                          <span className="tag" key={tag}>{tag}</span>
+                        ))}
+                      </div>
+                      {project.url !== '#' && (
+                        <a 
+                          href={project.url} 
+                          className="project-link" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          <span>Visitar sitio</span>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="project-info">
-              <h3 className="project-name">{project.name}</h3>
-              <p className="project-type">{project.type}</p>
-              {project.context && <p className="project-context">{project.context}</p>}
-              <p className="project-desc"><strong>Desafío:</strong> {project.challenge}</p>
-              <p className="project-desc"><strong>Solución:</strong> {project.solution}</p>
-              <div className="project-tags">
-                {project.tags.map(tag => <span className="tag" key={tag}>{tag}</span>)}
-              </div>
-              {project.url !== '#' && (
-                <a href={project.url} className="project-link" target="_blank" rel="noopener noreferrer">
-                  Visitar sitio
-                </a>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-      {/* AQUÍ ESTÁ LA PUERTA AL CATÁLOGO COMPLETO */}
-      <div className="projects-cta-wrapper">
-        <a href="#" className="projects-cta-secondary">
-          Explorar todos los trabajos
-        </a>
+            ))}
+          </div>
+          
+
+        </div>
+        
+        {/* Indicadores */}
+        <div className="carousel-indicators">
+          {projectsData.map((_, index) => (
+            <button
+              key={index}
+              className={`indicator ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => goToSlide(index)}
+              disabled={isAnimating}
+            >
+              <span className="indicator-dot"></span>
+            </button>
+          ))}
+        </div>
+        
+        {/* CTA */}
+        <div className="projects-cta-wrapper">
+          <a href="#" className="projects-cta-secondary">
+            Explorar todos los trabajos
+          </a>
+        </div>
       </div>
     </section>
   );

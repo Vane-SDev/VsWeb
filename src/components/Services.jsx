@@ -1,136 +1,132 @@
 // src/components/Services.jsx - VERSIÓN FINAL Y ESTRATÉGICA
 
-import React, { useState } from 'react';
+
 import './Services.css';
-import { FaWordpress, FaCode, FaRocket, FaCheckCircle } from 'react-icons/fa';
+import { FaWordpress, FaCode, FaRocket, FaStore, FaBuilding, FaCheckCircle } from 'react-icons/fa';
 
 // ACTO 1: SERVICIOS DE CREACIÓN (con precio "desde")
 const creationServicesData = [
   {
     icon: <FaRocket />,
-    title: 'Lanzá tu Negocio Online',
-    serviceName: 'Sitio One-Page',
-    description: 'La forma más rápida y profesional de validar tu idea y captar tus primeros clientes.',
+    title: 'Página de Lanzamiento',
+    idealFor: 'Emprendedores y nuevos proyectos',
     benefits: [
-      'Diseño de impacto en una sola página.',
-      'Enfocado 100% en la conversión.',
-      'Dominio y Hosting por 1 año incluidos.'
+      'Diseño de impacto en una sola página (One-Page).',
+      'Ideal para validar una idea o captar primeros clientes.',
+      'Enfocada 100% en una acción (ej. contacto, registro).',
+      'Incluye dominio y hosting por 1 año.'
     ],
-    startingPrice: '290',
-    isFeatured: false,
-    ctaText: "Quiero mi One-Page"
+    ctaText: "Lanzar mi Proyecto"
   },
   {
-    icon: <FaWordpress />,
-    title: 'Digitalizá tu Empresa',
-    serviceName: 'Web Autogestionable',
-    description: 'La solución completa para pymes y profesionales que buscan crecer y tener el control.',
+    icon: <FaBuilding />,
+    title: 'Sitio Web Corporativo',
+    idealFor: 'Pymes y profesionales establecidos',
     benefits: [
-      'Control total para actualizar tu contenido.',
-      'Diseño a medida, sin plantillas genéricas.',
-      'Optimizado para SEO desde el día uno.',
-      'Dominio y Hosting por 1 año incluidos.'
+      'Diseño multipágina para presentar tu empresa.',
+      'Secciones clave: Servicios, Nosotros, Contacto, etc.',
+      'Plataforma autogestionable (WordPress).',
+      'Optimizado para SEO y credibilidad.'
     ],
-    startingPrice: '550',
-    isFeatured: true, // ¡Esta es nuestra oferta destacada!
-    ctaText: "Necesito mi Web"
+    isFeatured: true,
+    ctaText: "Impulsar mi Empresa"
+  },
+  {
+    icon: <FaStore />,
+    title: 'Tienda Online (E-commerce)',
+    idealFor: 'Negocios que quieren vender productos online',
+    benefits: [
+      'Catálogo de productos y carrito de compras.',
+      'Integración con pasarelas de pago (Mercado Pago).',
+      'Gestión de stock e inventario simplificada.',
+      'Diseño enfocado en maximizar tus ventas.'
+    ],
+    isFeatured: false,
+    ctaText: "Quiero Vender Online"
   },
   {
     icon: <FaCode />,
-    title: 'Optimizá tu Operación',
-    serviceName: 'Sistema a Medida',
-    description: 'Convertimos procesos manuales y caóticos en sistemas eficientes que te ahorran tiempo y dinero.',
+    title: 'Sistema a Medida',
+    idealFor: 'Empresas con necesidades operativas únicas',
     benefits: [
-      'Automatización de tareas repetitivas.',
-      'Gestión de datos centralizada y segura.',
-      'Infraestructura robusta incluida.'
+      'Automatización de procesos y tareas repetitivas.',
+      'Solución definitiva al caos de las planillas.',
+      'Herramienta creada exclusivamente para tu negocio.',
+      'Infraestructura robusta y escalable.'
     ],
-    startingPrice: '1500',
     isFeatured: false,
-    ctaText: "Quiero un Sistema"
+    ctaText: "Necesito una Solución"
   }
 ];
 
 // ACTO 2: PLANES DE PROTECCIÓN Y CRECIMIENTO
 const maintenancePlansData = [
   {
-    name: 'Plan Esencial',
+    name: 'Plan Base',
     price: { monthly: '30', annual: '300' },
-    description: 'Para que duermas tranquilo sabiendo que tu web está segura y actualizada.',
+    description: 'La tranquilidad de saber que tu sitio está siempre seguro, rápido y funcionando.',
     features: [
-      'Actualizaciones de WordPress y plugins',
-      'Copias de seguridad diarias',
-      'Monitoreo de seguridad 24/7',
-      'Informe mensual de estado'
+      'Actualizaciones técnicas semanales',
+      'Copias de seguridad diarias en la nube',
+      'Monitoreo de seguridad y performance 24/7',
+      'Corrección de links rotos y errores menores'
     ],
     isFeatured: false
   },
   {
-    name: 'Plan Crecimiento',
+    name: 'Plan Pro',
     price: { monthly: '70', annual: '700' },
-    description: 'Ideal para negocios que necesitan agilidad y soporte para cambios.',
+    description: 'Para negocios dinámicos que necesitan mantener su web fresca y relevante.',
     features: [
-      'Todo lo del Plan Esencial',
-      '2 horas de soporte mensual',
-      'Optimización de velocidad',
-      'Soporte prioritario'
+      'Todo lo del Plan Base',
+      'Banco de horas para actualización de contenidos',
+      'Soporte técnico para dudas y consultas',
+      'Optimización de velocidad trimestral'
     ],
     isFeatured: true
   },
   {
-    name: 'Plan Estratégico',
+    name: 'Plan Socio',
     price: { monthly: '150', annual: '1500' },
-    description: 'Nos convertimos en tu departamento técnico y de estrategia digital.',
+    description: 'Nos convertimos en una extensión de tu equipo, enfocados en el crecimiento.',
     features: [
-      'Todo lo del Plan Crecimiento',
-      '5 horas de soporte mensual',
-      'Monitoreo y reportes SEO',
-      'Consultoría estratégica trimestral'
+      'Todo lo del Plan Pro',
+      'Horas de desarrollo para nuevas funcionalidades',
+      'Consultoría y mejoras de diseño y UX',
+      'Reportes y monitoreo SEO proactivo'
     ],
     isFeatured: false
   }
 ];
 
 const Services = () => {
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  // const [billingCycle, setBillingCycle] = useState('monthly');
 
-  const handleBillingCycleChange = (event) => {
-    setBillingCycle(event.target.value);
-  };
+  // const handleBillingCycleChange = (event) => {
+  //   setBillingCycle(event.target.value);
+  // };
 
   return (
     <section id="servicios" className="services-section">
       <div className="services-container">
-
-        {/* --- ACTO 1: LA CREACIÓN --- */}
-        <h2 className="section-title">Webs y Sistemas que trabajan para vos, no al revés.</h2>
+        <h2 className="section-title">Tu Socio Tecnológico para Crecer.</h2>
         <p className="section-subtitle">
-          Para pymes y profesionales que no tienen tiempo que perder. Creamos las herramientas digitales que te liberan para que te dediques a lo que mejor sabés hacer: hacer crecer tu negocio.
+          Cada negocio está en una etapa diferente. Por eso, no ofrezco soluciones genéricas. Descubrí cuál es la herramienta digital correcta para tu momento.
         </p>
+
         <div className="services-cards-grid">
           {creationServicesData.map((service, index) => (
             <div className={`service-card ${service.isFeatured ? 'featured' : ''}`} key={index}>
-
-              {/* Añadimos un badge para la tarjeta destacada */}
               {service.isFeatured && <div className="featured-badge">Más Elegido</div>}
-
               <div className="service-icon-wrapper">{service.icon}</div>
-
-              {/* Nuevo Título y Subtítulo de la card */}
               <h3 className="service-title">{service.title}</h3>
-              <p className="service-card-subtitle">{service.serviceName}</p>
-
-              {/* Nueva lista de beneficios "escaneable" */}
+              <p className="service-ideal-for">{service.idealFor}</p> {/* NUEVO ELEMENTO */}
               <ul className="service-benefits-list">
                 {service.benefits.map((benefit, i) => (
                   <li key={i}><FaCheckCircle className="feature-icon" /> {benefit}</li>
                 ))}
               </ul>
-
-              <div className="service-starting-price">
-                Proyectos desde US$ {service.startingPrice}
-              </div>
-              <a href={`https://wa.me/5492645207128?text=Hola!%20Quisiera%20consultar%20por%20el%20servicio%20de%20${service.serviceName}`} className="service-cta" target="_blank" rel="noopener noreferrer">
+              <a href={`https://wa.me/5492645207128?text=Hola!%20Quisiera%20consultar%20por%20el%20servicio%20de%20${service.title}`} className="service-cta" target="_blank" rel="noopener noreferrer">
                 {service.ctaText}
               </a>
             </div>
@@ -140,62 +136,28 @@ const Services = () => {
         {/* --- ACTO 2: LA PROTECCIÓN Y CRECIMIENTO --- */}
         <div className="maintenance-section">
           <div className="maintenance-header">
-            <div className="maintenance-icon-wrapper"><FaRocket /></div>
-            <h3 className="maintenance-title">El lanzamiento es solo el comienzo.</h3>
-            <p className="maintenance-subtitle">Tu web es un activo que necesita cuidado para crecer seguro. Elegí la tranquilidad que mejor se adapte a tu momento.</p>
-          </div>
-
-          <div className="billing-toggle">
-            <label className={billingCycle === 'monthly' ? 'active' : ''}>
-              <input type="radio" name="billingCycle" value="monthly" checked={billingCycle === 'monthly'} onChange={handleBillingCycleChange} />
-              Facturación Mensual
-            </label>
-            <label className={billingCycle === 'annual' ? 'active' : ''}>
-              <input type="radio" name="billingCycle" value="annual" checked={billingCycle === 'annual'} onChange={handleBillingCycleChange} />
-              Facturación Anual
-              <span className="discount-badge">Ahorrá 2 meses</span>
-            </label>
+            <div className="maintenance-icon-wrapper"><FaRocket style={{ transform: 'rotate(90deg)' }} /></div>
+            <h3 className="maintenance-title">Una Inversión Inteligente Merece Evolucionar.</h3>
+            <p className="maintenance-subtitle">El lanzamiento es solo el primer paso. Con nuestros planes de asociación, tu web no solo estará protegida, sino que se convertirá en una herramienta en constante mejora.</p>
           </div>
 
           <div className="maintenance-plans-grid">
-            {maintenancePlansData.map((plan, index) => {
-              // Calculamos el precio anual original para mostrar el ahorro
-              const originalAnnualPrice = plan.price.monthly * 12;
-
-              return (
-                <div className={`maintenance-plan-card ${plan.isFeatured ? 'featured' : ''}`} key={index}>
-                  <h4 className="plan-name">{plan.name}</h4>
-
-                  {/* --- LÓGICA DE PRECIOS MEJORADA --- */}
-                  <div className="plan-price-wrapper">
-                    <span className="plan-price-currency">US$</span>
-                    <span className="plan-price-amount">{plan.price[billingCycle]}</span>
-                    <span className="plan-price-cycle">/ {billingCycle === 'monthly' ? 'mes' : 'año'}</span>
-
-                    {/* Mostramos el precio tachado solo en la vista anual */}
-                    {billingCycle === 'annual' && (
-                      <span className="original-price">Antes US$ {originalAnnualPrice}</span>
-                    )}
-                  </div>
-
-                  <p className="plan-description">{plan.description}</p>
-                  <ul className="plan-features-list">
-                    {plan.features.map((feature, i) => (
-                      <li key={i}><FaCheckCircle className="feature-icon" /> {feature}</li>
-                    ))}
-                  </ul>
-                  <a href={`https://wa.me/5492645207128?text=Hola!%20Quisiera%20contratar%20el%20${plan.name}`} className="plan-cta" target="_blank" rel="noopener noreferrer">
-                    Contratar Plan
-                  </a>
-                </div>
-              );
-            })}
+            {maintenancePlansData.map((plan, index) => (
+              <div className={`maintenance-plan-card ${plan.isFeatured ? 'featured' : ''}`} key={index}>
+                {plan.isFeatured && <div className="featured-badge">Recomendado</div>}
+                <h4 className="plan-name">{plan.name}</h4>
+                <p className="plan-description">{plan.description}</p>
+                <ul className="plan-features-list">
+                  {plan.features.map((feature, i) => (
+                    <li key={i}><FaCheckCircle className="feature-icon" /> {feature}</li>
+                  ))}
+                </ul>
+                <a href={`https://wa.me/5492645207128?text=Hola!%20Quisiera%20saber%20más%20sobre%20el%20${plan.name}`} className="plan-cta" target="_blank" rel="noopener noreferrer">
+                  Me Interesa
+                </a>
+              </div>
+            ))}
           </div>
-
-          {/* --- NOTA DE ACLARACIÓN PARA ARGENTINA --- */}
-          <p className="payment-note-ar">
-            * Para clientes en Argentina: los pagos se realizan en pesos a la cotización del día.
-          </p>
         </div>
 
       </div>

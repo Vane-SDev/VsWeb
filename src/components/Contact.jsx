@@ -30,13 +30,13 @@ const contactMethods = [
     description: 'Conectemos en el ámbito profesional.',
     cta: 'Ver Perfil'
   },
-  {
-    label: 'Instagram',
-    icon: <FaInstagram />,
-    href: 'https://www.instagram.com/', // Cambia por tu perfil real
-    description: 'Inspiración y detrás de escena.',
-    cta: 'Seguir'
-  }
+  // {
+  //   label: 'Instagram',
+  //   icon: <FaInstagram />,
+  //   href: 'https://www.instagram.com/', // Cambia por tu perfil real
+  //   description: 'Inspiración y detrás de escena.',
+  //   cta: 'Seguir'
+  // }
 ];
 
 const Contact = () => {

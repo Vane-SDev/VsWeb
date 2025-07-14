@@ -43,13 +43,13 @@ function App() {
     // --- LÍNEA DE TIEMPO MAESTRA ---
     const ctx = gsap.context(() => {
       // Establecer perspectiva en el contenedor para efecto 3D
-      gsap.set(".animation-container", { perspective: 1200 });
+      gsap.set(".animation-container", { perspective: 1000 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".animation-container",
           start: "top top",
-          end: "+=100%",
+          end: "+=150%",
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -161,10 +161,12 @@ function App() {
         <main>
           {/* Este contenedor es clave para la animación de pin */}
           <div className="animation-container">
+            <div className="animation-stage">
             <div className="hero-container">
               <Hero />
             </div>
             <Services />
+            </div>
           </div>
           {/* Sección de proyectos después de la animación */}
           <Projects />

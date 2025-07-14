@@ -1,42 +1,129 @@
-/* src/components/Footer.css */
-.main-footer {
-  padding: 2rem 5%;
-  background-color: rgba(26, 26, 26, 0.9); /* #1a1a1a con transparencia */
-  backdrop-filter: blur(10px);
-  border-top: 1px solid #333;
-  color: var(--color-text-secondary);
-  position: relative; /* ¡CLAVE! Crea un nuevo contexto de apilamiento */
-  z-index: 2;       /* ¡CLAVE! Lo pone en una capa superior a los blobs y al main */
+/* src/components/Footer.css - Footer Moderno, Dinámico y Profesional */
+
+.main-footer.glass-footer {
+  padding: 2.5rem 5%;
+  background: linear-gradient(120deg, rgba(26,26,26,0.92) 70%, rgba(233,30,99,0.13) 100%);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-top: 1.5px solid rgba(255,255,255,0.10);
+  color: var(--color-text-light, #fafafa);
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.13);
+  overflow: hidden;
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  position: relative;
 }
 
-.social-links a {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  margin-left: 1.5rem;
-  transition: color 0.3s ease;
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
 }
 
-.social-links a:hover {
-  color: var(--color-accent);
+.footer-logo {
+  height: 48px;
+  width: auto;
+  filter: drop-shadow(0 2px 12px rgba(233,30,99,0.13));
+  transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+}
+.footer-logo:hover {
+  transform: scale(1.08) rotate(-3deg);
 }
 
-@media (max-width: 768px) {
+.footer-brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-accent, #e87a5d);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark, #e91e63));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  color: var(--color-text-light, #fafafa);
+  background: rgba(233,30,99,0.08);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  transition: background 0.3s, color 0.3s, transform 0.25s;
+  box-shadow: 0 2px 8px rgba(233,30,99,0.07);
+  position: relative;
+}
+.footer-social-link:hover, .footer-social-link:focus {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-spark));
+  color: #fff;
+  transform: translateY(-4px) scale(1.13) rotate(-8deg);
+  box-shadow: 0 8px 24px rgba(233,30,99,0.18);
+}
+
+.footer-copy {
+  flex: 1 1 100%;
+  text-align: right;
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-top: 0.5rem;
+  letter-spacing: 0.1px;
+}
+
+@media (max-width: 900px) {
   .footer-content {
     flex-direction: column;
-    justify-content: center;
+    align-items: center; /* Cambiado de flex-start a center */
     gap: 1.5rem;
+    text-align: center; /* Centra el texto de todos los hijos */
   }
-  .social-links a {
-    margin: 0 0.8rem;
+  .footer-copy {
+    text-align: center; /* Centra el texto del copyright */
+    margin-top: 1.2rem;
+  }
+  .footer-brand {
+    justify-content: center;
+  }
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-footer.glass-footer {
+    padding: 2rem 4%;
+  }
+  .footer-logo {
+    height: 38px;
+  }
+  .footer-brand-text {
+    font-size: 1.05rem;
+  }
+  .footer-social-link {
+    font-size: 1.3rem;
+    width: 36px;
+    height: 36px;
+  }
+  .footer-brand {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }

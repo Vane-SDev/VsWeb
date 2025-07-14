@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Componente: Contact
-   Versión Final: Tarjetas de Cristal (Desktop) + Acordeón (Móvil)
+Componente: Contact
+Versión Final: Tarjetas de Cristal (Desktop) + Acordeón (Móvil)
    ========================================================================== */
 
 /* --- 1. Contenedor Principal --- */
@@ -136,7 +136,7 @@
     margin-bottom: 2rem;
   }
   
-  /* Transformamos la grilla en una pila para el acordeón */
+  /* Grilla en una pila para el acordeón */
   .contact-accordion-wrapper {
     display: flex;
     flex-direction: column;
@@ -178,7 +178,7 @@
     color: var(--color-accent);
   }
 
-  /* La magia del acordeón en móvil */
+  /* Acordeón en móvil */
   .card-content {
     max-height: 0;
     opacity: 0;

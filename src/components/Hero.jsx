@@ -16,7 +16,7 @@ const Hero = () => {
                 <p>
                     EN VS WEB DESIGN CREAMOS SOLUCIONES DIGITALES QUE IMPULSAN NEGOCIOS. DESDE WEBS DE ALTO IMPACTO HASTA SISTEMAS COMPLEJOS QUE OPTIMIZAN TUS PROCESOS.
                 </p>
-                <a href="#contacto" className="cta-button">
+                <a href="#servicios" className="cta-button">
                     Descubrí cómo
                 </a>
             </div>

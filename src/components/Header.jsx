@@ -12,17 +12,17 @@ import logo from '../assets/LogoNegro.svg';
 const navLinks = [
     { label: 'Servicios', href: '#servicios' },
     { label: 'Proyectos', href: '#proyectos' },
-    { label: 'Testimonios', href: '#testimonios' }, // Añadí el link que faltaba
+    { label: 'Testimonios', href: '#testimonios' }, 
     { label: 'Contacto', href: '#contacto' },
 ];
 
 const Header = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
-    // --- NUEVO: 1. Creamos un estado para saber si el usuario ha hecho scroll ---
+    // Creamos un estado para saber si el usuario ha hecho scroll ---
     const [isScrolled, setIsScrolled] = useState(false);
 
-    // --- NUEVO: 2. Este efecto escucha el evento de scroll ---
+    // Este efecto escucha el evento de scroll ---
     useEffect(() => {
         const handleScroll = () => {
             // Si el scroll es mayor a 50px, ponemos isScrolled en true. Si no, en false.
@@ -45,7 +45,7 @@ const Header = () => {
         setDrawerOpen(open);
     };
 
-    // --- NUEVO: 3. Añadimos la clase 'scrolled' dinámicamente al header ---
+    //  Añadimos la clase 'scrolled' dinámicamente al header ---
     return (
         <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
             <nav className="main-nav">
