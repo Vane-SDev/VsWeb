@@ -1,6 +1,4 @@
-// src/components/Header.jsx - VERSIÓN FINAL CON EFECTO ON-SCROLL
-
-import React, { useState, useEffect } from 'react'; // Importamos useEffect
+import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -8,35 +6,62 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import logo from '../assets/LogoNegro.svg';
+import lenis from '../Lenis';
 
-const navLinks = [
-    { label: 'Servicios', href: '#servicios' },
-    { label: 'Proyectos', href: '#proyectos' },
-    { label: 'Testimonios', href: '#testimonios' }, 
-    { label: 'Contacto', href: '#contacto' },
-];
-
-const Header = () => {
+const Header = ({ servicesLinkId = 'servicios', onNavigate }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
-
-    // Creamos un estado para saber si el usuario ha hecho scroll ---
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const inactivityTimerRef = useRef(null);
 
-    // Este efecto escucha el evento de scroll ---
     useEffect(() => {
-        const handleScroll = () => {
-            // Si el scroll es mayor a 50px, ponemos isScrolled en true. Si no, en false.
-            setIsScrolled(window.scrollY > 50);
+        const handleScroll = (e) => {
+            setIsScrolled(e.scroll > 50);
+        };
+        lenis.on('scroll', handleScroll);
+        return () => lenis.off('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const resetTimer = () => {
+            clearTimeout(inactivityTimerRef.current);
+            setIsVisible(true);
+            inactivityTimerRef.current = setTimeout(() => {
+                setIsVisible(false);
+            }, 2000);
         };
 
-        // Agregamos el "oyente" de eventos
-        window.addEventListener('scroll', handleScroll);
+        const activityEvents = ['mousemove', 'scroll', 'touchstart', 'keydown'];
+        activityEvents.forEach(event => window.addEventListener(event, resetTimer));
 
-        // Limpiamos el "oyente" cuando el componente se va (buena práctica)
+        resetTimer();
+
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            activityEvents.forEach(event => window.removeEventListener(event, resetTimer));
+            clearTimeout(inactivityTimerRef.current);
         };
-    }, []); // El array vacío [] asegura que el efecto se configure solo una vez
+    }, []);
+
+    const navLinks = [
+        { label: 'Servicios', id: servicesLinkId },
+        { label: 'Proyectos', id: 'proyectos' },
+        { label: 'Testimonios', id: 'testimonios' },
+        { label: 'Contacto', id: 'contacto' },
+    ];
+
+    const handleNavClick = (targetId) => {
+        if (onNavigate) {
+            onNavigate(targetId);
+        }
+        setDrawerOpen(false);
+    };
+
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        if (onNavigate) {
+            onNavigate('Hero');
+        }
+    };
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -45,23 +70,35 @@ const Header = () => {
         setDrawerOpen(open);
     };
 
-    //  Añadimos la clase 'scrolled' dinámicamente al header ---
     return (
-        <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
+        <header className={`main-header ${isScrolled ? 'scrolled' : ''} ${!isVisible ? 'hidden' : ''}`}>
             <nav className="main-nav">
                 <div className="logo-container">
-                    <img src={logo} className="logo-text" alt="VS Web Design Logo" />
+                    <a href="#Hero" onClick={handleLogoClick} aria-label="Volver al inicio">
+                        <img src={logo} className="logo-text" alt="VS Web Design Logo" />
+                    </a>
                 </div>
+
                 <ul className="nav-links">
-                    {navLinks.map(link => (
-                        <li key={link.href}><a href={link.href}>{link.label}</a></li>
+                    {navLinks.map((link) => (
+                        <li key={link.id}>
+                            <a
+                                href={`#${link.id}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavClick(link.id);
+                                }}
+                            >
+                                {link.label}
+                            </a>
+                        </li>
                     ))}
                 </ul>
+
                 <div className="hamburger-menu">
                     <button
                         className={`hamburger-icon${drawerOpen ? ' open' : ''}`}
                         aria-label={drawerOpen ? 'Cerrar menú' : 'Abrir menú'}
-                        // AJUSTE: El onClick debe recibir una función para abrir.
                         onClick={toggleDrawer(true)}
                     >
                         <span></span>
@@ -81,15 +118,15 @@ const Header = () => {
                                     borderRadius: '18px 0 0 18px',
                                     border: '1px solid rgba(255,255,255,0.12)',
                                     color: '#fafafa',
-                                    marginTop: '3.6rem', // Esto podría ser un problema en algunos móviles, a revisar si es necesario
+                                    marginTop: '3.6rem',
                                 }
                             }
                         }}
                     >
                         <List sx={{ width: 220 }}>
-                            {navLinks.map(link => (
-                                <ListItem key={link.href} disablePadding>
-                                    <ListItemButton component="a" href={link.href} onClick={toggleDrawer(false)}>
+                            {navLinks.map((link) => (
+                                <ListItem key={link.id} disablePadding>
+                                    <ListItemButton onClick={() => handleNavClick(link.id)}>
                                         <ListItemText primary={link.label} />
                                     </ListItemButton>
                                 </ListItem>
@@ -100,6 +137,6 @@ const Header = () => {
             </nav>
         </header>
     );
-}
+};
 
 export default Header;

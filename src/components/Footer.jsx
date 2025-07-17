@@ -26,12 +26,20 @@ const socialLinks = [
   },
 ];
 
-const Footer = () => {
+const Footer = ({ onLogoClick }) => {
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (onLogoClick) {
+      onLogoClick('Hero'); // Llama a la función del padre para ir al Hero
+    }
+  };
   return (
     <footer className="main-footer glass-footer">
       <div className="footer-content">
         <div className="footer-brand">
-          <img src={logoVS} alt="VS Web Design Logo" className="footer-logo" />
+          <a href="#Hero" onClick={handleLogoClick} aria-label="Volver al inicio">
+            <img src={logoVS} alt="VS Web Design Logo" className="footer-logo" />
+          </a>
           <span className="footer-brand-text">vswebdesign.online</span>
         </div>
         <div className="footer-social">

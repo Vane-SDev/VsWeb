@@ -241,3 +241,37 @@ main {
     line-height: 1.2;
   }
 }
+
+/* Botón scroll to top */
+.scroll-to-top-btn {
+  position: fixed;
+  right: 2.2rem;
+  bottom: 2.2rem;
+  z-index: 1000;
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s, opacity 0.3s;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  animation: fadeInUp 0.4s cubic-bezier(.39,.575,.56,1.000);
+}
+.scroll-to-top-btn:hover {
+  box-shadow: 0 12px 40px 0 rgba(232, 122, 93, 0.18);
+  transform: translateY(-4px) scale(1.08);
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.scroll-to-top-btn svg {
+  display: block;
+}

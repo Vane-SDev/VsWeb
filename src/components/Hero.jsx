@@ -4,9 +4,16 @@ import React from 'react';
 import './Hero.css';
 import logoVS from '../assets/LogoBlanco.svg';
 
-const Hero = () => {
+
+const Hero = ({ onNavigate }) => {
+    const handleButtonClick = () => {
+        // Usa la función del padre en lugar de llamar a Lenis directamente
+        if (onNavigate) {
+            onNavigate('servicios');
+        }
+    };
     return (
-        <section className="hero-container">
+        <section id="hero" className="hero-container">
             {/* Logo de fondo gigante, sutil */}
             <img src={logoVS} alt="Logo VS Web Design" className="hero-logo-bg" aria-hidden="true" />
             <div className="hero-content">
@@ -21,11 +28,11 @@ const Hero = () => {
                     </span>
                 </h1>
                 <p>
-                    En VS WebDesign creamos soluciones digitales a medida: SITIOS WEB que transmiten confianza, TIENDAS ONLINE que venden y SISTEMAS que simplifican tu día a día.
+                    Creamos las herramientas digitales que tu marca necesita para <strong>crecer</strong>. Webs, tiendas online y sistemas a medida que marcan la <strong>diferencia</strong>.
                 </p>
-                <a href="#servicios" className="cta-button">
-                    Descubrí qué podemos crear juntos
-                </a>
+                <button className="cta-button" onClick={handleButtonClick}>
+                    Explorar Soluciones
+                </button>
             </div>
         </section>
     );

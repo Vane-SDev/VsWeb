@@ -2,9 +2,14 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import './Projects.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
 import img1 from '../assets/SandraMarzzan.svg';
 import img2 from '../assets/GenteDeDerecho.svg'; 
 import img3 from '../assets/SylvieBurstin.svg';
+import img4 from '../assets/Logo_vs.png';
+import img5 from '../assets/LogoSGAcomex.png';
+import img6 from '../assets/LogoVGRecurso 7@2x.png';
+import img7 from '../assets/logo_camex.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,9 +49,57 @@ const projectsData = [
   }
 ];
 
+const moreProjects = [
+  {
+    id: 4,
+    name: 'AXIAVAL',
+    type: 'Sistema de Tasaciones',
+    context: 'Web corporativa y sistema a medida.',
+    challenge: 'El cliente necesitaba digitalizar y automatizar la gestión de tasaciones inmobiliarias.',
+    solution: 'Desarrollamos un sistema web seguro y autogestionable, integrando notificaciones y reportes automáticos.',
+    image: img4,
+    url: '#',
+    tags: ['React', 'Node.js', 'Automatización']
+  },
+  {
+    id: 5,
+    name: 'SGA Comex',
+    type: 'Gestión Aduanera',
+    context: 'Sistema para operadores de comercio exterior.',
+    challenge: 'El cliente requería un sistema centralizado para el seguimiento de operaciones aduaneras.',
+    solution: 'Creamos una plataforma con panel de control, reportes y alertas automáticas.',
+    image: img5,
+    url: '#',
+    tags: ['React', 'API', 'UI/UX']
+  },
+  {
+    id: 6,
+    name: 'Grupo VG',
+    type: 'Sitio Institucional',
+    context: 'Rediseño de imagen digital.',
+    challenge: 'Actualizar la presencia online y mejorar la captación de clientes.',
+    solution: 'Rediseño completo con enfoque visual y optimización SEO.',
+    image: img6,
+    url: '#',
+    tags: ['WordPress', 'SEO', 'Branding']
+  },
+  {
+    id: 7,
+    name: 'CamexTrans',
+    type: 'Logística y Transporte',
+    context: 'Web informativa y sistema de seguimiento.',
+    challenge: 'El cliente necesitaba mostrar servicios y permitir seguimiento de envíos.',
+    solution: 'Desarrollamos una web moderna con sistema de tracking integrado.',
+    image: img7,
+    url: '#',
+    tags: ['Web', 'Tracking', 'Logística']
+  }
+];
+
 const Projects = () => {
   const sectionRef = useRef(null);
   const carouselRef = useRef(null);
+  const moreRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   
@@ -54,6 +107,7 @@ const Projects = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [dragDistance, setDragDistance] = useState(0);
+  const [showAll, setShowAll] = useState(false);
 
   const goToSlide = (index) => {
     if (isAnimating || index === currentSlide) return;
@@ -224,6 +278,12 @@ const Projects = () => {
     }
   }, [currentSlide]);
 
+  useLayoutEffect(() => {
+    if (showAll && moreRef.current) {
+      gsap.fromTo(moreRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+    }
+  }, [showAll]);
+
   return (
     <section id="proyectos" className="projects-section" ref={sectionRef}>
       <div className="projects-container">
@@ -333,12 +393,88 @@ const Projects = () => {
           ))}
         </div>
         
-        {/* CTA */}
-        <div className="projects-cta-wrapper">
-          <a href="#" className="projects-cta-secondary">
-            Explorar todos los trabajos
-          </a>
-        </div>
+        {/* CTA: solo mostrar aquí si la grilla NO está visible */}
+        {/* {!showAll && (
+          <div className="projects-cta-wrapper">
+            <button
+              className="projects-cta-secondary"
+              onClick={() => setShowAll(true)}
+              aria-expanded={showAll}
+            >
+              Explorar todos los trabajos
+            </button>
+          </div>
+        )} */}
+        {/* Grilla de más proyectos */}
+        {showAll && (
+          <>
+            <div className="all-projects-grid" ref={moreRef}>
+              {moreProjects.map((project, idx) => (
+                <div key={project.id} className="project-card active">
+                  <div className="project-card-glass">
+                    <div className="project-image-section">
+                      <div className="project-image-wrapper">
+                        <img
+                          src={project.image}
+                          alt={`Mockup de ${project.name}`}
+                          className="project-image"
+                        />
+                      </div>
+                      <div className="project-overlay">
+                        <div className="project-badge">
+                          <span className="project-number">0{idx + 4}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="project-content">
+                      <div className="project-header">
+                        <h3 className="project-name">{project.name}</h3>
+                        <p className="project-type">{project.type}</p>
+                        {project.context && (
+                          <div className="project-context-badge">
+                            {project.context}
+                          </div>
+                        )}
+                      </div>
+                      <div className="project-details">
+                        <div className="project-challenge">
+                          <h4>Desafío</h4>
+                          <p>{project.challenge}</p>
+                        </div>
+                        <div className="project-solution">
+                          <h4>Solución</h4>
+                          <p>{project.solution}</p>
+                        </div>
+                      </div>
+                      <div className="project-footer">
+                        <div className="project-tags">
+                          {project.tags.map(tag => (
+                            <span className="tag" key={tag}>{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* CTA: mostrar aquí si la grilla está visible */}
+            <div className="projects-cta-wrapper">
+              <button
+                className="projects-cta-secondary"
+                onClick={() => {
+                  setShowAll(false);
+                  setTimeout(() => {
+                    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 100);
+                }}
+                aria-expanded={showAll}
+              >
+                Ver menos
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

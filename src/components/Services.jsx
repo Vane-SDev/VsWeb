@@ -25,7 +25,7 @@ const creationServicesData = [
     benefits: [
       'Diseño multipágina para presentar tu empresa.',
       'Secciones clave: Servicios, Nosotros, Contacto, etc.',
-      'Plataforma autogestionable (WordPress).',
+      'Tomá el control total de tu contenido (con WordPress).',
       'Optimizado para SEO y credibilidad.'
     ],
     isFeatured: true,
@@ -36,7 +36,7 @@ const creationServicesData = [
     title: 'Tienda Online (E-commerce)',
     idealFor: 'Negocios que quieren vender productos online',
     benefits: [
-      'Catálogo de productos y carrito de compras.',
+      'Una vidriera online abierta 24/7 para tus productos.',
       'Integración con pasarelas de pago (Mercado Pago).',
       'Gestión de stock e inventario simplificada.',
       'Diseño enfocado en maximizar tus ventas.'
@@ -49,7 +49,7 @@ const creationServicesData = [
     title: 'Sistema a Medida',
     idealFor: 'Empresas con necesidades operativas únicas',
     benefits: [
-      'Automatización de procesos y tareas repetitivas.',
+      'Liberá tiempo valioso automatizando tareas repetitivas.',
       'Solución definitiva al caos de las planillas.',
       'Herramienta creada exclusivamente para tu negocio.',
       'Infraestructura robusta y escalable.'
@@ -107,14 +107,27 @@ const Services = () => {
   // };
 
   return (
-    <section id="servicios" className="services-section">
+    <section id="services" className="services-section">
       <div className="services-container">
         <h2 className="section-title">Una Solución para Cada Etapa de Crecimiento.</h2>
         <p className="section-subtitle">
-          Cada negocio está en una etapa diferente. Por eso, no ofrecemos soluciones genéricas. Descubrí cuál es la herramienta digital correcta para tu momento.
+          Cada negocio está en una etapa diferente. Por eso, no ofrecemos soluciones genéricas. Elegí la herramienta digital correcta para tu momento.
         </p>
-
-        <div className="services-cards-grid">
+        <div
+          id="servicios"
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            margin: '-1px',
+            padding: 0,
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            border: 0,
+          }}
+        />
+        <div  className="services-cards-grid">
           {creationServicesData.map((service, index) => (
             <div className={`service-card ${service.isFeatured ? 'featured' : ''}`} key={index}>
               {service.isFeatured && <div className="featured-badge">Más Elegido</div>}
@@ -130,9 +143,11 @@ const Services = () => {
                 {service.ctaText}
               </a>
             </div>
+            
           ))}
         </div>
-
+        
+          
         {/* --- ACTO 2: LA PROTECCIÓN Y CRECIMIENTO --- */}
         <div className="maintenance-section">
           <div className="maintenance-header">

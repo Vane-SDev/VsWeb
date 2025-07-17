@@ -1,4 +1,4 @@
-/* --- Estilo Base del Header (Estado Inicial Transparente) --- */
+/* --- Estilo Base del Header --- */
 .main-header {
   position: fixed;
   top: 0;
@@ -7,17 +7,18 @@
   width: 100%;
   min-height: 56px;
   padding: 0.5rem 6%;
-  /* El estado inicial es transparente */
   background: transparent;
   border-bottom: 1.5px solid transparent;
   box-shadow: none;
   backdrop-filter: blur(0px) saturate(1);
-  /* La transición hará suave el cambio al estado .scrolled */
-  transition: background 0.4s ease-out, box-shadow 0.4s ease-out, backdrop-filter 0.4s ease-out, border-color 0.4s ease-out;
+  transition: background 0.4s ease-out, 
+              box-shadow 0.4s ease-out, 
+              backdrop-filter 0.4s ease-out, 
+              border-color 0.4s ease-out,
+              transform 0.4s ease-in-out;
 }
 
-/* --- Estado "Scrolled" con Efecto Glass --- */
-/* Estas reglas se aplican SOLO cuando el header tiene la clase .scrolled */
+/* --- Estados Dinámicos del Header --- */
 .main-header.scrolled {
   background: linear-gradient(90deg, rgba(35, 35, 35, 0.82) 60%, rgba(60, 0, 40, 0.13) 100%);
   border-bottom-color: rgba(255, 255, 255, 0.10);
@@ -25,13 +26,16 @@
   backdrop-filter: blur(18px) saturate(1.2);
 }
 
-/* El hover también lo aplicamos solo al estado scrolled para consistencia */
 .main-header.scrolled:hover {
   background: linear-gradient(90deg, rgba(35, 35, 35, 0.92) 60%, rgba(60, 0, 40, 0.18) 100%);
   box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.18);
 }
 
-/* --- El resto de tus estilos se mantiene casi igual --- */
+.main-header.hidden {
+  transform: translateY(-110%);
+}
+
+/* --- Navegación y Logo --- */
 .main-nav {
   display: flex;
   align-items: center;
@@ -49,16 +53,21 @@
 
 .logo-container img {
   display: block;
-  height: 7rem; /* Usamos height para controlar el tamaño */
+  height: 7rem;
   width: auto;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, height 0.3s ease-in-out;
 }
 
 .logo-container img:hover {
   transform: scale(1.07);
 }
 
+.main-header.scrolled .logo-container img {
+  height: 5rem;
+}
+
+/* --- Links de Navegación --- */
 .nav-links {
   display: flex;
   align-items: center;
@@ -69,12 +78,12 @@
 .nav-links a {
   position: relative;
   padding: 0.2rem 0.5rem;
-  color: #fafafa; /* Color de texto claro para que contraste con fondos oscuros y claros */
+  color: #fafafa;
   font-size: 1.18rem;
   font-weight: 700;
   letter-spacing: 0.2px;
   text-decoration: none;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Sombra para legibilidad */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
   transition: color 0.22s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -102,116 +111,113 @@
 .nav-links a:focus::after {
   transform: scaleX(1);
 }
-  /* --- Hamburger Menu (Mobile) --- */
-  .hamburger-menu {
-    display: none; /* Oculto por defecto, se activa en media query */
-  }
-  
-  .hamburger-icon {
-    position: relative;
-    z-index: 140;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .hamburger-icon span {
-    display: block;
-    width: 28px;
-    height: 3.2px;
-    margin: 4.2px 0;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
-    border-radius: 2px;
-    transition: all 0.32s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  
-  .hamburger-icon:focus {
-    outline: 2px solid var(--color-accent);
-  }
-  
-  /* Hamburger animation to 'X' */
-  .hamburger-icon.open span {
-    background: #fff !important;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.18);
-  }
-  
-  .hamburger-icon.open span:nth-child(1) {
-    transform: translateY(7.5px) rotate(45deg);
-  }
-  
-  .hamburger-icon.open span:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0.5);
-  }
-  
-  .hamburger-icon.open span:nth-child(3) {
-    transform: translateY(-7.5px) rotate(-45deg);
-  }
-  
-  /* --- MUI Drawer Overrides (Mobile Menu Panel) --- */
-  .MuiDrawer-paper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    min-width: 240px;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-    color: #fff;
-    background: linear-gradient(120deg, rgba(30, 30, 40, 0.85) 80%, rgba(233, 30, 99, 0.13) 100%);
-    border: 1.5px solid rgba(255, 255, 255, 0.13);
-    border-radius: 18px 0 0 18px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22);
-    backdrop-filter: blur(22px) saturate(1.3);
-    transition: background 0.3s, box-shadow 0.3s;
-  }
-  
-  .MuiList-root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 2.2rem;
-    margin-top: 2.5rem;
-  }
-  
-  .MuiListItemButton-root {
-    justify-content: center;
-    padding: 1.1rem 0.5rem;
-    border-radius: 12px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    transition: background 0.22s, color 0.22s;
-  }
-  
-  .MuiListItemButton-root:hover,
-  .MuiListItemButton-root:focus {
-    color: #fff;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
-  }
-  
-  .MuiListItemText-root span {
-    width: 100%;
-    font-size: 1.18rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    text-align: center;
-  }
-  
-/* --- Responsive Styles --- */
 
-
-
+/* --- Menú Hamburguesa (Móvil) --- */
+.hamburger-menu {
+  display: none;
+}
+ 
+.hamburger-icon {
+  position: relative;
+  z-index: 140;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+ 
+.hamburger-icon span {
+  display: block;
+  width: 28px;
+  height: 3.2px;
+  margin: 4.2px 0;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+  border-radius: 2px;
+  transition: all 0.32s cubic-bezier(0.23, 1, 0.32, 1);
+}
+ 
+.hamburger-icon:focus {
+  outline: 2px solid var(--color-accent);
+}
+ 
+.hamburger-icon.open span {
+  background: #fff !important;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.18);
+}
+ 
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+ 
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.5);
+}
+ 
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+ 
+/* --- Estilos del Panel del Menú (Drawer) --- */
+.MuiDrawer-paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 240px;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  color: #fff;
+  background: linear-gradient(120deg, rgba(30, 30, 40, 0.85) 80%, rgba(233, 30, 99, 0.13) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.13);
+  border-radius: 18px 0 0 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22);
+  backdrop-filter: blur(22px) saturate(1.3);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+ 
+.MuiList-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2.2rem;
+  margin-top: 2.5rem;
+}
+ 
+.MuiListItemButton-root {
+  justify-content: center;
+  padding: 1.1rem 0.5rem;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: background 0.22s, color 0.22s;
+}
+ 
+.MuiListItemButton-root:hover,
+.MuiListItemButton-root:focus {
+  color: #fff;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-spark));
+}
+ 
+.MuiListItemText-root span {
+  width: 100%;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+ 
+/* --- Estilos Responsivos --- */
 @media (max-width: 768px) {
   .main-header {
     padding: 0.8rem 5%;
@@ -222,12 +228,16 @@
   }
 
   .logo-container {
-    width: auto; /* Dejamos que el logo defina el ancho */
+    width: auto;
     z-index: 120;
   }
   
   .logo-container img {
-    height: 5rem; /* Ajustamos el logo en móvil */
+    height: 5rem;
+  }
+  
+  .main-header.scrolled .logo-container img {
+    height: 4rem; 
   }
 
   .nav-links {
@@ -252,9 +262,11 @@
   }
 
   .logo-container img {
-    /* 2. Aumentamos el tamaño del logo en pantallas chicas */
     height: 100px;
     max-width: 120px;
   }
-}
 
+  .main-header.scrolled .logo-container img {
+    height: 80px; 
+  }
+}
