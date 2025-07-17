@@ -1,7 +1,3 @@
-/* src/App.css - Versión Final y Limpia */
-
-/* --- Variables y Estilos Base --- */
-/* Mantenemos tus excelentes variables y estilos base */
 :root {
   --color-dark: #0a0a0a;
   --color-accent: #e87a5d;
@@ -13,7 +9,6 @@
   --color-background: #0a0a0a;
   --color-surface: rgba(255, 255, 255, 0.05);
   --color-border: rgba(255, 255, 255, 0.1);
-  /* Variables para títulos de sección */
   --section-title-size: clamp(2.2rem, 6vw, 3.5rem);
   --section-title-size-mobile: 1.35rem;
   --section-title-weight: 300;
@@ -21,7 +16,6 @@
   --section-title-color-dark: var(--color-text-light);
   --section-title-spacing: -0.02em;
   --section-title-margin: 3.5rem;
-  /* ... y el resto de tus variables ... */
 }
 
 * {
@@ -52,12 +46,8 @@ main {
   position: relative;
   width: 100%;
   flex-grow: 1;
-  /* El z-index lo manejaremos en los wrappers para evitar conflictos */
 }
 
-/* --- ESTILOS PARA LA ANIMACIÓN DE SCROLL (LA PARTE IMPORTANTE) --- */
-
-/* 1. El contenedor que GSAP va a "fijar" en la pantalla */
 .animation-container {
   min-height: 100dvh;
   position: relative;
@@ -71,34 +61,29 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-  /* height: 120px; */
   pointer-events: none;
   z-index: 10;
   background: linear-gradient(180deg, rgba(20,20,30,0.95) 0%, rgba(255,255,255,0.0) 100%);
 }
-/* El escenario 3D ocupa todo el espacio de su padre, el animation-container */
+
 .animation-stage {
   width: 100%;
   height: 100%;
-  position: relative; /* Para que sus hijos absolutos se posicionen respecto a él */
-  transform-style: preserve-3d; /* Clave para el contexto 3D */
+  position: relative;
+  transform-style: preserve-3d;
 }
 
-
-
-/* 2. Un wrapper común para las secciones que se apilan */
 .section-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Evita que el contenido se desborde durante la animación */
+  overflow: hidden;
 }
 
-/* 3. Posición inicial de cada wrapper */
 .hero-wrapper {
-  z-index: 2; /* El Hero empieza por encima */
+  z-index: 2;
 }
 
 .hero-container {
@@ -114,17 +99,14 @@ main {
 }
 
 .services-section {
-  /* position: absolute !important; */
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1;
-  /* display: flex;  <-- lo quitamos aquí */
   align-items: center;
   justify-content: center;
 }
 
-/* Si necesitas el flex, agrégalo a .services-container */
 .services-container {
   display: flex;
   flex-direction: column;
@@ -138,14 +120,11 @@ main {
   z-index: 11;
 }
 
-/* 4. Contenedor para el resto del contenido que fluye normalmente */
 .main-content {
   position: relative;
-  z-index: 10; /* Un z-index alto para que aparezca sobre la animación cuando termine */
-  /* El color de fondo de cada sección dentro de main-content lo definirá su propio CSS */
+  z-index: 10;
 }
 
-/* --- Scrollbar Personalizada (La mantenemos porque es un gran detalle) --- */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -164,7 +143,6 @@ main {
   will-change: transform, opacity, filter;
 }
 
-
 .App {
   min-height: 100vh;
   display: flex;
@@ -181,6 +159,7 @@ main {
   letter-spacing: var(--section-title-spacing);
   line-height: 1.2;
 }
+
 .section-title--dark {
   color: var(--section-title-color-dark);
   margin-bottom: var(--section-title-margin);
@@ -191,46 +170,84 @@ main {
   font-weight: var(--section-title-weight);
 }
 
+.floating-buttons-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
 
-/* ==========================================================================
-  OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
-   ========================================================================== */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
 
-  @media (max-width: 768px) {
-    /*
-      Desactivado de los efectos de 'blur' y 'backdrop-filter' 
-      m
-      
-    */
-    .blob,
-    .main-header,
-    .services-section,
-    .service-card,
-    .service-cta,
-    .project-card,
-    .project-link,
-    .testimonials-section,
-    .testimonial-card,
-    .contact-card,
-    .MuiDrawer-paper {
-      filter: none !important;
-      backdrop-filter: none !important;
-    }
-  
-    /*
-      Tarjetas con un fondo un poco más opaco para asegurar la legibilidad.
-    */
-    .service-card,
-    .project-card,
-    .contact-card {
-      background-color: rgba(255, 255, 255, 0.95);
-    }
-  
-    .main-header {
-      background: rgba(35, 35, 35, 0.95);
-    }
+.glass-effect:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+}
+
+.scroll-to-top-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  animation: fadeInUp 0.4s cubic-bezier(.39,.575,.56,1.000);
+}
+
+.scroll-to-top-btn svg {
+  display: block;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .blob,
+  .main-header,
+  .services-section,
+  .service-card,
+  .service-cta,
+  .project-card,
+  .project-link,
+  .testimonials-section,
+  .testimonial-card,
+  .contact-card,
+  .MuiDrawer-paper {
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+ 
+  .service-card,
+  .project-card,
+  .contact-card {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+ 
+  .main-header {
+    background: rgba(35, 35, 35, 0.95);
   }
 
+  .glass-effect {
+    background: rgba(40, 40, 40, 0.75);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
 
 @media (max-width: 600px) {
   .section-title {
@@ -240,38 +257,4 @@ main {
     letter-spacing: -0.01em;
     line-height: 1.2;
   }
-}
-
-/* Botón scroll to top */
-.scroll-to-top-btn {
-  position: fixed;
-  right: 2.2rem;
-  bottom: 2.2rem;
-  z-index: 1000;
-  background: rgba(255,255,255,0.7);
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.2s, opacity 0.3s;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  animation: fadeInUp 0.4s cubic-bezier(.39,.575,.56,1.000);
-}
-.scroll-to-top-btn:hover {
-  box-shadow: 0 12px 40px 0 rgba(232, 122, 93, 0.18);
-  transform: translateY(-4px) scale(1.08);
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.scroll-to-top-btn svg {
-  display: block;
 }

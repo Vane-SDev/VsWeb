@@ -1,0 +1,264 @@
+/* Estilos para el botón flotante principal (se mantiene) */
+.whatsapp-float-button {
+
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    color: #25D366;
+}
+
+.whatsapp-float-button:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-icon {
+    font-size: 32px;
+}
+
+
+
+/* --- Estilos para la Ventana de Chat --- */
+.whatsapp-chat-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 90%;
+    max-width: 350px;
+    height: 450px;
+    background: #f0f0f0;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: var(--color-accent);
+    /* Usa tu color de acento */
+    color: white;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.chat-close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.4;
+    font-size: 15px;
+}
+
+.message.bot {
+    background-color: #e5e5ea;
+    color: #000;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.message.user {
+    background-color: #007aff;
+    /* Color de burbuja tipo iMessage */
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* --- Indicador "Escribiendo..." --- */
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #999;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.3s infinite;
+}
+
+.typing-indicator span:nth-of-type(2) {
+    animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-of-type(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-6px);
+    }
+}
+
+
+/* --- Formulario de Input --- */
+.chat-input-form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.chat-input-form input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    background: #f0f0f0;
+    border-radius: 20px;
+    outline: none;
+}
+
+.chat-input-form input:disabled {
+    background-color: #f9f9f9;
+}
+
+
+.chat-input-form button {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.chat-input-form button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.chat-interaction-area {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+    margin-top: auto;
+    /* Empuja el área de interacción hacia abajo */
+}
+
+/* Contenedor para los botones de opción */
+.chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Estilo para cada botón de opción */
+.chat-option-button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-accent);
+    border-radius: 20px;
+    background-color: #fff;
+    color: var(--color-accent);
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 15px;
+}
+
+.chat-option-button:hover {
+    background-color: var(--color-accent);
+    color: #fff;
+}
+
+.whatsapp-tooltip {
+    position: absolute;
+    right: 75px;
+    top: 80%;
+    transform: translateY(-50%) translateX(10px);
+
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 15px;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.whatsapp-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+.whatsapp-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent #f0f0f0;
+}
+
+/* Responsive para móvil */
+@media (max-width: 400px) {
+    .whatsapp-chat-popup {
+        right: 5%;
+        bottom: 90px;
+    }
+}

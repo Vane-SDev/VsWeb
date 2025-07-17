@@ -18,6 +18,7 @@ import Footer from './components/Footer';
 import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
+import WhatsAppButton from './components/WhatsAppButton';
 import './App.css';
 
 function App() {
@@ -71,18 +72,22 @@ function App() {
 
         <Footer onLogoClick={handleScrollTo} />
 
-        {showScrollTop && (
-          <button
-            className="scroll-to-top-btn"
-            onClick={() => handleScrollTo('Hero')}
-            aria-label="Subir al inicio"
-          >
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.7)" />
-              <path d="M10 18l6-6 6 6" stroke="#E87A5D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        )}
+        <div className="floating-buttons-container">
+          {showScrollTop && (
+            <button
+              className="scroll-to-top-btn glass-effect"
+              onClick={() => handleScrollTo('Hero')}
+              aria-label="Subir al inicio"
+            >
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.7)" />
+                <path d="M10 18l6-6 6 6" stroke="#E87A5D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          )}
+
+          <WhatsAppButton />
+        </div>
       </div>
     </HelmetProvider>
   );
