@@ -11,9 +11,9 @@ gsap.registerPlugin(ScrollTrigger);
 const projectsData = [
   {
     id: 1,
-    name: 'E-commerce Sandra Marzzan',
+    name: 'E-commerce',
     type: 'Tienda Online con WooCommerce',
-    context: 'Proyecto reciente y actualmente online.',
+    context: 'Proyecto reciente.',
     challenge: 'El cliente necesitaba una plataforma de venta robusta e independiente para expandir su alcance y tener control total sobre sus productos y promociones.',
     solution: 'Desarrollamos un e-commerce completo con WordPress y WooCommerce, implementando un diseño atractivo, pasarelas de pago y un sistema de gestión de inventario fácil de usar.',
     image: img1,
@@ -24,8 +24,8 @@ const projectsData = [
     id: 2,
     name: 'Reconstrucción y Modernización: "Gente de Derecho"',
     type: 'Re-platforming y Hub de Contenidos',
-    context: 'Proyecto realizado en 2022. El diseño actual del sitio puede haber variado.',
-    challenge: 'El cliente poseía un sitio web obsoleto: lento y difícil de actualizar. Su valioso contenido multimedia estaba disperso y perdía impacto.',
+    context: ' El diseño actual del sitio puede haber variado.',
+    challenge: 'El cliente poseía un sitio web obsoleto: lento y difícil de actualizar. Su contenido multimedia estaba disperso y perdía impacto. Proyecto realizado en conjunto con la agencia de relaciones públicas Smok Media.',
     solution: 'Se realizó una reconstrucción completa desde cero, optimizando el rendimiento y la seguridad. El nuevo sitio integra sus contenidos, transformando un activo obsoleto en una herramienta de comunicación potente.',
     image: img2,
     url: '#',
@@ -34,9 +34,9 @@ const projectsData = [
   {
     id: 3, 
     name: 'Sylvie Burstin: Renacimiento Digital de Alta Costura',
-    type: 'Migración, Diseño UI/UX y Social Media Hub',
+    type: 'Migración, Desarrollo y Social Media Hub',
     context: 'El diseño actual del sitio puede haber variado.',
-    challenge: 'La marca de alta costura estaba "atrapada" en un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario.',
+    challenge: 'La marca se encontraba un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario. Proyecto realizado en conjunto con la agencia de relaciones públicas Smok Media.',
     solution: 'Se ejecutó una migración de servidor vía FTP y se reconstruyó la plataforma desde una base de código limpia. El nuevo sitio, enfocado en la performance visual, integra dinámicamente los feeds de Instagram y YouTube, creando una galería viva y siempre actualizada que refleja la esencia de la marca.',
     image: img3,
     url: '#',
@@ -49,14 +49,90 @@ const Projects = () => {
   const carouselRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-
-
+  
+  // Estados para el drag/swipe
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [dragDistance, setDragDistance] = useState(0);
 
   const goToSlide = (index) => {
     if (isAnimating || index === currentSlide) return;
     setIsAnimating(true);
     setCurrentSlide(index);
     setTimeout(() => setIsAnimating(false), 800);
+  };
+
+  // Función para manejar el inicio del drag
+  const handleDragStart = (e) => {
+    if (isAnimating) return;
+    
+    setIsDragging(true);
+    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    setStartX(clientX);
+    setDragDistance(0);
+  };
+
+  // Función para manejar el movimiento del drag
+  const handleDragMove = (e) => {
+    if (!isDragging || isAnimating) return;
+    
+    // e.preventDefault();
+    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    setDragDistance(clientX - startX);
+  };
+
+  // Función para manejar el fin del drag
+  const handleDragEnd = () => {
+    if (!isDragging || isAnimating) return;
+    
+    setIsDragging(false);
+    
+    // Determinar la dirección del swipe y cambiar slide
+    const threshold = 100; // Distancia mínima para considerar un swipe
+    
+    if (Math.abs(dragDistance) > threshold) {
+      if (dragDistance > 0 && currentSlide > 0) {
+        // Swipe hacia la derecha - slide anterior
+        goToSlide(currentSlide - 1);
+      } else if (dragDistance < 0 && currentSlide < projectsData.length - 1) {
+        // Swipe hacia la izquierda - slide siguiente
+        goToSlide(currentSlide + 1);
+      }
+    }
+    
+    setDragDistance(0);
+  };
+
+  // Event listeners para mouse
+  const handleMouseDown = (e) => {
+    handleDragStart(e);
+  };
+
+  const handleMouseMove = (e) => {
+    handleDragMove(e);
+  };
+
+  const handleMouseUp = () => {
+    handleDragEnd();
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleDragEnd();
+    }
+  };
+
+  // Event listeners para touch
+  const handleTouchStart = (e) => {
+    handleDragStart(e);
+  };
+
+  const handleTouchMove = (e) => {
+    handleDragMove(e);
+  };
+
+  const handleTouchEnd = () => {
+    handleDragEnd();
   };
 
   useLayoutEffect(() => {
@@ -155,7 +231,18 @@ const Projects = () => {
         
         {/* Carrusel Principal */}
         <div className="carousel-container">
-          <div className="carousel-track" ref={carouselRef}>
+          <div 
+            className="carousel-track" 
+            ref={carouselRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          >
             {projectsData.map((project, index) => (
               <div 
                 key={project.id} 
@@ -209,7 +296,7 @@ const Projects = () => {
                           <span className="tag" key={tag}>{tag}</span>
                         ))}
                       </div>
-                      {project.url !== '#' && (
+                      {/* {project.url !== '#' && (
                         <a 
                           href={project.url} 
                           className="project-link" 
@@ -221,7 +308,7 @@ const Projects = () => {
                             <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </a>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>

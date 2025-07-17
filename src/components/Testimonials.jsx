@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import './Testimonials.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import logoAxiaval from '../assets/AXIAVAL-LOGO-06.png';
+import logoAxiaval from '../assets/AXIAVAL-LOGO-08.png';
 import logoCamex from '../assets/CamexTrans.png';
 import logoSGA from '../assets/LogoSGAcomex.png';
 import logoVG from '../assets/LogoVGRecurso 7@2x.png';
@@ -86,7 +86,7 @@ const Testimonials = () => {
 
   return (
     <section id="testimonios" className="testimonials-section" ref={sectionRef}>
-      <h2 className="section-title section-title--dark">Construyendo Alianzas, no solo Proyectos</h2>
+      <h2 className="section-title--dark">Testimonios de nuestros clientes</h2>
       <div className="testimonials-list">
         {testimonialsData.map((testimonial) => (
           <div className="testimonial-card" key={testimonial.name}>

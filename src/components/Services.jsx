@@ -109,9 +109,9 @@ const Services = () => {
   return (
     <section id="servicios" className="services-section">
       <div className="services-container">
-        <h2 className="section-title">Tu Socio Tecnológico para Crecer.</h2>
+        <h2 className="section-title">Una Solución para Cada Etapa de Crecimiento.</h2>
         <p className="section-subtitle">
-          Cada negocio está en una etapa diferente. Por eso, no ofrezco soluciones genéricas. Descubrí cuál es la herramienta digital correcta para tu momento.
+          Cada negocio está en una etapa diferente. Por eso, no ofrecemos soluciones genéricas. Descubrí cuál es la herramienta digital correcta para tu momento.
         </p>
 
         <div className="services-cards-grid">
@@ -137,8 +137,8 @@ const Services = () => {
         <div className="maintenance-section">
           <div className="maintenance-header">
             <div className="maintenance-icon-wrapper"><FaRocket style={{ transform: 'rotate(90deg)' }} /></div>
-            <h3 className="maintenance-title">Una Inversión Inteligente Merece Evolucionar.</h3>
-            <p className="maintenance-subtitle">El lanzamiento es solo el primer paso. Con nuestros planes de asociación, tu web no solo estará protegida, sino que se convertirá en una herramienta en constante mejora.</p>
+            <h3 className="maintenance-title">Tu Inversión Digital, Siempre Segura y en Evolución.</h3>
+            <p className="maintenance-subtitle">El lanzamiento es solo el comienzo. Con nuestros planes de asociación, nos aseguramos de que tu web se mantenga rápida, segura y siga creciendo junto a tu negocio.</p>
           </div>
 
           <div className="maintenance-plans-grid">

@@ -1,24 +1,24 @@
 import React from 'react';
 import './Footer.css';
 import { FaLinkedin, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
-import logoVS from '../assets/LogoBlanco.svg';
+import logoVS from '../assets/LogoNegro.svg';
 
 const socialLinks = [
   {
     label: 'LinkedIn',
     icon: <FaLinkedin />,
-    href: 'https://www.linkedin.com/', // Cambia por tu perfil real
+    href: 'https://www.linkedin.com/in/vanesa-soria-webdev/', 
   },
   {
     label: 'GitHub',
     icon: <FaGithub />,
-    href: 'https://github.com/', // Cambia por tu perfil real
+    href: 'https://github.com/', 
   },
-  {
-    label: 'Instagram',
-    icon: <FaInstagram />,
-    href: 'https://www.instagram.com/', // Cambia por tu perfil real
-  },
+  // {
+  //   label: 'Instagram',
+  //   icon: <FaInstagram />,
+  //   href: 'https://www.instagram.com/', 
+  // },
   {
     label: 'Email',
     icon: <FaEnvelope />,

@@ -5,9 +5,8 @@
   text-align: center;
 }
 
-.section-title {
-  color: var(--color-text-light); /* Título en blanco para destacar sobre el fondo oscuro */
-  font-size: 2.5rem;
+.section-title--dark {
+  color: var(--section-title-color-dark); /* Título en blanco para destacar sobre el fondo oscuro */
   margin-bottom: 1.5rem;
 }
 .testimonials-list {

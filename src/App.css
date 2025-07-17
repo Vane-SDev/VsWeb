@@ -172,6 +172,26 @@ main {
   overflow-x: hidden;
 }
 
+.section-title {
+  text-align: center;
+  font-size: var(--section-title-size);
+  font-weight: var(--section-title-weight);
+  color: var(--section-title-color);
+  margin-bottom: var(--section-title-margin);
+  letter-spacing: var(--section-title-spacing);
+  line-height: 1.2;
+}
+.section-title--dark {
+  color: var(--section-title-color-dark);
+  margin-bottom: var(--section-title-margin);
+  letter-spacing: var(--section-title-spacing);
+  line-height: 1.2;
+  text-align: center;
+  font-size: var(--section-title-size);
+  font-weight: var(--section-title-weight);
+}
+
+
 /* ==========================================================================
   OPTIMIZACIONES DE RENDIMIENTO PARA MÓVILES
    ========================================================================== */
@@ -211,18 +231,7 @@ main {
     }
   }
 
-.section-title {
-  text-align: center;
-  font-size: var(--section-title-size);
-  font-weight: var(--section-title-weight);
-  color: var(--section-title-color);
-  margin-bottom: var(--section-title-margin);
-  letter-spacing: var(--section-title-spacing);
-  line-height: 1.2;
-}
-.section-title--dark {
-  color: var(--section-title-color-dark);
-}
+
 @media (max-width: 600px) {
   .section-title {
     font-size: var(--section-title-size-mobile);

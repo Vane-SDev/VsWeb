@@ -1,6 +1,6 @@
 // src/App.jsx
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import React, { useLayoutEffect, useRef, useEffect } from 'react';
+import React, { useLayoutEffect, useRef, useEffect, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from '@studio-freight/lenis';
@@ -14,6 +14,7 @@ import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import './App.css';
+
 
 const MEASUREMENT_ID = "G-FYSX7E4Y67";
 ReactGA.initialize(MEASUREMENT_ID);
@@ -162,18 +163,17 @@ function App() {
           {/* Este contenedor es clave para la animación de pin */}
           <div className="animation-container">
             <div className="animation-stage">
-            <div className="hero-container">
-              <Hero />
-            </div>
-            <Services />
+              <div className="hero-container">
+                <Hero />
+              </div>
+              <Services />
             </div>
           </div>
           {/* Sección de proyectos después de la animación */}
-          <Projects />
-          <Testimonials />
-          <Contact />
-          {/* Las futuras secciones irían aquí, fuera del contenedor de animación */}
-          {/* <Testimonials /> */}
+            <Projects />
+            <Testimonials />
+            <Contact />
+            {/* Las futuras secciones irían aquí, fuera del contenedor de animación */}
         </main>
         <Footer />
       </div>

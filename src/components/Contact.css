@@ -120,7 +120,7 @@ Versión Final: Tarjetas de Cristal (Desktop) + Acordeón (Móvil)
 }
 
 .contact-card:hover .contact-cta {
-  color: var(--color-text-light);
+  color: var(--color-accent-spark);
 }
 
 /* ==========================================================================

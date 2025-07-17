@@ -27,8 +27,8 @@
     align-items: center;
 }
 
-.hero-content h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
+/* .hero-content h1 {
+    font-size: clamp(2.5rem, 8vw, 3rem);
     font-weight: 300;
     line-height: 1.1;
     margin-bottom: 2.5rem;
@@ -39,7 +39,61 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
+} */
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem; 
+  margin-bottom: 2rem;
 }
+
+.hero-title-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2; 
+}
+
+/* Énfasis en las Palabras Clave Principales */
+.main-word {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 6rem); /* Tamaño grande y responsive */
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em; /* Un kerning más ajustado y moderno */
+}
+
+/* IDEA 1, 3 y 4: Colores, Fuentes y Animación para los Highlights */
+.highlight {
+  font-family: 'Roboto Mono', monospace; /* Fuente "digital" para el contraste */
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 1.2rem;
+  border-radius: 30px;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease-out; /* Transición para la animación */
+}
+
+/* Colores invertidos, como pediste */
+.highlight.dark-bg {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
+}
+
+.highlight.accent-bg {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+/* La animación sutil al pasar el mouse sobre CUALQUIER parte de la línea */
+.hero-title-line:hover .highlight {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 
 .hero-content p {
     max-width: 700px;
@@ -98,11 +152,19 @@
         max-width: 100%;
         text-align: center;
     }
-    .hero-content h1 {
+    .hero-title-line {
+    /* No hace falta cambiar mucho gracias a clamp(), pero podemos ajustar si es necesario */
+    gap: 0.25rem;
+  }
+  
+  .hero-title-line span {
+    padding: 0.2rem 0.8rem;
+  }
+    /* .hero-content h1 {
         font-size: clamp(1.8rem, 9vw, 2.5rem);
         line-height: 1.2;
         margin-bottom: 2rem;
-    }
+    } */
     .hero-content p {
         margin-bottom: 2rem;
         font-size: 1.1rem;

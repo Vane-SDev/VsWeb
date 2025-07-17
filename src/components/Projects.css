@@ -66,6 +66,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-y ;
+  
+}
+
+.carousel-track:active {
+  cursor: grabbing;
 }
 
 .project-card {
@@ -76,10 +86,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .project-card.active {
   z-index: 10;
+  pointer-events: auto;
 }
 
 .project-card-glass {
@@ -97,6 +109,12 @@
   gap: 0;
   overflow: hidden;
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-track:active .project-card-glass {
+  transform: scale(0.98);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
 }
 
 .project-card-glass::before {
