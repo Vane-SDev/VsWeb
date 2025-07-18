@@ -23,7 +23,7 @@ export const conversationFlow = {
     ],
     type: "user_input",
     variableName: "userName",
-    nextStep: "ask_initial_need",
+    nextStepId: "ask_initial_need",
     // --- NUEVAS PROPIEDADES PARA LA VALIDACIÓN ---
     validation: "isName", // Le decimos qué tipo de dato esperamos.
     repromptMessage:
@@ -38,7 +38,7 @@ export const conversationFlow = {
       ]),
     type: "user_input",
     variableName: "initialQuery",
-    nextStep: "fallback_ask_service",
+    nextStepId: "fallback_ask_service",
   },
   fallback_ask_service: {
     message: () =>
@@ -51,11 +51,11 @@ export const conversationFlow = {
     options: [
       {
         text: "Lanzar un nuevo proyecto/idea",
-        nextStep: "ask_goal_established",
+        nextStepId: "ask_goal_established",
       },
       {
         text: "Modernizar o mejorar mi web actual",
-        nextStep: "ask_goal_revamp",
+        nextStepId: "ask_goal_revamp",
       },
     ],
   },
@@ -67,16 +67,16 @@ export const conversationFlow = {
     options: [
       {
         text: "Atraer más clientes y mostrar profesionalismo",
-        nextStep: "recommend_corp_site",
+        nextStepId: "recommend_corp_site",
       },
-      { text: "Vender mis productos 24/7", nextStep: "recommend_ecommerce" },
+      { text: "Vender mis productos 24/7", nextStepId: "recommend_ecommerce" },
       {
         text: "Validar una idea con una página simple",
-        nextStep: "recommend_landing_page",
+        nextStepId: "recommend_landing_page",
       },
       {
         text: "Optimizar procesos internos de mi negocio",
-        nextStep: "recommend_system",
+        nextStepId: "recommend_system",
       },
     ],
   },
@@ -88,11 +88,11 @@ export const conversationFlow = {
     options: [
       {
         text: "Un rediseño completo y moderno",
-        nextStep: "recommend_corp_site",
+        nextStepId: "recommend_corp_site",
       },
       {
         text: "Añadir una tienda a mi web actual",
-        nextStep: "recommend_ecommerce",
+        nextStepId: "recommend_ecommerce",
       },
     ],
   },
@@ -102,7 +102,7 @@ export const conversationFlow = {
     message: () =>
       `¡Excelente elección! Un 'Sitio Web Corporativo' es la mejor manera de mostrar profesionalismo.`,
     type: "bot_message",
-    nextStep: "qualify_corp_1",
+    nextStepId: "qualify_corp_1",
   },
   qualify_corp_1: {
     message: () =>
@@ -112,10 +112,10 @@ export const conversationFlow = {
     options: [
       {
         text: "Tener presencia online profesional",
-        nextStep: "qualify_corp_2",
+        nextStepId: "qualify_corp_2",
       },
-      { text: "Mostrar mis trabajos/portfolio", nextStep: "qualify_corp_2" },
-      { text: "Captar nuevos clientes (leads)", nextStep: "qualify_corp_2" },
+      { text: "Mostrar mis trabajos/portfolio", nextStepId: "qualify_corp_2" },
+      { text: "Captar nuevos clientes (leads)", nextStepId: "qualify_corp_2" },
     ],
   },
   qualify_corp_2: {
@@ -124,18 +124,18 @@ export const conversationFlow = {
     type: "user_options",
     variableName: "specialFeatures",
     options: [
-      { text: "Sí, necesito un Blog", nextStep: "pre_redirect_summary" },
+      { text: "Sí, necesito un Blog", nextStepId: "pre_redirect_summary" },
       {
         text: "Sí, un sistema de turnos/reservas",
-        nextStep: "pre_redirect_summary",
+        nextStepId: "pre_redirect_summary",
       },
-      { text: "No, algo sencillo por ahora", nextStep: "pre_redirect_summary" },
+      { text: "No, algo sencillo por ahora", nextStepId: "pre_redirect_summary" },
     ],
   },
   recommend_ecommerce: {
     message: () => `¡Vamos por esas ventas! Una 'Tienda Online' es el camino.`,
     type: "bot_message",
-    nextStep: "qualify_ecommerce_1",
+    nextStepId: "qualify_ecommerce_1",
   },
   qualify_ecommerce_1: {
     message: () =>
@@ -143,9 +143,9 @@ export const conversationFlow = {
     type: "user_options",
     variableName: "hasProducts",
     options: [
-      { text: "Sí, tengo todo listo", nextStep: "qualify_ecommerce_2" },
-      { text: "No, necesito ayuda con eso", nextStep: "qualify_ecommerce_2" },
-      { text: "Más o menos", nextStep: "qualify_ecommerce_2" },
+      { text: "Sí, tengo todo listo", nextStepId: "qualify_ecommerce_2" },
+      { text: "No, necesito ayuda con eso", nextStepId: "qualify_ecommerce_2" },
+      { text: "Más o menos", nextStepId: "qualify_ecommerce_2" },
     ],
   },
   qualify_ecommerce_2: {
@@ -154,16 +154,16 @@ export const conversationFlow = {
     type: "user_options",
     variableName: "paymentGateway",
     options: [
-      { text: "Sí, con Mercado Pago", nextStep: "pre_redirect_summary" },
-      { text: "Sí, con otra plataforma", nextStep: "pre_redirect_summary" },
-      { text: "Lo vemos después", nextStep: "pre_redirect_summary" },
+      { text: "Sí, con Mercado Pago", nextStepId: "pre_redirect_summary" },
+      { text: "Sí, con otra plataforma", nextStepId: "pre_redirect_summary" },
+      { text: "Lo vemos después", nextStepId: "pre_redirect_summary" },
     ],
   },
   recommend_landing_page: {
     message: (data) =>
       `Entendido, ${data.userName}. Para validar tu idea o promocionar algo específico, una 'Página de Lanzamiento' es ideal.`,
     type: "bot_message",
-    nextStep: "qualify_landing_1",
+    nextStepId: "qualify_landing_1",
   },
   qualify_landing_1: {
     message: () => "Esta página tendrá un objetivo principal. ¿Cuál sería?",
@@ -172,27 +172,27 @@ export const conversationFlow = {
     options: [
       {
         text: "Capturar emails de interesados",
-        nextStep: "pre_redirect_summary",
+        nextStepId: "pre_redirect_summary",
       },
       {
         text: "Vender un único producto/curso",
-        nextStep: "pre_redirect_summary",
+        nextStepId: "pre_redirect_summary",
       },
-      { text: "Promocionar un evento", nextStep: "pre_redirect_summary" },
+      { text: "Promocionar un evento", nextStepId: "pre_redirect_summary" },
     ],
   },
   recommend_system: {
     message: () =>
       `¡Excelente visión! Dejar atrás las planillas es clave. La solución es un 'Sistema a Medida'.`,
     type: "bot_message",
-    nextStep: "qualify_system_1",
+    nextStepId: "qualify_system_1",
   },
   qualify_system_1: {
     message: () =>
       "Para empezar, ¿cuál es el proceso más importante que te gustaría automatizar o mejorar?",
     type: "user_input",
     variableName: "processToAutomate",
-    nextStep: "qualify_system_2",
+    nextStepId: "qualify_system_2",
   },
   qualify_system_2: {
     message: () =>
@@ -200,18 +200,62 @@ export const conversationFlow = {
     type: "user_options",
     variableName: "needsIntegration",
     options: [
-      { text: "Sí, necesita integrarse", nextStep: "pre_redirect_summary" },
-      { text: "No, es independiente", nextStep: "pre_redirect_summary" },
-      { text: "No estoy seguro/a", nextStep: "pre_redirect_summary" },
+      { text: "Sí, necesita integrarse", nextStepId: "pre_redirect_summary" },
+      { text: "No, es independiente", nextStepId: "pre_redirect_summary" },
+      { text: "No estoy seguro/a", nextStepId: "pre_redirect_summary" },
     ],
   },
+
+  // --- NUEVO: FLUJO PARA ASESORAR SOBRE PLANES DE MANTENIMIENTO ---
+
+    advise_plan_1: {
+        message: () => getRandomMessage([
+            "¡Claro! Te ayudo a decidir. Para empezar, ¿con qué frecuencia crees que necesitarás hacer cambios o subir contenido nuevo a tu web (fotos, textos, artículos de blog, etc.)?",
+            "Por supuesto, encontremos el plan ideal para ti. Dime, ¿qué tan dinámica será tu web? ¿Necesitarás actualizar su contenido a menudo?"
+        ]),
+        type: "user_options",
+        variableName: "updateFrequency", // Guardamos esta valiosa respuesta
+        options: [
+            { text: "Casi nunca, solo me importa la seguridad", nextStepId: "recommend_plan_base" },
+            { text: "De vez en cuando (ej. una vez al mes)", nextStepId: "recommend_plan_pro" },
+            { text: "Muy seguido, es una web muy activa", nextStepId: "recommend_plan_socio" },
+        ]
+    },
+
+    recommend_plan_base: {
+        message: () => "Perfecto. En ese caso, te recomiendo el **Plan Base**. Te da la tranquilidad total de que tu sitio está seguro, rápido y con copias de seguridad, sin que tengas que preocuparte por nada. Es ideal si tu contenido no cambia a menudo.",
+        type: "bot_message",
+        nextStepId: "ask_more_help" // Un nuevo paso para ver si necesita algo más
+    },
+
+    recommend_plan_pro: {
+        message: () => "Entendido. El **Plan Pro** es ideal para ti. Te cubre toda la parte técnica y de seguridad, y además te incluye un banco de horas para que me pidas esas actualizaciones de contenido. Es nuestro plan más elegido.",
+        type: "bot_message",
+        nextStepId: "ask_more_help"
+    },
+
+    recommend_plan_socio: {
+        message: () => "¡Excelente! Para una web con tanto movimiento, el **Plan Socio** es la mejor opción. Nos convertimos en una extensión de tu equipo, no solo manteniendo la web, sino también proponiendo mejoras y desarrollando nuevas funciones para que tu proyecto no pare de crecer.",
+        type: "bot_message",
+        nextStepId: "ask_more_help"
+    },
+
+    ask_more_help: {
+        message: () => "¿Te gustaría contratar este plan o tienes alguna otra consulta?",
+        type: "user_options",
+        options: [
+            { text: "Hablemos para contratar", nextStepId: "redirect_whatsapp_human_request"},
+            { text: "Tengo otra duda", nextStepId: "fallback_ask_service" },
+        ]
+    },
+
 
   // --- 3. FLUJO FINAL Y REDIRECCIÓN ---
   pre_redirect_summary: {
     message: (data) =>
       `¡Perfecto, ${data.userName}! Tengo toda la información. Te estoy preparando para hablar con Vane y darle este resumen de tu proyecto.`,
     type: "bot_message",
-    nextStep: "redirect_whatsapp",
+    nextStepId: "redirect_whatsapp",
   },
   redirect_whatsapp: {
     message: () =>

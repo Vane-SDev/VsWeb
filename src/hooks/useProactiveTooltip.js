@@ -1,45 +1,63 @@
+// Archivo: src/hooks/useProactiveTooltip.js (Versión Final Robusta)
+
 import { useState, useEffect, useRef } from "react";
-import lenis from "../Lenis"; // Usamos la misma instancia de Lenis
+import lenis from "../Lenis"; // Mantenemos tu instancia de Lenis
 
 export const useProactiveTooltip = ({
-  timeDelay = 15000,
+  initialDelay = 10000,
+  showDuration = 7000,
+  intervalDelay = 20000,
   scrollDepth = 1200,
 }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const tooltipTriggered = useRef(false); // Para asegurar que se active solo una vez
+  const [isVisible, setIsVisible] = useState(false);
+  const cycleStarted = useRef(false);
 
   useEffect(() => {
-    // Si el tooltip ya se mostró, no hacemos nada más.
-    if (tooltipTriggered.current) return;
+    // SOLUCIÓN: Declaramos todas nuestras variables de temporizador aquí arriba
+    let initialTimer;
+    let intervalId;
+    let hideTimer;
 
-    // Función para activar el tooltip
-    const triggerTooltip = () => {
-      if (!tooltipTriggered.current) {
-        setShowTooltip(true);
-        tooltipTriggered.current = true;
-        // Opcional: Ocultar el tooltip después de un tiempo
-        // setTimeout(() => setShowTooltip(false), 8000);
-      }
+    const startTooltipCycle = () => {
+      if (cycleStarted.current) return;
+      cycleStarted.current = true;
+
+      setIsVisible(true);
+
+      // Asignamos el ID del temporizador a la variable que declaramos antes
+      hideTimer = setTimeout(() => {
+        setIsVisible(false);
+      }, showDuration);
+
+      intervalId = setInterval(() => {
+        setIsVisible(true);
+        // También creamos un temporizador aquí para ocultarlo
+        setTimeout(() => {
+          setIsVisible(false);
+        }, showDuration);
+        // Podríamos guardar este ID en un array si necesitáramos limpiarlos todos,
+        // pero para este caso, el clearInterval general es suficiente.
+      }, intervalDelay);
     };
 
-    // TRIGGER 1: Por tiempo
-    const timer = setTimeout(triggerTooltip, timeDelay);
+    initialTimer = setTimeout(startTooltipCycle, initialDelay);
 
-    // TRIGGER 2: Por scroll
     const handleScroll = (e) => {
       if (e.scroll > scrollDepth) {
-        triggerTooltip();
+        startTooltipCycle();
       }
     };
-
     lenis.on("scroll", handleScroll);
 
-    // Función de limpieza para cuando el componente se desmonte
+    // --- Función de Limpieza Definitiva ---
     return () => {
-      clearTimeout(timer);
+      // Limpiamos TODOS los posibles temporizadores e intervalos
+      clearTimeout(initialTimer);
+      clearTimeout(hideTimer); // <-- Ahora sí usamos la variable para limpiar
+      clearInterval(intervalId);
       lenis.off("scroll", handleScroll);
     };
-  }, [timeDelay, scrollDepth]); // Dependencias por si quisiéramos hacerlas dinámicas
+  }, [initialDelay, showDuration, intervalDelay, scrollDepth]);
 
-  return showTooltip;
+  return isVisible;
 };

@@ -1,6 +1,6 @@
 /* Estilos para el botón flotante principal (se mantiene) */
 .whatsapp-float-button {
-
+    /* ... tus estilos existentes ... */
     width: 60px;
     height: 60px;
     background-color: #25D366;
@@ -13,7 +13,6 @@
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
-    color: #25D366;
 }
 
 .whatsapp-float-button:hover {
@@ -22,8 +21,8 @@
 
 .whatsapp-icon {
     font-size: 32px;
+    color: #6fcb82; /* Aseguramos que el ícono sea blanco */
 }
-
 
 
 /* --- Estilos para la Ventana de Chat --- */
@@ -33,7 +32,7 @@
     right: 25px;
     width: 90%;
     max-width: 350px;
-    height: 450px;
+    height: 500px; /* Un poco más de altura para conversaciones largas */
     background: #f0f0f0;
     border-radius: 15px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -41,11 +40,12 @@
     flex-direction: column;
     z-index: 1001;
     overflow: hidden;
+    /* Si quieres usar una fuente específica de tu web, añádela aquí */
+    /* font-family: 'Tu Fuente', sans-serif; */
 }
 
 .chat-header {
     background: var(--color-accent);
-    /* Usa tu color de acento */
     color: white;
     padding: 15px;
     border-radius: 15px 15px 0 0;
@@ -80,9 +80,14 @@
 .message {
     padding: 10px 15px;
     border-radius: 18px;
-    max-width: 80%;
-    line-height: 1.4;
+    max-width: 85%; /* Un poco más de ancho para aprovechar el espacio */
+    line-height: 1.5;
     font-size: 15px;
+
+    /* SOLUCIÓN 1: Ajuste de texto para que no se desborde */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .message.bot {
@@ -94,61 +99,50 @@
 
 .message.user {
     background-color: #007aff;
-    /* Color de burbuja tipo iMessage */
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+/* --- NUEVO: Estilos para Contenido Markdown --- */
+/* Esto asegura que los elementos generados por ReactMarkdown se vean bien */
+
+/* Párrafos dentro de los mensajes */
+.message p {
+    margin: 0; /* Quitamos el margen por defecto de los párrafos */
+}
+.message p:not(:last-child) {
+    margin-bottom: 10px; /* Añadimos espacio entre párrafos, si hay varios */
 }
 
-/* --- Indicador "Escribiendo..." --- */
-.typing-indicator span {
-    height: 8px;
-    width: 8px;
-    background-color: #999;
-    border-radius: 50%;
-    display: inline-block;
-    animation: bounce 1.3s infinite;
+/* Negritas */
+.message strong {
+    font-weight: 700; /* Aseguramos que la negrita sea visible */
+    color: var(--color-primary-dark); /* Opcional: un color un poco más oscuro */
 }
 
-.typing-indicator span:nth-of-type(2) {
-    animation-delay: 0.15s;
+/* Listas */
+.message ul {
+    margin: 10px 0 0 0;
+    padding-left: 20px; /* Espacio para las viñetas */
 }
 
-.typing-indicator span:nth-of-type(3) {
-    animation-delay: 0.3s;
-}
-
-@keyframes bounce {
-
-    0%,
-    60%,
-    100% {
-        transform: translateY(0);
-    }
-
-    30% {
-        transform: translateY(-6px);
-    }
+.message li {
+    margin-bottom: 5px; /* Espacio entre ítems de la lista */
 }
 
 
-/* --- Formulario de Input --- */
-.chat-input-form {
-    display: flex;
+/* --- Área de Interacción (se mantiene pero con ajustes) --- */
+.chat-interaction-area {
     padding: 10px;
     border-top: 1px solid #ddd;
     background: #fff;
+    margin-top: auto;
+}
+
+.chat-input-form {
+    display: flex;
+    align-items: center;
 }
 
 .chat-input-form input {
@@ -159,45 +153,36 @@
     background: #f0f0f0;
     border-radius: 20px;
     outline: none;
+    margin-right: 10px; /* Espacio entre input y botón */
 }
-
-.chat-input-form input:disabled {
-    background-color: #f9f9f9;
-}
-
 
 .chat-input-form button {
-    background: none;
+    background: var(--color-accent);
+    color: white;
     border: none;
-    color: var(--color-accent);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 0 15px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s;
 }
 
-.chat-input-form button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
+.chat-input-form button:hover {
+    background-color: var(--color-primary-dark); /* Un color más oscuro al pasar el mouse */
 }
 
-.chat-interaction-area {
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background: #fff;
-    margin-top: auto;
-    /* Empuja el área de interacción hacia abajo */
-}
 
-/* Contenedor para los botones de opción */
+/* Opciones de botones (se mantienen) */
 .chat-options {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-/* Estilo para cada botón de opción */
 .chat-option-button {
     width: 100%;
     padding: 12px;
@@ -214,7 +199,7 @@
 
 .chat-option-button:hover {
     background-color: var(--color-accent);
-    color: #fff;
+    color: #fcfcfc;
 }
 
 .whatsapp-tooltip {
@@ -223,8 +208,8 @@
     top: 80%;
     transform: translateY(-50%) translateX(10px);
 
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #f0f0f0d5;
+    color: #2c2a2a;
     padding: 8px 15px;
     border-radius: 15px;
     white-space: nowrap;
@@ -253,6 +238,7 @@
     border-width: 6px;
     border-style: solid;
     border-color: transparent transparent transparent #f0f0f0;
+    visibility: hidden;
 }
 
 /* Responsive para móvil */

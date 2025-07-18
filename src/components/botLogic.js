@@ -58,7 +58,12 @@ const businessEntities = {
 };
 
 // --- FUNCIONES DE ANÁLISIS Y EXTRACCIÓN ---
-
+const normalizeText = (text = "") => {
+  return text
+    .toLowerCase()
+    .normalize("NFD") // Descompone los caracteres en su base + diacrítico
+    .replace(/[\u0300-\u036f]/g, ""); // Elimina los diacríticos
+};
 // 1. Extrae datos específicos como Nombre de una frase.
 const extractInfoFromMessage = (message) => {
   let updates = {};
@@ -111,6 +116,7 @@ const isValidName = (input) => {
 export const findNextStep = (userInput, context) => {
   const { currentStepId, lastBotMsg, lastBotIntent } = context;
   const lowerCaseMessage = userInput.toLowerCase();
+  const normalizedMessage = normalizeText(userInput);
   const currentStep = conversationFlow[currentStepId] || {};
 
   // --- PRIORIDAD MÁXIMA: Respuestas contextuales (Sí/No a preguntas directas) ---
@@ -119,11 +125,11 @@ export const findNextStep = (userInput, context) => {
   );
   if (isAffirmative) {
     if (
-      advancingQuestions.some((q) => lastBotMsg.includes(q)) &&
+      advancingQuestions.some((q) => normalizeText(lastBotMsg).includes(q)) &&
       lastBotIntent?.nextStep
     )
       return { nextStepId: lastBotIntent.nextStep };
-    if (closingQuestions.some((q) => lastBotMsg.includes(q)))
+    if (closingQuestions.some((q) => normalizeText(lastBotMsg).includes(q)))
       return {
         response: "¡Ok, te conecto con Vane!",
         nextStepId: "redirect_whatsapp_human_request",
@@ -134,9 +140,7 @@ export const findNextStep = (userInput, context) => {
   let bestMatch = { score: 0, decision: null };
   for (const item of knowledgeBase) {
     for (const keyword of item.keywords) {
-      if (lowerCaseMessage.includes(keyword.toLowerCase())) {
-        // SOLUCIÓN: El nuevo algoritmo de puntuación.
-        // Multiplica la longitud de la palabra clave por su prioridad (o 1 si no tiene).
+      if (normalizedMessage.includes(normalizeText(keyword))) {
         const score = keyword.length * (item.priority || 1);
         if (score > bestMatch.score) {
           bestMatch = { score, decision: { ...item } };
@@ -149,15 +153,20 @@ export const findNextStep = (userInput, context) => {
   // --- PRIORIDAD 2: Búsqueda de Servicios Específicos (en la pregunta inicial) ---
   if (currentStepId === "ask_initial_need") {
     for (const service of serviceKeywords) {
-      if (service.keywords.some((k) => lowerCaseMessage.includes(k)))
-        return { nextStepId: service.nextStep };
+      if (
+        service.keywords.some((k) =>
+          normalizedMessage.includes(normalizeText(k))
+        )
+      ) {
+        return { nextStepId: service.nextStepId };
+      }
     }
   }
 
   // --- PRIORIDAD 3: Procesar el Flujo Guiado (con validación y extracción) ---
   if (currentStep.type === "user_input") {
     let dataToUpdate = {};
-    const businessContext = extractBusinessContext(lowerCaseMessage);
+    const businessContext = extractBusinessContext(normalizedMessage);
     dataToUpdate = { ...businessContext };
 
     if (currentStep.validation === "isName") {
@@ -177,7 +186,7 @@ export const findNextStep = (userInput, context) => {
     } else {
       dataToUpdate[currentStep.variableName] = userInput;
     }
-    return { nextStepId: currentStep.nextStep, dataToUpdate };
+    return { nextStepId: currentStep.nextStepId, dataToUpdate };
   }
 
   if (currentStep.type === "user_options") {

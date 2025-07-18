@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './Hero.css';
-import logoVS from '../assets/LogoBlanco.svg';
+import logoVS from '../assets/Recurso 2LogoBlanc2.png';
 
 
 const Hero = ({ onNavigate }) => {

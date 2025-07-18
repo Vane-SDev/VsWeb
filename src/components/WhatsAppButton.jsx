@@ -1,3 +1,5 @@
+// Archivo: src/components/WhatsAppButton.jsx (Versión final corregida)
+
 import React, { useState, useEffect, useRef } from 'react';
 import { FaWhatsapp, FaPaperPlane } from 'react-icons/fa';
 import ReactGA from 'react-ga4';
@@ -6,6 +8,7 @@ import { conversationFlow } from './conversationFlow.js';
 import { knowledgeDocs } from './knowledgeDocs.js';
 import { useProactiveTooltip } from '../hooks/useProactiveTooltip';
 import { findNextStep, buildWhatsAppSummary } from './botLogic.js';
+import ReactMarkdown from 'react-markdown';
 
 const phoneNumber = '5492645207128';
 
@@ -14,46 +17,44 @@ const WhatsAppButton = () => {
     const [messages, setMessages] = useState([]);
     const [userInput, setUserInput] = useState('');
     const [collectedData, setCollectedData] = useState({});
-    const [currentStepId, setCurrentStepId] = useState(null); // Inicia como null
+    const [currentStepId, setCurrentStepId] = useState(null);
     const [isBotTyping, setIsBotTyping] = useState(false);
 
     const chatEndRef = useRef(null);
     const lastBotIntent = useRef(null);
-    const showTooltip = useProactiveTooltip({ timeDelay: 15000, scrollDepth: 1200 });
+    const showTooltip = useProactiveTooltip({}); 
+    const collectedDataRef = useRef(collectedData);
 
+    useEffect(() => {
+        collectedDataRef.current = collectedData;
+    }, [collectedData])
     const addMessage = (text, sender) => { setMessages(prev => [...prev, { text, sender }]); };
 
-    // --- MOTOR DEL CHAT ---
-    // Este efecto se encarga de mostrar los mensajes del paso actual
-    useEffect(() => {
-        // No hagas nada si el chat no está abierto o no hay un paso definido
-        if (!isChatOpen || !currentStepId) return;
 
+    useEffect(() => {
+        if (!isChatOpen || !currentStepId) return;
         const currentStep = conversationFlow[currentStepId];
         if (!currentStep) return;
 
         const processStep = async () => {
-            // Solo procesa si el paso tiene mensajes para el bot
             if (currentStep.message || currentStep.messages) {
                 setIsBotTyping(true);
                 const messageList = Array.isArray(currentStep.messages) ? currentStep.messages : [currentStep.message];
-
                 for (const msgOrFn of messageList) {
                     await new Promise(resolve => setTimeout(resolve, 1200));
                     const messageText = typeof msgOrFn === 'function' ? msgOrFn(collectedData) : msgOrFn;
-
                     if (typeof messageText === 'string') {
                         addMessage(messageText.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
                     }
                 }
                 setIsBotTyping(false);
             }
-
-            // Maneja las redirecciones
-            if (currentStep.type === 'redirect') {
-                const finalMessage = buildWhatsAppSummary(collectedData);
-                const encoded = encodeURIComponent(finalMessage);
-                setTimeout(() => { window.open(`https://wa.me/${phoneNumber}?text=${encoded}`, '_blank', 'noopener,noreferrer'); handleCloseChat(); }, 1500);
+            if (currentStep.type === 'bot_message' && currentStep.nextStepId) {
+                setTimeout(() => setCurrentStepId(currentStep.nextStepId), 1000);
+            }
+            else if (currentStep.type === 'redirect') {
+                const finalMessage = buildWhatsAppSummary(collectedDataRef.current);
+                setTimeout(() => { window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`, '_blank', 'noopener,noreferrer'); handleCloseChat(); }, 1500);
             } else if (currentStep.type === 'redirect_simple') {
                 const finalMessage = `¡Hola! Vengo desde el chat de tu web y quisiera hacerte una consulta.`;
                 setTimeout(() => { window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`, '_blank', 'noopener,noreferrer'); handleCloseChat(); }, 1500);
@@ -61,12 +62,11 @@ const WhatsAppButton = () => {
         };
 
         processStep();
-        // Este efecto depende de estas variables para ejecutarse correctamente.
     }, [currentStepId, isChatOpen, collectedData]);
 
     useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
-    // --- MANEJADOR DE EVENTOS ---
+    // --- MANEJADOR DE EVENTOS CON LA LÓGICA CORREGIDA ---
     const handleUserInputSubmit = async (e) => {
         e.preventDefault();
         if (!userInput.trim()) return;
@@ -82,15 +82,23 @@ const WhatsAppButton = () => {
 
         const decision = findNextStep(userMessage, context);
 
-        if (decision.response) {
+        
+        if (decision.response || decision.topicId) {
             setIsBotTyping(true);
             await new Promise(resolve => setTimeout(resolve, 800));
-            addMessage(decision.response.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
+
+            // Muestra la respuesta corta si existe
+            if (decision.response) {
+                addMessage(decision.response.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
+            }
+            // Muestra el documento de conocimiento si existe
             if (decision.topicId && knowledgeDocs[decision.topicId]) {
                 addMessage(knowledgeDocs[decision.topicId], 'bot');
             }
+
             setIsBotTyping(false);
         }
+
         if (decision.intent) { lastBotIntent.current = decision.intent; }
         if (decision.dataToUpdate) { setCollectedData(prev => ({ ...prev, ...decision.dataToUpdate })); }
         if (decision.nextStepId) { setCurrentStepId(decision.nextStepId); }
@@ -100,28 +108,23 @@ const WhatsAppButton = () => {
         const currentStep = conversationFlow[currentStepId];
         addMessage(option.text, 'user');
         setCollectedData(prev => ({ ...prev, [currentStep.variableName]: option.text }));
-        setCurrentStepId(option.nextStep);
+        setCurrentStepId(option.nextStepId);
     };
 
-    // --- LÓGICA DE APERTURA / CIERRE ---
     const handleOpenChat = () => {
         if (!isChatOpen) {
-            // 1. Resetea el estado para una conversación limpia
             setMessages([]);
             setCollectedData({});
-            // 2. Abre el chat
             setIsChatOpen(true);
-            // 3. Establece el primer paso. Esto dispara el useEffect para mostrar el saludo.
             setCurrentStepId('start');
         }
     };
-
     const handleCloseChat = () => setIsChatOpen(false);
-
     const currentStep = conversationFlow[currentStepId] || {};
 
     return (
         <>
+            {/* El JSX no cambia, se mantiene igual que la última versión */}
             <button onClick={handleOpenChat} className="whatsapp-float-button glass-effect" aria-label="Abrir chat con asistente virtual">
                 <FaWhatsapp className="whatsapp-icon" />
                 {showTooltip && !isChatOpen && (
@@ -136,7 +139,8 @@ const WhatsAppButton = () => {
                     </div>
                     <div className="chat-messages">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.sender}`}>{msg.text}</div>
+                            <div key={index} className={`message ${msg.sender}`}><ReactMarkdown>{msg.text}</ReactMarkdown>
+                            </div>
                         ))}
                         {isBotTyping && <div className="message bot typing-indicator"><span></span><span></span><span></span></div>}
                         <div ref={chatEndRef} />
