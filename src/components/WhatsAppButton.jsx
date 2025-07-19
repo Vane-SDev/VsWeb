@@ -148,7 +148,7 @@ const WhatsAppButton = () => {
                     <div className="chat-interaction-area">
                         {(currentStep.type === 'user_input' || !currentStep.type) && !isBotTyping && (
                             <form onSubmit={handleUserInputSubmit} className="chat-input-form">
-                                <label htmlFor="user-chat-input" className="visually-hidden">Tu respuesta</label>
+                                <label htmlFor="user-chat-input" className="visually-hidden"></label>
                                 <input id="user-chat-input" name="userInput" type="text" placeholder="Escribe aquí..." value={userInput} onChange={(e) => setUserInput(e.target.value)} autoComplete="off" autoFocus />
                                 <button type="submit" aria-label="Enviar mensaje"><FaPaperPlane /></button>
                             </form>
