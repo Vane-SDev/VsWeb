@@ -21,38 +21,38 @@ const WhatsAppButton = () => {
     const [currentStepId, setCurrentStepId] = useState(null);
     const [isBotTyping, setIsBotTyping] = useState(false);
     const [promoOffered, setPromoOffered] = useState(false);
+
     const chatEndRef = useRef(null);
     const lastBotIntent = useRef(null);
-    const showTooltip = useProactiveTooltip({}); 
-    const collectedDataRef = useRef(collectedData);
+    const showTooltip = useProactiveTooltip({});
 
+    // --- LÓGICA ANTI-BUCLES ---
+    const collectedDataRef = useRef(collectedData);
     useEffect(() => {
         collectedDataRef.current = collectedData;
     }, [collectedData]);
-    
+
     const addMessage = (text, sender) => { setMessages(prev => [...prev, { text, sender }]); };
 
-
+    // --- MOTOR DEL CHAT (ROBUSTO) ---
     useEffect(() => {
         if (!isChatOpen || !currentStepId) return;
         const currentStep = conversationFlow[currentStepId];
         if (!currentStep) return;
 
-        // --- LÓGICA DEL DISPARADOR DE PROMOCIÓN ---
-        // Verificamos si es un buen momento para ofrecer la promo
         const now = new Date();
         if (
-            activePromotion &&                                  // ¿Hay una promo activa?
-            now.getMonth() === activePromotion.month &&         // ¿Estamos en el mes correcto?
+            activePromotion &&
+            now.getMonth() === activePromotion.month &&
             now.getFullYear() === activePromotion.year &&
-            !promoOffered &&                                    // ¿No la hemos ofrecido ya?
-            (currentStepId === 'offer_email_summary' || currentStepId === 'pre_redirect_summary') && // ¿Es un buen momento?
-            collectedDataRef.current.userName &&                // ¿Tenemos datos valiosos (nombre)?
-            collectedDataRef.current.email                      // ¿Y email?
+            !promoOffered &&
+            (currentStepId === 'offer_email_summary' || currentStepId === 'pre_redirect_summary') &&
+            collectedDataRef.current.userName &&
+            collectedDataRef.current.email
         ) {
-            setPromoOffered(true); // La marcamos como ofrecida
-            setCurrentStepId(activePromotion.entryStepId); // ¡Activamos el flujo de la promo!
-            return; // Detenemos el procesamiento del paso actual para mostrar la promo
+            setPromoOffered(true);
+            setCurrentStepId(activePromotion.entryStepId);
+            return;
         }
 
         const processStep = async () => {
@@ -61,9 +61,11 @@ const WhatsAppButton = () => {
                 const messageList = Array.isArray(currentStep.messages) ? currentStep.messages : [currentStep.message];
                 for (const msgOrFn of messageList) {
                     await new Promise(resolve => setTimeout(resolve, 1200));
-                    const messageText = typeof msgOrFn === 'function' ? msgOrFn(collectedData) : msgOrFn;
+                    // SOLUCIÓN: Usamos la Ref para leer los datos, no el estado.
+                    const messageText = typeof msgOrFn === 'function' ? msgOrFn(collectedDataRef.current) : msgOrFn;
                     if (typeof messageText === 'string') {
-                        addMessage(messageText.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
+                        // SOLUCIÓN: Usamos la Ref aquí también.
+                        addMessage(messageText.replace(/\{userName\}/g, collectedDataRef.current.userName || 'amig@'), 'bot');
                     }
                 }
                 setIsBotTyping(false);
@@ -81,11 +83,11 @@ const WhatsAppButton = () => {
         };
 
         processStep();
-    }, [currentStepId, isChatOpen, promoOffered, collectedData]);
+        // SOLUCIÓN: Quitamos 'collectedData' del array de dependencias.
+    }, [currentStepId, isChatOpen, promoOffered]);
 
     useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
-    // --- MANEJADOR DE EVENTOS CON LA LÓGICA CORREGIDA ---
     const handleUserInputSubmit = async (e) => {
         e.preventDefault();
         if (!userInput.trim()) return;
@@ -101,24 +103,16 @@ const WhatsAppButton = () => {
 
         const decision = findNextStep(userMessage, context);
 
-        
         if (decision.response || decision.topicId) {
             setIsBotTyping(true);
             await new Promise(resolve => setTimeout(resolve, 800));
-
-            // Muestra la respuesta corta si existe
             if (decision.response) {
-                const responseText = typeof decision.response === 'function'
-                    ? decision.response({ currentStepId, userName: collectedData.userName })
-                    : decision.response;
-
+                const responseText = typeof decision.response === 'function' ? decision.response({ currentStepId, userName: collectedData.userName }) : decision.response;
                 addMessage(responseText.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
             }
-            // Muestra el documento de conocimiento si existe
             if (decision.topicId && knowledgeDocs[decision.topicId]) {
                 addMessage(knowledgeDocs[decision.topicId], 'bot');
             }
-
             setIsBotTyping(false);
         }
 
@@ -138,6 +132,7 @@ const WhatsAppButton = () => {
         if (!isChatOpen) {
             setMessages([]);
             setCollectedData({});
+            setPromoOffered(false);
             setIsChatOpen(true);
             setCurrentStepId('start');
         }
