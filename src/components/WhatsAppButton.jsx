@@ -1,15 +1,14 @@
-// Archivo: src/components/WhatsAppButton.jsx (Versión final corregida)
+// Archivo: src/components/WhatsAppButton.jsx (Versión Final Full-Stack)
 
 import React, { useState, useEffect, useRef } from 'react';
 import { FaWhatsapp, FaPaperPlane } from 'react-icons/fa';
-import ReactGA from 'react-ga4';
+import ReactMarkdown from 'react-markdown';
 import './WhatsAppButton.css';
 import { conversationFlow } from './conversationFlow.js';
 import { knowledgeDocs } from './knowledgeDocs.js';
 import { useProactiveTooltip } from '../hooks/useProactiveTooltip';
 import { findNextStep, buildWhatsAppSummary } from './botLogic.js';
 import { activePromotion } from './promotions.js';
-import ReactMarkdown from 'react-markdown';
 
 const phoneNumber = '5492645207128';
 
@@ -25,31 +24,54 @@ const WhatsAppButton = () => {
     const chatEndRef = useRef(null);
     const lastBotIntent = useRef(null);
     const showTooltip = useProactiveTooltip({});
+    const emailSentRef = useRef(false);
 
-    // --- LÓGICA ANTI-BUCLES ---
     const collectedDataRef = useRef(collectedData);
     useEffect(() => {
         collectedDataRef.current = collectedData;
     }, [collectedData]);
 
-    const addMessage = (text, sender) => { setMessages(prev => [...prev, { text, sender }]); };
+    const addMessage = React.useCallback((text, sender) => {
+        setMessages(prev => [...prev, { text, sender }]);
+    }, []);
 
-    // --- MOTOR DEL CHAT (ROBUSTO) ---
+    const sendEmailSummary = React.useCallback(async (data) => {
+        const endpoint = '/.netlify/functions/send-email';
+        const emailPayload = {
+            userName: data.userName || 'No especificado',
+            email: data.email,
+            businessType: data.businessType || 'No especificado',
+            mainGoal: data.mainGoal || 'No especificado',
+            initialQuery: data.initialQuery || 'No especificado',
+        };
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(emailPayload),
+            });
+            if (!response.ok) {
+                console.error('El backend devolvió un error al enviar el email.');
+                addMessage('Hubo un problema al enviar el resumen. Por favor, contacta a Vane directamente.', 'bot');
+            }
+        } catch (error) {
+            console.error('Error de red al contactar el backend:', error);
+            addMessage('Hubo un problema de conexión al enviar el resumen. Por favor, contacta a Vane directamente.', 'bot');
+        }
+    }, [addMessage]);
+
     useEffect(() => {
         if (!isChatOpen || !currentStepId) return;
         const currentStep = conversationFlow[currentStepId];
         if (!currentStep) return;
 
+        if (currentStepId === 'confirm_email_sent' && !emailSentRef.current) {
+            sendEmailSummary(collectedDataRef.current);
+            emailSentRef.current = true;
+        }
+
         const now = new Date();
-        if (
-            activePromotion &&
-            now.getMonth() === activePromotion.month &&
-            now.getFullYear() === activePromotion.year &&
-            !promoOffered &&
-            (currentStepId === 'offer_email_summary' || currentStepId === 'pre_redirect_summary') &&
-            collectedDataRef.current.userName &&
-            collectedDataRef.current.email
-        ) {
+        if (activePromotion && now.getMonth() === activePromotion.month && now.getFullYear() === activePromotion.year && !promoOffered && (currentStepId === 'offer_email_summary' || currentStepId === 'pre_redirect_summary') && collectedDataRef.current.userName && collectedDataRef.current.email) {
             setPromoOffered(true);
             setCurrentStepId(activePromotion.entryStepId);
             return;
@@ -61,10 +83,8 @@ const WhatsAppButton = () => {
                 const messageList = Array.isArray(currentStep.messages) ? currentStep.messages : [currentStep.message];
                 for (const msgOrFn of messageList) {
                     await new Promise(resolve => setTimeout(resolve, 1200));
-                    // SOLUCIÓN: Usamos la Ref para leer los datos, no el estado.
                     const messageText = typeof msgOrFn === 'function' ? msgOrFn(collectedDataRef.current) : msgOrFn;
                     if (typeof messageText === 'string') {
-                        // SOLUCIÓN: Usamos la Ref aquí también.
                         addMessage(messageText.replace(/\{userName\}/g, collectedDataRef.current.userName || 'amig@'), 'bot');
                     }
                 }
@@ -72,8 +92,7 @@ const WhatsAppButton = () => {
             }
             if (currentStep.type === 'bot_message' && currentStep.nextStepId) {
                 setTimeout(() => setCurrentStepId(currentStep.nextStepId), 1000);
-            }
-            else if (currentStep.type === 'redirect') {
+            } else if (currentStep.type === 'redirect') {
                 const finalMessage = buildWhatsAppSummary(collectedDataRef.current);
                 setTimeout(() => { window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`, '_blank', 'noopener,noreferrer'); handleCloseChat(); }, 1500);
             } else if (currentStep.type === 'redirect_simple') {
@@ -81,10 +100,8 @@ const WhatsAppButton = () => {
                 setTimeout(() => { window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`, '_blank', 'noopener,noreferrer'); handleCloseChat(); }, 1500);
             }
         };
-
         processStep();
-        // SOLUCIÓN: Quitamos 'collectedData' del array de dependencias.
-    }, [currentStepId, isChatOpen, promoOffered]);
+    }, [currentStepId, isChatOpen, promoOffered, sendEmailSummary, addMessage]);
 
     useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
@@ -94,15 +111,8 @@ const WhatsAppButton = () => {
         const userMessage = userInput.trim();
         addMessage(userMessage, 'user');
         setUserInput('');
-
-        const context = {
-            currentStepId,
-            lastBotMsg: messages.filter(m => m.sender === 'bot').slice(-1)[0]?.text?.toLowerCase() || '',
-            lastBotIntent: lastBotIntent.current
-        };
-
+        const context = { currentStepId, lastBotMsg: messages.filter(m => m.sender === 'bot').slice(-1)[0]?.text?.toLowerCase() || '', lastBotIntent: lastBotIntent.current };
         const decision = findNextStep(userMessage, context);
-
         if (decision.response || decision.topicId) {
             setIsBotTyping(true);
             await new Promise(resolve => setTimeout(resolve, 800));
@@ -110,12 +120,9 @@ const WhatsAppButton = () => {
                 const responseText = typeof decision.response === 'function' ? decision.response({ currentStepId, userName: collectedData.userName }) : decision.response;
                 addMessage(responseText.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
             }
-            if (decision.topicId && knowledgeDocs[decision.topicId]) {
-                addMessage(knowledgeDocs[decision.topicId], 'bot');
-            }
+            if (decision.topicId && knowledgeDocs[decision.topicId]) { addMessage(knowledgeDocs[decision.topicId], 'bot'); }
             setIsBotTyping(false);
         }
-
         if (decision.intent) { lastBotIntent.current = decision.intent; }
         if (decision.dataToUpdate) { setCollectedData(prev => ({ ...prev, ...decision.dataToUpdate })); }
         if (decision.nextStepId) { setCurrentStepId(decision.nextStepId); }
@@ -133,6 +140,7 @@ const WhatsAppButton = () => {
             setMessages([]);
             setCollectedData({});
             setPromoOffered(false);
+            emailSentRef.current = false;
             setIsChatOpen(true);
             setCurrentStepId('start');
         }
@@ -142,10 +150,9 @@ const WhatsAppButton = () => {
 
     return (
         <>
-            {/* El JSX no cambia, se mantiene igual que la última versión */}
             <button onClick={handleOpenChat} className="whatsapp-float-button glass-effect" aria-label="Abrir chat con asistente virtual">
                 <FaWhatsapp className="whatsapp-icon" />
-                {showTooltip && !isChatOpen && (
+                {showTooltip && (
                     <span className="whatsapp-tooltip show">¿Necesitas ayuda?</span>
                 )}
             </button>
@@ -157,14 +164,14 @@ const WhatsAppButton = () => {
                     </div>
                     <div className="chat-messages">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.sender}`}><ReactMarkdown>{msg.text}</ReactMarkdown>
+                            <div key={index} className={`message ${msg.sender}`}>
+                                <ReactMarkdown>{msg.text}</ReactMarkdown>
                             </div>
                         ))}
                         {isBotTyping && <div className="message bot typing-indicator"><span></span><span></span><span></span></div>}
                         <div ref={chatEndRef} />
                     </div>
                     <div className="chat-interaction-area">
-                        {/* Mostramos los botones si el paso es de tipo 'user_options' */}
                         {currentStep.type === 'user_options' && !isBotTyping && currentStep.options && (
                             <div className="chat-options">
                                 {(typeof currentStep.options === 'function' ? currentStep.options(collectedData) : currentStep.options).map((opt, i) => (
@@ -172,13 +179,9 @@ const WhatsAppButton = () => {
                                 ))}
                             </div>
                         )}
-
-                        {/* SOLUCIÓN: Mostramos el input si el paso es 'user_input' O 'user_options' (o si no hay tipo definido) */}
                         {(currentStep.type === 'user_input' || currentStep.type === 'user_options' || !currentStep.type) && !isBotTyping && (
-                            <form onSubmit={handleUserInputSubmit} className="chat-input-form">
-                                <label htmlFor="user-chat-input" className="visually-hidden"></label>
-                                <label htmlFor="user-chat-input" className="visually-hidden"></label>
-                                <input id="user-chat-input" name="userInput" type="text" placeholder="Escribe aquí..." value={userInput} onChange={(e) => setUserInput(e.target.value)} autoComplete="off" autoFocus />
+                            <form onSubmit={handleUserInputSubmit}>
+                                <input id="user-chat-input" type="text" placeholder="Escribe aquí..." value={userInput} onChange={(e) => setUserInput(e.target.value)} autoComplete="off" autoFocus />
                                 <button type="submit" aria-label="Enviar mensaje"><FaPaperPlane /></button>
                             </form>
                         )}
