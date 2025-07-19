@@ -8,6 +8,7 @@ import { conversationFlow } from './conversationFlow.js';
 import { knowledgeDocs } from './knowledgeDocs.js';
 import { useProactiveTooltip } from '../hooks/useProactiveTooltip';
 import { findNextStep, buildWhatsAppSummary } from './botLogic.js';
+import { activePromotion } from './promotions.js';
 import ReactMarkdown from 'react-markdown';
 
 const phoneNumber = '5492645207128';
@@ -19,7 +20,7 @@ const WhatsAppButton = () => {
     const [collectedData, setCollectedData] = useState({});
     const [currentStepId, setCurrentStepId] = useState(null);
     const [isBotTyping, setIsBotTyping] = useState(false);
-
+    const [promoOffered, setPromoOffered] = useState(false);
     const chatEndRef = useRef(null);
     const lastBotIntent = useRef(null);
     const showTooltip = useProactiveTooltip({}); 
@@ -27,7 +28,8 @@ const WhatsAppButton = () => {
 
     useEffect(() => {
         collectedDataRef.current = collectedData;
-    }, [collectedData])
+    }, [collectedData]);
+    
     const addMessage = (text, sender) => { setMessages(prev => [...prev, { text, sender }]); };
 
 
@@ -35,6 +37,23 @@ const WhatsAppButton = () => {
         if (!isChatOpen || !currentStepId) return;
         const currentStep = conversationFlow[currentStepId];
         if (!currentStep) return;
+
+        // --- LÓGICA DEL DISPARADOR DE PROMOCIÓN ---
+        // Verificamos si es un buen momento para ofrecer la promo
+        const now = new Date();
+        if (
+            activePromotion &&                                  // ¿Hay una promo activa?
+            now.getMonth() === activePromotion.month &&         // ¿Estamos en el mes correcto?
+            now.getFullYear() === activePromotion.year &&
+            !promoOffered &&                                    // ¿No la hemos ofrecido ya?
+            (currentStepId === 'offer_email_summary' || currentStepId === 'pre_redirect_summary') && // ¿Es un buen momento?
+            collectedDataRef.current.userName &&                // ¿Tenemos datos valiosos (nombre)?
+            collectedDataRef.current.email                      // ¿Y email?
+        ) {
+            setPromoOffered(true); // La marcamos como ofrecida
+            setCurrentStepId(activePromotion.entryStepId); // ¡Activamos el flujo de la promo!
+            return; // Detenemos el procesamiento del paso actual para mostrar la promo
+        }
 
         const processStep = async () => {
             if (currentStep.message || currentStep.messages) {
@@ -62,7 +81,7 @@ const WhatsAppButton = () => {
         };
 
         processStep();
-    }, [currentStepId, isChatOpen, collectedData]);
+    }, [currentStepId, isChatOpen, promoOffered, collectedData]);
 
     useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
 
@@ -89,7 +108,11 @@ const WhatsAppButton = () => {
 
             // Muestra la respuesta corta si existe
             if (decision.response) {
-                addMessage(decision.response.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
+                const responseText = typeof decision.response === 'function'
+                    ? decision.response({ currentStepId, userName: collectedData.userName })
+                    : decision.response;
+
+                addMessage(responseText.replace(/\{userName\}/g, collectedData.userName || 'amig@'), 'bot');
             }
             // Muestra el documento de conocimiento si existe
             if (decision.topicId && knowledgeDocs[decision.topicId]) {
@@ -146,19 +169,23 @@ const WhatsAppButton = () => {
                         <div ref={chatEndRef} />
                     </div>
                     <div className="chat-interaction-area">
-                        {(currentStep.type === 'user_input' || !currentStep.type) && !isBotTyping && (
+                        {/* Mostramos los botones si el paso es de tipo 'user_options' */}
+                        {currentStep.type === 'user_options' && !isBotTyping && currentStep.options && (
+                            <div className="chat-options">
+                                {(typeof currentStep.options === 'function' ? currentStep.options(collectedData) : currentStep.options).map((opt, i) => (
+                                    <button key={i} onClick={() => handleOptionClick(opt)} className="chat-option-button">{opt.text}</button>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* SOLUCIÓN: Mostramos el input si el paso es 'user_input' O 'user_options' (o si no hay tipo definido) */}
+                        {(currentStep.type === 'user_input' || currentStep.type === 'user_options' || !currentStep.type) && !isBotTyping && (
                             <form onSubmit={handleUserInputSubmit} className="chat-input-form">
+                                <label htmlFor="user-chat-input" className="visually-hidden"></label>
                                 <label htmlFor="user-chat-input" className="visually-hidden"></label>
                                 <input id="user-chat-input" name="userInput" type="text" placeholder="Escribe aquí..." value={userInput} onChange={(e) => setUserInput(e.target.value)} autoComplete="off" autoFocus />
                                 <button type="submit" aria-label="Enviar mensaje"><FaPaperPlane /></button>
                             </form>
-                        )}
-                        {currentStep.type === 'user_options' && !isBotTyping && Array.isArray(currentStep.options) && (
-                            <div className="chat-options">
-                                {currentStep.options.map((opt, i) => (
-                                    <button key={i} onClick={() => handleOptionClick(opt)} className="chat-option-button">{opt.text}</button>
-                                ))}
-                            </div>
                         )}
                     </div>
                 </div>

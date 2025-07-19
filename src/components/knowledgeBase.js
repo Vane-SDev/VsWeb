@@ -1,7 +1,37 @@
 // Archivo: knowledgeBase.js
+import { activePromotion } from "./promotions.js";
 
 export const knowledgeBase = [
   // --- Small Talk (Charla casual) ---
+  {
+    intent: "greeting",
+    keywords: [
+      "hola",
+      "buenas",
+      "buenos dias",
+      "buenas tardes",
+      "buenas noches",
+      "que tal",
+      "como estas",
+      "como va",
+      "saludos",
+      "hello",
+      "hi",
+      "hey",
+      "que onda",
+    ],
+    priority: 4, // Le damos prioridad alta para que siempre se detecte
+    // La respuesta es una función que recibe el contexto actual de la conversación
+    response: (context) => {
+      // Si el bot está en el paso inicial pidiendo el nombre...
+      if (context.currentStepId === "start") {
+        return "¡Hola! Para poder empezar, ¿me dices tu nombre?";
+      }
+      // Si el usuario saluda en medio de otra conversación...
+      return "¡Hola! ¿En qué más te puedo ayudar?";
+    },
+    // Ojo: No tiene nextStepId, porque no queremos que avance de paso, solo que responda.
+  },
   {
     intent: "thank_you",
     keywords: ["gracias", "muchas gracias", "te agradezco", "mil gracias"],
@@ -34,7 +64,7 @@ export const knowledgeBase = [
     intent: "ask_who_are_you",
     keywords: ["quien sos", "que sos", "que haces", "sos un bot"],
     response:
-      "Soy AVI, un asistente virtual diseñado por Vane para ayudarte a encontrar la solución digital que necesitas. Mi objetivo es entender tu proyecto. ¿Continuamos?",
+      "Soy Arya, un asistente virtual diseñado por Vane fundadora y desarrolladora de VS WebDesign para ayudarte a encontrar la solución digital que necesitas. Mi objetivo es entender tu proyecto. ¿Continuamos?",
     nextStepId: "fallback_ask_service",
     priority: 1, // baja prioridad, respuesta directa
   },
@@ -142,8 +172,6 @@ export const knowledgeBase = [
       "actualizaciones", // Palabra clave relacionada
       "seguridad web", // Palabra clave relacionada
       "copia de seguridad", // Palabra clave relacionada
-      "hosting", // Palabra clave relacionada
-      "dominio", // Palabra clave relacionada
       "optimización", // Palabra clave relacionada
       "mejoras", // Palabra clave relacionada
       "consultoría", // Palabra clave relacionada
@@ -169,7 +197,7 @@ export const knowledgeBase = [
     ],
     // Usaremos el doc que ya tenías para los detalles de los planes
     topicId: "info_maintenance_plans_details",
-    priority: 3, 
+    priority: 3,
     nextStepId: "ask_specific_plan_info", // Redirige a la recomendación de planes
   },
 
@@ -180,57 +208,138 @@ export const knowledgeBase = [
       "y cual seria para mi", // <-- La frase que usaste
       "cual me recomendas",
       "cual es mejor para mi",
+      "cual es mejor",
       "ayudame a elegir",
       "no se cual elegir",
       "que plan necesito",
       "que plan me conviene",
-      "que plan es mejor",  
+      "que plan es mejor",
       "que plan me recomiendas",
-      "que plan me conviene", 
+      "que plan me conviene",
       "que plan es mejor para mi",
       "que plan es mejor para mi negocio",
       "que plan es mejor para mi web",
       "que plan es mejor para mi tienda online",
       "que plan es mejor para mi sistema a medida",
       "que plan es mejor para mi proyecto",
-      "que plan es mejor para mi empresa",    
+      "que plan es mejor para mi empresa",
       "que plan es mejor para mi marca",
-      "que plan es mejor para mi emprendimiento", 
-    "que plan es mejor para mi negocio online",
-    "que plan es mejor para mi presencia online",
-    "que plan es mejor para mi estrategia digital",
-    "que plan es mejor para mi posicionamiento web",
-    "que plan es mejor para mi marketing digital",
-    "que plan es mejor para mi visibilidad online",
-    "que plan es mejor para mi crecimiento online",
-    "que plan es mejor para mi negocio digital",
-    "que plan es mejor para mi negocio en internet",
-    "que plan es mejor para mi negocio en linea",
-    "cual plan deberia elegir",
-    "cual plan deberia tomar",
-    "cual plan deberia contratar",  
-    "cual plan deberia usar",
-    "cual plan deberia tener",  
-    "cual plan deberia implementar",
-    "cual plan deberia adoptar",  
-    "cual plan deberia considerar",
-    "cual plan deberia priorizar",  
-    "cual plan deberia enfocarme",
-    "cual plan deberia centrarme",
-    "cual plan deberia concentrarme",
-    "cual plan deberia decidir",  
-    "cual plan me conviene",
-    "cual plan me sirve",
-    "cual plan me ayuda", 
-    "cual plan me beneficia",
-    "cual plan me favorece",
-    "cual plan me interesa",
-    "cual plan me gusta",
-    "cual plan me parece mejor",
-    "cual plan me parece adecuado",
-    "y cuales son esos planes",
+      "que plan es mejor para mi emprendimiento",
+      "que plan es mejor para mi negocio online",
+      "que plan es mejor para mi presencia online",
+      "que plan es mejor para mi estrategia digital",
+      "que plan es mejor para mi posicionamiento web",
+      "que plan es mejor para mi marketing digital",
+      "que plan es mejor para mi visibilidad online",
+      "que plan es mejor para mi crecimiento online",
+      "que plan es mejor para mi negocio digital",
+      "que plan es mejor para mi negocio en internet",
+      "que plan es mejor para mi negocio en linea",
+      "cual plan deberia elegir",
+      "cual plan deberia tomar",
+      "cual plan deberia contratar",
+      "cual plan deberia usar",
+      "cual plan deberia tener",
+      "cual plan deberia implementar",
+      "cual plan deberia adoptar",
+      "cual plan deberia considerar",
+      "cual plan deberia priorizar",
+      "cual plan deberia enfocarme",
+      "cual plan deberia centrarme",
+      "cual plan deberia concentrarme",
+      "cual plan deberia decidir",
+      "cual plan me conviene",
+      "cual plan me sirve",
+      "cual plan me ayuda",
+      "cual plan me beneficia",
+      "cual plan me favorece",
+      "cual plan me interesa",
+      "cual plan me gusta",
+      "cual plan me parece mejor",
+      "cual plan me parece adecuado",
+      "y cuales son esos planes",
+      "cual me recomiendas",
+      "cual es el mejor plan",
     ],
     nextStepId: "advise_plan_1",
     priority: 3,
   },
+  {
+    intent: "ask_what_is_hosting_domain",
+    keywords: ["que es dominio y hosting", "que es eso"],
+    // Ojo: No ponemos respuesta aquí, solo el topicId
+    topicId: "info_domain_hosting_simple",
+    // ¡La Magia! Después de explicar, vuelve a la pregunta sobre el dominio.
+    nextStepId: "reask_domain_hosting",
+    priority: 5, // Prioridad máxima para que se active siempre que se pregunte
+  },
+  {
+    intent: "ask_about_promotions",
+    keywords: ["promociones", "promo", "descuento", "oferta"],
+    // La respuesta es una función que comprueba si la promo está activa
+    response: () => {
+      const now = new Date();
+      if (
+        activePromotion &&
+        now.getMonth() === activePromotion.month &&
+        now.getFullYear() === activePromotion.year
+      ) {
+        // Si hay promo, la anuncia
+        return `¡Sí! Justo este mes tenemos una promoción especial. ${activePromotion.details}`;
+      }
+      // Si no hay promo, responde amablemente
+      return "Por el momento no tenemos ninguna promoción activa, pero puedes seguirnos en las redes para no perderte las novedades. ¿En qué más te puedo ayudar?";
+    },
+    priority: 3,
+    nextStepId: "fallback_ask_service", // Después de responder, ofrece el menú principal
+  },
+
+  {
+    intent: "ask_about_woocommerce",
+    keywords: ["woocommerce", "woo comemrce", "que es woocommerce"],
+    topicId: "info_woocommerce",
+    priority: 3,
+  },
+  {
+    intent: "ask_about_payment_gateways",
+    keywords: [
+      "mercado pago",
+      "pasarelas de pago",
+      "como cobro",
+      "tarjetas de credito",
+    ],
+    topicId: "info_payment_gateways",
+    priority: 3,
+  },
+  {
+    intent: "ask_about_shipping",
+    keywords: ["envios", "costo de envio", "como se envia", "logistica"],
+    topicId: "info_shipping_options",
+    priority: 3,
+  },
+
+  {
+    intent: "ask_what_is_custom_system",
+    keywords: ["sistema a medida", "que es un sistema", "automatizar procesos"],
+    topicId: "info_custom_system",
+    priority: 3,
+  },
+  {
+    intent: "ask_webapp_vs_desktop",
+    keywords: [
+      "aplicacion de escritorio",
+      "aplicacion web",
+      "diferencia",
+      "en el navegador o instalado",
+    ],
+    topicId: "info_webapp_vs_desktop",
+    priority: 2,
+  },
+  {
+    intent: "ask_what_is_landing_page",
+    keywords: ["pagina de lanzamiento", "landing page", "one-page", "un solo pagina", "una sola pagina"],
+    topicId: "info_landing_page_detail",
+    priority: 3,
+  },
 ];
+
