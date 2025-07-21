@@ -48,8 +48,21 @@ function App() {
       <div className="App" ref={mainRef}>
         <Helmet>
           <title>Diseño con Impacto-Estrategia hecha código | VS Web Design</title>
-          <meta name="description" content="Ayudamos a pymes, emprendedores y profesionales a crecer con webs autogestionables en WordPress y sistemas a medida. Tomá el control de tu negocio y automatizá tus procesos." />
-          {/* ... resto de tus meta tags ... */}
+          <meta name="description" content="En VS Web Design creamos soluciones digitales a medida. Webs que convierten, tiendas online que venden y sistemas que liberan tu tiempo." />
+          <meta name="keywords" content="desarrollo web, diseño web, sistemas a medida, wordpress, e-commerce, automatización, pymes, emprendedores, latinoamérica" />
+
+          {/* --- Open Graph (para WhatsApp, Facebook, LinkedIn, etc.) --- */}
+          <meta property="og:title" content="VS Web Design | Diseño con Impacto-Estrategia hecha Código" />
+          <meta property="og:description" content="Soluciones web a medida para pymes y profesionales que buscan crecer. Webs de alto impacto, e-commerce y sistemas para optimizar tu negocio." />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://www.vswebdesign.online" />
+          <meta property="og:image" content="https://www.vswebdesign.online/webdesign.jpg" />
+
+          {/* --- Twitter Cards --- */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="VS Web Design | Estrategia hecha Código" />
+          <meta name="twitter:description" content="Soluciones web a medida para pymes y profesionales que buscan crecer." />
+          <meta name="twitter:image" content="https://www.vswebdesign.online/webdesign.jpg" />
         </Helmet>
 
         <BlobsBackground />
