@@ -47,21 +47,35 @@ function App() {
     <HelmetProvider>
       <div className="App" ref={mainRef}>
         <Helmet>
-          <title>Diseño con Impacto-Estrategia hecha código | VS Web Design</title>
-          <meta name="description" content="En VS Web Design creamos soluciones digitales a medida. Webs que convierten, tiendas online que venden y sistemas que liberan tu tiempo." />
-          <meta name="keywords" content="desarrollo web, diseño web, sistemas a medida, wordpress, e-commerce, automatización, pymes, emprendedores, latinoamérica" />
+          <link rel="icon" type="image/svg+xml" href="/FAVICON.svg" />
 
-          {/* --- Open Graph (para WhatsApp, Facebook, LinkedIn, etc.) --- */}
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+          <meta name="theme-color" content="#e87a5d" />
+
+          <title>VS Web Design | Diseño con Impacto-Estrategia hecha código</title>
+          <meta name="description"
+            content="En VS Web Design transformamos negocios con soluciones digitales a medida. Creamos webs de alto impacto, tiendas e-commerce que venden y sistemas que optimizan procesos para llevar tu marca al siguiente nivel." />
+
+          <link rel="canonical" href="https://www.vswebdesign.online" />
+
+          <meta name="keywords"
+            content="desarrollo web, diseño web, sistemas a medida, wordpress, e-commerce, automatización, pymes, emprendedores, latinoamérica" />
+          <meta name="author" content="VS Web Design" />
+          <meta name="robots" content="index, follow" />
+
           <meta property="og:title" content="VS Web Design | Diseño con Impacto-Estrategia hecha Código" />
-          <meta property="og:description" content="Soluciones web a medida para pymes y profesionales que buscan crecer. Webs de alto impacto, e-commerce y sistemas para optimizar tu negocio." />
+          <meta property="og:description"
+            content="¿Buscás más que una simple página web? Creamos las herramientas digitales que tu negocio necesita para destacarse, vender más y operar de forma más inteligente" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://www.vswebdesign.online" />
           <meta property="og:image" content="https://www.vswebdesign.online/webdesign.jpg" />
+          <meta property="og:image:alt" content="Imagen representativa de VS Web Design" />
+          <meta property="og:site_name" content="VS Web Design" />
 
-          {/* --- Twitter Cards --- */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="VS Web Design | Estrategia hecha Código" />
-          <meta name="twitter:description" content="Soluciones web a medida para pymes y profesionales que buscan crecer." />
+          <meta name="twitter:description" content="¿Buscás más que una simple página web? Creamos las herramientas digitales que tu negocio necesita para destacarse, vender más y operar de forma más inteligente" />
           <meta name="twitter:image" content="https://www.vswebdesign.online/webdesign.jpg" />
         </Helmet>
 
