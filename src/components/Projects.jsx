@@ -3,13 +3,13 @@ import './Projects.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
-import img1 from '../assets/SandraMarzzan.svg';
-import img2 from '../assets/GenteDeDerecho.svg'; 
-import img3 from '../assets/SylvieBurstin.svg';
+import img1 from '../assets/SandraMarzzanMockup.webp';
+import img2 from '../assets/GenteDeDerechoMockup.webp'; 
+import img3 from '../assets/SylvieBurstinMockup.webp';
 import img4 from '../assets/Logo_vs.png';
-import img5 from '../assets/LogoSGAcomex.png';
-import img6 from '../assets/LogoVGRecurso 7@2x.png';
-import img7 from '../assets/logo_camex.jpg';
+import img5 from '../assets/LogoSGAcomex.webp';
+import img6 from '../assets/LogoVG.webp';
+import img7 from '../assets/LogoCamex.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -2,10 +2,10 @@ import React, { useRef, useEffect } from 'react';
 import './Testimonials.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import logoAxiaval from '../assets/AXIAVAL-LOGO-08.png';
-import logoCamex from '../assets/CamexTrans.png';
-import logoSGA from '../assets/LogoSGAcomex.png';
-import logoVG from '../assets/LogoVGRecurso 7@2x.png';
+import logoAxiaval from '../assets/LogoAxiaval.webp';
+import logoCamex from '../assets/LogoCamex.webp';
+import logoSGA from '../assets/LogoSGAcomex.webp';
+import logoVG from '../assets/LogoVG.webp';
 gsap.registerPlugin(ScrollTrigger);
 
 const testimonialsData = [
