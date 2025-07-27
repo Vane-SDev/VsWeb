@@ -1,481 +1,206 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+// src/components/Projects.jsx
+
+import React, { useState, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, A11y } from 'swiper/modules';
+
+// Estilos de Swiper
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Tu CSS para la sección
 import './Projects.css';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Link } from 'react-router-dom';
-import img1 from '../assets/SandraMarzzanMockup.webp';
-import img2 from '../assets/GenteDeDerechoMockup.webp'; 
-import img3 from '../assets/SylvieBurstinMockup.webp';
-import img4 from '../assets/Logo_vs.png';
-import img5 from '../assets/LogoSGAcomex.webp';
-import img6 from '../assets/LogoVG.webp';
-import img7 from '../assets/LogoCamex.webp';
 
-gsap.registerPlugin(ScrollTrigger);
+// El nuevo componente para el modal
+import ProjectModal from './ProjectModal';
 
-const projectsData = [
+// Importación de imágenes
+import img1 from '../assets/SandraMarzzan.webp';
+import img2 from '../assets/GenteDeDerecho.webp';
+import img3 from '../assets/SylvieBurstin.webp';
+import img4 from '../assets/GrupoVG.webp';
+import img5 from '../assets/SGAComex.webp';
+import img6 from '../assets/Axiaval.webp';
+import img7 from '../assets/FPC.webp';
+
+
+// Combinamos TODOS tus proyectos en un solo array
+const allProjectsData = [
   {
     id: 1,
-    name: 'E-commerce',
-    type: 'Tienda Online con WooCommerce',
-    context: 'Proyecto reciente.',
-    challenge: 'El cliente necesitaba una plataforma de venta robusta e independiente para expandir su alcance y tener control total sobre sus productos y promociones.',
-    solution: 'Desarrollamos un e-commerce completo con WordPress y WooCommerce, implementando un diseño atractivo, pasarelas de pago y un sistema de gestión de inventario fácil de usar.',
+    category: 'E-commerce B2C',
+    title: 'Sandra Marzzan',
+    summary: 'Tienda Online con WooCommerce para expansión nacional.',
     image: img1,
-    url: 'https://sandramarzzanar.com.ar/',
-    tags: ['WordPress', 'WooCommerce', 'E-commerce']
-  },
-  {
-    id: 2,
-    name: 'Reconstrucción y Modernización: "Gente de Derecho"',
-    type: 'Re-platforming y Hub de Contenidos',
-    context: ' El diseño actual del sitio puede haber variado.',
-    challenge: 'El cliente poseía un sitio web obsoleto: lento y difícil de actualizar. Su contenido multimedia estaba disperso y perdía impacto. Proyecto realizado en conjunto con la agencia de relaciones públicas Smok Media.',
-    solution: 'Se realizó una reconstrucción completa desde cero, optimizando el rendimiento y la seguridad. El nuevo sitio integra sus contenidos, transformando un activo obsoleto en una herramienta de comunicación potente.',
-    image: img2,
-    url: '#',
-    tags: ['Re-platforming', 'Performance', 'API Integration']
-  },
-  {
-    id: 3, 
-    name: 'Sylvie Burstin: Renacimiento Digital de Alta Costura',
-    type: 'Migración, Desarrollo y Social Media Hub',
-    context: 'El diseño actual del sitio puede haber variado.',
-    challenge: 'La marca se encontraba un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario. Proyecto realizado en conjunto con la agencia de relaciones públicas Smok Media.',
-    solution: 'Se ejecutó una migración de servidor vía FTP y se reconstruyó la plataforma desde una base de código limpia. El nuevo sitio, enfocado en la performance visual, integra dinámicamente los feeds de Instagram y YouTube, creando una galería viva y siempre actualizada que refleja la esencia de la marca.',
-    image: img3,
-    url: '#',
-    tags: ['Server Migration', 'UI/UX Design', 'Social API', 'WordPress']
-  }
-];
-
-const moreProjects = [
-  {
-    id: 4,
-    name: 'AXIAVAL',
-    type: 'Sistema de Tasaciones',
-    context: 'Web corporativa y sistema a medida.',
-    challenge: 'El cliente necesitaba digitalizar y automatizar la gestión de tasaciones inmobiliarias.',
-    solution: 'Desarrollamos un sistema web seguro y autogestionable, integrando notificaciones y reportes automáticos.',
-    image: img4,
-    url: '#',
-    tags: ['React', 'Node.js', 'Automatización']
-  },
-  {
-    id: 5,
-    name: 'SGA Comex',
-    type: 'Gestión Aduanera',
-    context: 'Sistema para operadores de comercio exterior.',
-    challenge: 'El cliente requería un sistema centralizado para el seguimiento de operaciones aduaneras.',
-    solution: 'Creamos una plataforma con panel de control, reportes y alertas automáticas.',
-    image: img5,
-    url: '#',
-    tags: ['React', 'API', 'UI/UX']
+    challenge: 'El cliente necesitaba una plataforma de venta robusta e independiente para expandir su alcance y tener control total sobre sus productos y promociones. (Proyecto vía Bica Digital).',
+    solution: 'Desarrollamos un e-commerce completo con WordPress y WooCommerce, implementando un diseño atractivo, pasarelas de pago y un sistema de gestión de inventario fácil de usar.',
+    tags: ['WordPress', 'WooCommerce', 'E-commerce'],
+    url: '#'
   },
   {
     id: 6,
-    name: 'Grupo VG',
-    type: 'Sitio Institucional',
-    context: 'Rediseño de imagen digital.',
-    challenge: 'Actualizar la presencia online y mejorar la captación de clientes.',
-    solution: 'Rediseño completo con enfoque visual y optimización SEO.',
+    category: 'Plataforma de Contenidos',
+    title: 'Gente de Derecho',
+    summary: 'Reconstrucción de un sitio obsoleto a un hub de contenidos.',
+    image: img2,
+    challenge: 'El cliente poseía un sitio web obsoleto: lento y difícil de actualizar. Su contenido multimedia estaba disperso y perdía impacto. (Proyecto vía Smok Media).',
+    solution: 'Se realizó una reconstrucción completa desde cero, optimizando el rendimiento y la seguridad. El nuevo sitio integra sus contenidos, transformando un activo obsoleto en una herramienta de comunicación potente.',
+    tags: ['Re-platforming', 'Performance', 'API Integration'],
+    url: '#'
+  },
+  {
+    id: 3,
+    category: 'Sitio Web de Alta Costura',
+    title: 'Sylvie Burstin',
+    summary: 'Renacimiento digital para una marca de alta costura.',
+    image: img3,
+    challenge: 'La marca se encontraba un servidor y un diseño que no representaban la calidad de sus creaciones. Necesitaban una migración técnica completa y un rediseño desde cero que pusiera su arte visual en el centro del escenario. (Proyecto vía Smok Media).',
+    solution: 'Se ejecutó una migración de servidor vía FTP y se reconstruyó la plataforma desde una base de código limpia. El nuevo sitio, enfocado en la performance visual, integra dinámicamente los feeds de Instagram y YouTube, creando una galería viva y siempre actualizada que refleja la esencia de la marca.',
+    tags: ['Server Migration', 'UI/UX Design', 'Social API', 'WordPress'],
+    url: '#'
+  },
+  {
+    id: 2,
+    category: 'Diseño Web y Branding',
+    title: 'Estudio Guanco VG',
+    summary: 'Sitio web corporativo y diseño de marca para estudio aduanero.',
+    image: img4,
+    challenge: 'El estudio necesitaba una identidad visual profesional y un sitio web que comunicara su experiencia en comercio exterior para generar confianza y captar clientes de alto valor.',
+    solution: 'Diseñamos una identidad de marca completa, incluyendo el logotipo, y desarrollamos un sitio corporativo enfocado en la autoridad, presentando sus servicios de gestión aduanera de forma integral.',
+    tags: ['Branding', 'WordPress', 'Diseño Corporativo'],
+    url: '#'
+  },
+  {
+    id: 5,
+    category: 'Diseño Web y Branding',
+    title: 'SGA Comex',
+    summary: 'Web corporativa y marca para consultora de comercio internacional.',
+    image: img5,
+    challenge: 'A pesar de su posicionamiento y década de experiencia, SGA Comex carecía de una identidad visual y presencia digital profesional. Requerían una marca y un sitio web creados desde cero que estuvieran a la altura de su reputación como expertos.',
+    solution: 'Creamos una identidad de marca integral, incluyendo logotipo, y un sitio web elegante que sirve como carta de presentación. La plataforma destaca su equipo y sus soluciones para el comercio global.',
+    tags: ['Branding', 'WordPress', 'Consultoría', 'UI/UX'],
+    url: '#'
+  },
+  {
+    id: 4,
+    category: 'Portal Web con Job Board',
+    title: 'Axiaval',
+    summary: 'Portal de RR.HH. con bolsa de trabajo integrada.',
     image: img6,
-    url: '#',
-    tags: ['WordPress', 'SEO', 'Branding']
+    challenge: 'La empresa de RR.HH. buscaba centralizar sus servicios y ofertas de empleo en una única plataforma digital, facilitando la postulación de candidatos y la gestión de procesos.',
+    solution: 'Desarrollamos un sitio web corporativo con una sección de \'Bolsa de Trabajo\' a medida, permitiendo a los candidatos filtrar búsquedas y postularse a través de formularios personalizados.',
+    tags: ['WordPress', 'Job Board', 'RR.HH.'],
+    url: '#'
   },
   {
     id: 7,
-    name: 'CamexTrans',
-    type: 'Logística y Transporte',
-    context: 'Web informativa y sistema de seguimiento.',
-    challenge: 'El cliente necesitaba mostrar servicios y permitir seguimiento de envíos.',
-    solution: 'Desarrollamos una web moderna con sistema de tracking integrado.',
+    category: 'Migración y Rediseño Web',
+    title: 'FPC',
+    summary: 'Migración y rediseño completo para empresa de alta tecnología.',
     image: img7,
-    url: '#',
-    tags: ['Web', 'Tracking', 'Logística']
+    challenge: 'El sitio web de FPC estaba obsoleto. Requerían una migración completa y un rediseño que comunicara su liderazgo en ingeniería industrial y tecnológica. (Proyecto vía Smok Media).',
+    solution: 'Ejecutamos una migración de servidor exitosa y reconstruimos el sitio desde cero. El nuevo diseño pone en valor sus productos y servicios de alta tecnología, reflejando su misión de innovación y excelencia.',
+    tags: ['Server Migration', 'Rediseño Web', 'WordPress'],
+    url: '#'
   }
 ];
-
 const Projects = () => {
   const sectionRef = useRef(null);
-  const carouselRef = useRef(null);
-  const moreRef = useRef(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   
-  // Estados para el drag/swipe
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [dragDistance, setDragDistance] = useState(0);
-  const [showAll, setShowAll] = useState(false);
-
-  const goToSlide = (index) => {
-    if (isAnimating || index === currentSlide) return;
-    setIsAnimating(true);
-    setCurrentSlide(index);
-    setTimeout(() => setIsAnimating(false), 800);
-  };
-
-  // Función para manejar el inicio del drag
-  const handleDragStart = (e) => {
-    if (isAnimating) return;
-    
-    setIsDragging(true);
-    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-    setStartX(clientX);
-    setDragDistance(0);
-  };
-
-  // Función para manejar el movimiento del drag
-  const handleDragMove = (e) => {
-    if (!isDragging || isAnimating) return;
-    
-    // e.preventDefault();
-    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-    setDragDistance(clientX - startX);
-  };
-
-  // Función para manejar el fin del drag
-  const handleDragEnd = () => {
-    if (!isDragging || isAnimating) return;
-    
-    setIsDragging(false);
-    
-    // Determinar la dirección del swipe y cambiar slide
-    const threshold = 100; // Distancia mínima para considerar un swipe
-    
-    if (Math.abs(dragDistance) > threshold) {
-      if (dragDistance > 0 && currentSlide > 0) {
-        // Swipe hacia la derecha - slide anterior
-        goToSlide(currentSlide - 1);
-      } else if (dragDistance < 0 && currentSlide < projectsData.length - 1) {
-        // Swipe hacia la izquierda - slide siguiente
-        goToSlide(currentSlide + 1);
-      }
-    }
-    
-    setDragDistance(0);
-  };
-
-  // Event listeners para mouse
-  const handleMouseDown = (e) => {
-    handleDragStart(e);
-  };
-
-  const handleMouseMove = (e) => {
-    handleDragMove(e);
-  };
-
-  const handleMouseUp = () => {
-    handleDragEnd();
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging) {
-      handleDragEnd();
-    }
-  };
-
-  // Event listeners para touch
-  const handleTouchStart = (e) => {
-    handleDragStart(e);
-  };
-
-  const handleTouchMove = (e) => {
-    handleDragMove(e);
-  };
-
-  const handleTouchEnd = () => {
-    handleDragEnd();
-  };
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animación de entrada de la sección
-      gsap.fromTo(sectionRef.current, 
-        { opacity: 0, y: 50 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-
-      // Animación del título
-      gsap.fromTo('.section-title', 
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.8,
-          delay: 0.2,
-          ease: 'power2.out'
-        }
-      );
-
-      // Animación inicial de las tarjetas
-      // gsap.fromTo('.project-card', 
-      //   { opacity: 0, scale: 0.9, y: 30 },
-      //   { 
-      //     opacity: 1, 
-      //     scale: 1, 
-      //     y: 0, 
-      //     duration: 0.8,
-      //     delay: 0.4,
-      //     ease: 'power2.out'
-      //   }
-      // );
-
-
-
-      // Animación de los indicadores
-      gsap.fromTo('.carousel-indicators', 
-        { opacity: 0, scale: 0.8 },
-        { 
-          opacity: 1, 
-          scale: 1, 
-          duration: 0.6,
-          delay: 0.8,
-          ease: 'back.out(1.7)'
-        }
-      );
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Animación de cambio de slide
-  useLayoutEffect(() => {
-    if (carouselRef.current) {
-      const cards = carouselRef.current.querySelectorAll('.project-card');
-      
-      cards.forEach((card, index) => {
-        if (index === currentSlide) {
-          gsap.to(card, {
-            opacity: 1,
-            scale: 1,
-            x: 0,
-            duration: 0.6,
-            ease: 'power2.out'
-          });
-        } else {
-          gsap.to(card, {
-            opacity: 0.3,
-            scale: 0.85,
-            x: index < currentSlide ? -50 : 50,
-            duration: 0.6,
-            ease: 'power2.out'
-          });
-        }
-      });
-    }
-  }, [currentSlide]);
-
-  useLayoutEffect(() => {
-    if (showAll && moreRef.current) {
-      gsap.fromTo(moreRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
-    }
-  }, [showAll]);
+  const openModal = (project) => setSelectedProject(project);
+  const closeModal = () => setSelectedProject(null);
 
   return (
     <section id="proyectos" className="projects-section" ref={sectionRef}>
-      <div className="projects-container">
-        <h2 className="section-title">Proyectos Destacados</h2>
-        
-        {/* Carrusel Principal */}
-        <div className="carousel-container">
-          <div 
-            className="carousel-track" 
-            ref={carouselRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
-            {projectsData.map((project, index) => (
-              <div 
-                key={project.id} 
-                className={`project-card ${index === currentSlide ? 'active' : ''}`}
-                style={{ 
-                  transform: `translateX(${(index - currentSlide) * 100}%)`,
-                  zIndex: index === currentSlide ? 10 : 1
-                }}
-              >
-                <div className="project-card-glass">
-                  <div className="project-image-section">
-                    <div className="project-image-wrapper">
-                      <img 
-                        src={project.image} 
-                        alt={`Mockup de ${project.name}`} 
-                        className="project-image" 
-                      />
-                    </div>
-                    <div className="project-overlay">
-                      <div className="project-badge">
-                        <span className="project-number">0{index + 1}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="project-content">
-                    <div className="project-header">
-                      <h3 className="project-name">{project.name}</h3>
-                      <p className="project-type">{project.type}</p>
-                      {project.context && (
-                        <div className="project-context-badge">
-                          {project.context}
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="project-details">
-                      <div className="project-challenge">
-                        <h4>Desafío</h4>
-                        <p>{project.challenge}</p>
-                      </div>
-                      <div className="project-solution">
-                        <h4>Solución</h4>
-                        <p>{project.solution}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="project-footer">
-                      <div className="project-tags">
-                        {project.tags.map(tag => (
-                          <span className="tag" key={tag}>{tag}</span>
-                        ))}
-                      </div>
-                      {/* {project.url !== '#' && (
-                        <a 
-                          href={project.url} 
-                          className="project-link" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          <span>Visitar sitio</span>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </a>
-                      )} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
+      {/* Contenedor principal para el nuevo layout */}
+      <div className="projects-layout-container">
 
-        </div>
-        
-        {/* Indicadores */}
-        <div className="carousel-indicators">
-          {projectsData.map((_, index) => (
-            <button
-              key={index}
-              className={`indicator ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-              disabled={isAnimating}
-            >
-              <span className="indicator-dot"></span>
-            </button>
-          ))}
-        </div>
-        
-        {/* CTA: solo mostrar aquí si la grilla NO está visible */}
-        {/* {!showAll && (
-          <div className="projects-cta-wrapper">
-            <button
-              className="projects-cta-secondary"
-              onClick={() => setShowAll(true)}
-              aria-expanded={showAll}
-            >
-              Explorar todos los trabajos
-            </button>
+        {/* Columna Izquierda: Título, descripción y controles */}
+        <div className="projects-header">
+          <h2 className="section-title">Proyectos Destacados</h2>
+          <p className="projects-description">
+            La prueba de que una estrategia bien ejecutada genera un impacto real. Aquí no solo mostramos el resultado final; detallamos cómo nuestro enfoque se aplicó para resolver desafíos de negocio concretos y medibles.
+          </p>
+          <div className="swiper-controls-desktop">
+            <div className="swiper-button-prev"></div>
+            <div className="swiper-pagination"></div>
+            <div className="swiper-button-next"></div>
           </div>
-        )} */}
-        {/* Grilla de más proyectos */}
-        {showAll && (
-          <>
-            <div className="all-projects-grid" ref={moreRef}>
-              {moreProjects.map((project, idx) => (
-                <div key={project.id} className="project-card active">
-                  <div className="project-card-glass">
-                    <div className="project-image-section">
-                      <div className="project-image-wrapper">
-                        <img
-                          src={project.image}
-                          alt={`Mockup de ${project.name}`}
-                          className="project-image"
-                        />
-                      </div>
-                      <div className="project-overlay">
-                        <div className="project-badge">
-                          <span className="project-number">0{idx + 4}</span>
-                        </div>
-                      </div>
+        </div>
+
+        {/* Columna Derecha: El carrusel */}
+        <div className="swiper-area">
+          <Swiper
+            modules={[Navigation, Pagination, A11y]}
+            spaceBetween={30}
+            // Hacemos visible parte de la siguiente tarjeta en desktop
+            slidesPerView={'auto'}
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }}
+            pagination={{
+              clickable: true,
+              el: '.swiper-pagination'
+            }}
+            className="my-swiper"
+            breakpoints={{
+              // Para vistas mayores a 900px (escritorio), usamos tu configuración original
+              901: {
+                slidesPerView: 'auto',
+                spaceBetween: 30,
+                centeredSlides: false,
+                loop: true,
+              },
+              // Para vistas de 0 a 900px (móvil y tablet)
+              0: {
+                slidesPerView: 1.2, // Mostramos 1 tarjeta y un poco de la siguiente
+                spaceBetween: 20,
+                centeredSlides: true,
+                loop: true,
+              }
+            }}
+          >
+          
+            {allProjectsData.map((project) => (
+              <SwiperSlide key={project.id} onClick={() => openModal(project)}>
+                <div className="project-card-structured">
+                  <div className="project-card-image-area">
+                    <img src={project.image} alt={project.title} className="project-card-img" />
+                  </div>
+                  <div className="project-card-text-area">
+                    <div>
+                      <p className="project-card-category">{project.category}</p>
+                      <h3 className="project-card-title">{project.title}</h3>
+                      <p className="project-card-summary">{project.summary}</p>
                     </div>
-                    <div className="project-content">
-                      <div className="project-header">
-                        <h3 className="project-name">{project.name}</h3>
-                        <p className="project-type">{project.type}</p>
-                        {project.context && (
-                          <div className="project-context-badge">
-                            {project.context}
-                          </div>
-                        )}
-                      </div>
-                      <div className="project-details">
-                        <div className="project-challenge">
-                          <h4>Desafío</h4>
-                          <p>{project.challenge}</p>
-                        </div>
-                        <div className="project-solution">
-                          <h4>Solución</h4>
-                          <p>{project.solution}</p>
-                        </div>
-                      </div>
-                      <div className="project-footer">
-                        <div className="project-tags">
-                          {project.tags.map(tag => (
-                            <span className="tag" key={tag}>{tag}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                    <span className="project-card-cta">
+                      Ver Detalles
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
-            {/* CTA: mostrar aquí si la grilla está visible */}
-            <div className="projects-cta-wrapper">
-              <button
-                className="projects-cta-secondary"
-                onClick={() => {
-                  setShowAll(false);
-                  setTimeout(() => {
-                    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 100);
-                }}
-                aria-expanded={showAll}
-              >
-                Ver menos
-              </button>
-            </div>
-          </>
-        )}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
+
+      {/* Controles para móvil (se mantiene oculto en desktop) */}
+      <div className="swiper-controls-mobile">
+        <div className="swiper-button-prev"></div>
+        <div className="swiper-pagination"></div>
+        <div className="swiper-button-next"></div>
+      </div>
+
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          open={!!selectedProject}
+          onClose={closeModal}
+        />
+      )}
     </section>
   );
 };

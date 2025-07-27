@@ -8,92 +8,94 @@ import { FaWordpress, FaCode, FaRocket, FaStore, FaBuilding, FaCheckCircle } fro
 const creationServicesData = [
   {
     icon: <FaRocket />,
-    title: 'Página de Lanzamiento',
-    idealFor: 'Emprendedores y nuevos proyectos',
+    title: 'Página de Lanzamiento (One-Page)',
+    idealFor: 'Para probar una idea de negocio y conseguir los primeros interesados',
     benefits: [
-      'Diseño de impacto en una sola página (One-Page).',
-      'Ideal para validar una idea o captar primeros clientes.',
-      'Enfocada 100% en una acción (ej. contacto, registro).',
-      'Incluye dominio y hosting por 1 año.'
+      'Diseño de alto impacto enfocado en que el visitante realice una acción.',
+      'La herramienta más rápida para validar un nuevo producto o servicio.',
+      'Optimización para que más visitantes se conviertan en clientes.',
+      'Puesta en marcha y despliegue inicial',
     ],
-    ctaText: "Lanzar mi Proyecto"
+    ctaText: "Consultar por esta solución"
   },
   {
     icon: <FaBuilding />,
     title: 'Sitio Web Corporativo',
-    idealFor: 'Pymes y profesionales establecidos',
+    idealFor: 'Para construir autoridad y comunicar valor de marca',
     benefits: [
-      'Diseño multipágina para presentar tu empresa.',
-      'Secciones clave: Servicios, Nosotros, Contacto, etc.',
-      'Tomá el control total de tu contenido (con WordPress).',
-      'Optimizado para SEO y credibilidad.'
+      'Plataforma digital profesional para presentar tus servicios y consolidar tu marca.',
+      'Contenido organizado de forma lógica para que los usuarios encuentren todo fácilmente.',
+      'Panel de control para que puedas gestionar tu contenido sin depender de nadie.',
+      'Optimización para buscadores (Google) para aumentar la visibilidad.',
+      
     ],
     isFeatured: true,
-    ctaText: "Impulsar mi Empresa"
+    ctaText: "Analizar mi proyecto"
   },
   {
     icon: <FaStore />,
     title: 'Tienda Online (E-commerce)',
-    idealFor: 'Negocios que quieren vender productos online',
+    idealFor: 'Para escalar ventas y automatizar el proceso comercial',
     benefits: [
-      'Una vidriera online abierta 24/7 para tus productos.',
-      'Integración con pasarelas de pago (Mercado Pago).',
-      'Gestión de stock e inventario simplificada.',
-      'Diseño enfocado en maximizar tus ventas.'
+      'Canal de ventas propio, operativo 24/7 y sin pagar comisiones por venta.',
+      'Integración con pasarelas de pago como Mercado Pago, para que tus clientes paguen de forma segura.',
+      'Sistema para gestionar tu stock y tus pedidos de forma simple.',
+      'Diseño intuitivo para que tus clientes compren de forma fácil y agradable.',
+      
     ],
     isFeatured: false,
-    ctaText: "Quiero Vender Online"
+    ctaText: "Quiero vender online"
   },
   {
     icon: <FaCode />,
-    title: 'Sistema a Medida',
-    idealFor: 'Empresas con necesidades operativas únicas',
+    title: 'Software a Medida',
+    idealFor: 'Para optimizar operaciones y resolver problemas únicos',
     benefits: [
-      'Liberá tiempo valioso automatizando tareas repetitivas.',
-      'Solución definitiva al caos de las planillas.',
-      'Herramienta creada exclusivamente para tu negocio.',
-      'Infraestructura robusta y escalable.'
+      'Automatización de tareas repetitivas para que tu equipo libere tiempo valioso.',
+      'La solución definitiva a las limitaciones y el caos de las planillas de cálculo.',
+      'Una herramienta de software diseñada exclusivamente para tu forma de trabajar.',
+      'Una base de código sólida, preparada para crecer a futuro sin problemas.'
     ],
     isFeatured: false,
-    ctaText: "Necesito una Solución"
+    ctaText: "Necesito una solución"
   }
 ];
 
 // ACTO 2: PLANES DE PROTECCIÓN Y CRECIMIENTO
 const maintenancePlansData = [
   {
-    name: 'Plan Base',
+    name: 'Plan Base: Mantenimiento Técnico',
     price: { monthly: '30', annual: '300' },
-    description: 'La tranquilidad de saber que tu sitio está siempre seguro, rápido y funcionando.',
+    description: 'La garantía de que la "mecánica" de tu sitio está siempre en perfecto estado: seguro, rápido y funcionando.',
     features: [
-      'Actualizaciones técnicas semanales',
-      'Copias de seguridad diarias en la nube',
-      'Monitoreo de seguridad y performance 24/7',
-      'Corrección de links rotos y errores menores'
+      'Actualizaciones de seguridad semanales',
+      'Copias de seguridad diarias automáticas',
+      'Monitoreo de velocidad y funcionamiento 24/7',
+      'Soporte técnico para la corrección de errores'
     ],
     isFeatured: false
   },
   {
-    name: 'Plan Pro',
+    name: 'Plan Pro: Mantenimiento y Contenidos',
     price: { monthly: '70', annual: '700' },
-    description: 'Para negocios dinámicos que necesitan mantener su web fresca y relevante.',
+    description: 'Ideal para quienes además del mantenimiento técnico, necesitan delegar la carga de novedades en su web.',
     features: [
       'Todo lo del Plan Base',
-      'Banco de horas para actualización de contenidos',
-      'Soporte técnico para dudas y consultas',
-      'Optimización de velocidad trimestral'
+      'Banco de horas para Actualización de Contenidos (subir artículos, cambiar fotos, textos, etc.)',
+      'Soporte prioritario para resolver tus dudas',
+      'Revisión y optimización de velocidad trimestral'
     ],
     isFeatured: true
   },
   {
-    name: 'Plan Socio',
+    name: 'Plan Socio: Evolución Estratégica',
     price: { monthly: '150', annual: '1500' },
-    description: 'Nos convertimos en una extensión de tu equipo, enfocados en el crecimiento.',
+    description: 'Nos convertimos en tu equipo técnico, asegurando no solo el presente, sino el crecimiento futuro de tu plataforma.',
     features: [
       'Todo lo del Plan Pro',
-      'Horas de desarrollo para nuevas funcionalidades',
-      'Consultoría y mejoras de diseño y UX',
-      'Reportes y monitoreo SEO proactivo'
+      'Horas de desarrollo para Nuevas Funcionalidades',
+      'Consultoría proactiva para mejoras de diseño (UX)',
+      'Análisis y reportes de posicionamiento (SEO)'
     ],
     isFeatured: false
   }
@@ -109,9 +111,9 @@ const Services = () => {
   return (
     <section id="services" className="services-section">
       <div className="services-container">
-        <h2 className="section-title">Una Solución para Cada Etapa de Crecimiento.</h2>
+        <h2 className="section-title">Soluciones Digitales, Resultados Tangibles.</h2>
         <p className="section-subtitle">
-          Cada negocio está en una etapa diferente. Por eso, no ofrecemos soluciones genéricas. Elegí la herramienta digital correcta para tu momento.
+          Nuestro método combina un análisis estratégico con un desarrollo técnico preciso. No ofrecemos productos genéricos; diseñamos y construimos la herramienta digital exacta que cada modelo de negocio requiere para ser más eficiente y competitivo.
         </p>
         <div
           id="servicios"
@@ -153,7 +155,7 @@ const Services = () => {
           <div className="maintenance-header">
             <div className="maintenance-icon-wrapper"><FaRocket style={{ transform: 'rotate(90deg)' }} /></div>
             <h3 className="maintenance-title">Tu Inversión Digital, Siempre Segura y en Evolución.</h3>
-            <p className="maintenance-subtitle">El lanzamiento es solo el comienzo. Con nuestros planes de asociación, nos aseguramos de que tu web se mantenga rápida, segura y siga creciendo junto a tu negocio.</p>
+            <p className="maintenance-subtitle">El lanzamiento es solo el comienzo. Con nuestros planes de mantenimiento, nos aseguramos de que tu web se mantenga rápida, segura y siga creciendo junto a tu negocio.</p>
           </div>
 
           <div className="maintenance-plans-grid">

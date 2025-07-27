@@ -1,0 +1,163 @@
+/* src/components/ProjectDetailModal.css - Versión Definitiva y Robusta */
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(10, 10, 20, 0.7);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 2000;
+  opacity: 0;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  background: linear-gradient(135deg, rgba(30, 30, 40, 0.85), rgba(45, 45, 60, 0.75));
+  border-radius: 24px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Botón de Cierre Animado --- */
+.modal-close-btn.animated {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn.animated span {
+  display: block;
+  position: absolute;
+  width: 28px; height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s;
+}
+.modal-close-btn.animated span:nth-child(1) { transform: rotate(45deg); }
+.modal-close-btn.animated span:nth-child(2) { transform: rotate(-45deg); }
+.modal-close-btn.animated:hover span { background-color: var(--color-accent); }
+.modal-close-btn.animated:hover span:nth-child(1) { transform: rotate(225deg); }
+.modal-close-btn.animated:hover span:nth-child(2) { transform: rotate(135deg); }
+
+/* --- Contenido Principal --- */
+.modal-details-section {
+  padding: 2.5rem 3rem;
+  color: #E0E0E0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.modal-project-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 2rem 0;
+  line-height: 1.2;
+}
+
+.modal-info-block { margin-bottom: 2rem; }
+.modal-info-block h4 { font-size: 1.2rem; font-weight: 600; color: var(--color-accent); margin-bottom: 0.75rem; }
+.modal-info-block p { font-size: 1rem; line-height: 1.7; color: #c0c0c0; }
+
+.modal-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.modal-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.tag-innovative {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.tag-innovative:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 122, 93, 0.3);
+}
+
+.modal-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: var(--color-accent);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.modal-visit-btn:hover {
+  background-color: var(--color-accent-strong);
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(232, 122, 93, 0.4);
+}
+
+
+/* ==========================================================================
+   --- Media Query para Móviles (LA SOLUCIÓN) ---
+   ========================================================================== */
+@media (max-width: 640px) {
+  .modal-content {
+    /* Creamos un "área segura" vertical para no chocar con nada */
+    margin-top: 5vh;
+    margin-bottom: 120px; /* Espacio generoso para los botones flotantes */
+
+    /* Ajustamos la altura máxima en base a los márgenes */
+    max-height: calc(100vh - 5vh - 120px);
+    
+    width: 95%; /* Ocupa casi todo el ancho */
+  }
+
+  .modal-details-section {
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+  }
+  
+  .modal-close-btn.animated {
+    top: 16px; right: 16px;
+  }
+
+  .modal-project-name { font-size: 1.6rem; margin-bottom: 1.5rem; }
+  .modal-info-block h4 { font-size: 1.1rem; }
+  .modal-info-block p { font-size: 0.95rem; }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
