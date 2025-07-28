@@ -8,10 +8,14 @@ export default defineConfig({
   plugins: [
     react(),
     sitemap({
-  
       hostname: "https://www.vswebdesign.online",
+      robots: [
+        {
+          userAgent: "*",
+          allow: "/",
+        },
+      ],
 
-      
       dynamicRoutes: ["/servicios", "/proyectos", "/testimonios", "/contacto"],
     }),
   ],
