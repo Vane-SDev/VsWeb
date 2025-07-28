@@ -1,0 +1,299 @@
+/* Estilos base para páginas estáticas (Desktop First) */
+.static-page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 140px 5% 80px 5%;
+  color: #e0e0e0;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.static-page-title {
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  color: #ffffff;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 1rem;
+}
+
+.static-page-content h2 {
+  font-size: 1.6rem;
+  color: var(--color-accent);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.static-page-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.static-page-content strong {
+  color: #fff;
+}
+
+/* --- Estilos para la página "Sobre Nosotros" --- */
+
+.about-us-modern {
+  max-width: 900px;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 4rem 0 2rem 0;
+}
+
+/* Manifiesto */
+.manifesto-section {
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.manifesto-title {
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  line-height: 1.2;
+  color: #fff;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.manifesto-subtitle {
+  font-size: 1.2rem;
+  color: #c0c0c0;
+  max-width: 700px;
+  margin: 1.5rem auto 0 auto;
+}
+
+/* Proceso */
+.process-section {
+  margin-top: 2rem;
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  font-size: 1rem;
+  color: #b0b0b0;
+  margin: 0;
+  line-height: 1.7;
+}
+
+@media (min-width: 768px) {
+  .process-steps {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Herramientas */
+.tools-section p {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  color: #b0b0b0;
+  line-height: 1.7;
+}
+
+.tool-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.tool-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 3rem;
+  color: #c0c0c0;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.tool-icon-item:hover {
+  color: var(--color-accent);
+  transform: translateY(-5px);
+}
+
+.tool-icon-item span {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Equipo */
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.team-member-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.team-member-card:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  transform: translateY(-5px);
+}
+
+.team-member-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-member-icon {
+  font-size: 1.8rem;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.team-member-card h3 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+.team-member-card h4 {
+  font-size: 1rem;
+  color: #c0c0c0;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ====================================================== */
+/* --- AJUSTES RESPONSIVE FINALES Y REFINADOS --- */
+/* ====================================================== */
+
+@media (max-width: 768px) {
+  /* Reducimos padding y márgenes generales */
+  .static-page-container {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+
+  .section-heading {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 1.5rem 0; /* Margen superior reducido */
+  }
+
+  /* Títulos principales de página */
+  .static-page-title {
+    font-size: 2rem;
+  }
+  
+  .static-page-content h2 {
+    font-size: 1.4rem;
+  }
+
+  /* Párrafos más legibles */
+  .static-page-content p,
+  .step-content p,
+  .tools-section p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  /* Manifiesto */
+  .manifesto-title {
+    font-size: 2.2rem;
+  }
+
+  .manifesto-subtitle {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  /* Proceso */
+  .step {
+    gap: 1rem; /* Gap más ajustado */
+  }
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  .step-content h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Herramientas */
+  .tool-icons {
+    gap: 1.5rem 2rem; /* Ajustamos gap vertical y horizontal */
+  }
+
+  .tool-icon-item {
+    font-size: 2.5rem;
+  }
+
+  .tool-icon-item span {
+    font-size: 0.8rem; /* Texto de íconos más pequeño */
+  }
+  
+  /* Equipo */
+  .team-member-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .team-member-card h4 {
+    font-size: 0.95rem; /* Hacemos el rol un poco más legible */
+  }
+}

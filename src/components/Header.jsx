@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom'; // <--- 1. IMPORTAMOS LAS HERRAMIENTAS DE ROUTER
 import './Header.css';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -13,6 +14,10 @@ const Header = ({ servicesLinkId = 'servicios', onNavigate }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const inactivityTimerRef = useRef(null);
+
+    // Hooks de Router para saber dónde estamos y para navegar
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = (e) => {
@@ -33,7 +38,6 @@ const Header = ({ servicesLinkId = 'servicios', onNavigate }) => {
 
         const activityEvents = ['mousemove', 'scroll', 'touchstart', 'keydown'];
         activityEvents.forEach(event => window.addEventListener(event, resetTimer));
-
         resetTimer();
 
         return () => {
@@ -49,18 +53,26 @@ const Header = ({ servicesLinkId = 'servicios', onNavigate }) => {
         { label: 'Contacto', id: 'contacto' },
     ];
 
+    // --- 2. LÓGICA DE NAVEGACIÓN "INTELIGENTE" ---
     const handleNavClick = (targetId) => {
-        if (onNavigate) {
-            onNavigate(targetId);
+        setDrawerOpen(false); // Cierra el menú móvil si está abierto
+
+        // Si ya estamos en la página de inicio, solo hacemos scroll
+        if (location.pathname === '/') {
+            if (onNavigate) onNavigate(targetId);
+        } else {
+            // Si estamos en otra página, primero navegamos a la raíz '/'
+            navigate('/');
+            // Y luego, con un pequeño delay, hacemos el scroll
+            setTimeout(() => {
+                if (onNavigate) onNavigate(targetId);
+            }, 100); // 100ms es suficiente para que React renderice la HomePage
         }
-        setDrawerOpen(false);
     };
 
     const handleLogoClick = (e) => {
         e.preventDefault();
-        if (onNavigate) {
-            onNavigate('Hero');
-        }
+        handleNavClick('Hero');
     };
 
     const toggleDrawer = (open) => (event) => {
@@ -74,9 +86,10 @@ const Header = ({ servicesLinkId = 'servicios', onNavigate }) => {
         <header className={`main-header ${isScrolled ? 'scrolled' : ''} ${!isVisible ? 'hidden' : ''}`}>
             <nav className="main-nav">
                 <div className="logo-container">
-                    <a href="#Hero" onClick={handleLogoClick} aria-label="Volver al inicio">
+                    {/* --- 3. CAMBIAMOS <a> por <Link> PARA EL LOGO --- */}
+                    <Link to="/" onClick={handleLogoClick} aria-label="Volver al inicio">
                         <img src={logo} className="logo-text" alt="VS Web Design Logo" />
-                    </a>
+                    </Link>
                 </div>
 
                 <ul className="nav-links">

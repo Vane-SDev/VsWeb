@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 import { FaLinkedin, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
 import logoVS from '../assets/LogoNegro.svg';
 
@@ -42,6 +43,13 @@ const Footer = ({ onLogoClick }) => {
           </a>
           <span className="footer-brand-text">vswebdesign.online</span>
         </div>
+
+        <div className="footer-links">
+          <Link to="/sobre-nosotros" className="footer-link">Sobre Nosotros</Link>
+          <Link to="/politica-de-privacidad" className="footer-link">Política de Privacidad</Link>
+          <Link to="/terminos-y-condiciones" className="footer-link">Términos y Condiciones</Link>
+        </div>
+
         <div className="footer-social">
           {socialLinks.map((link) => (
             <a

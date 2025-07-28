@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const useHeroAnimation = (mainRef, setServicesLinkId) => {
+export const useHeroAnimation = (scopeRef, setServicesLinkId) => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.set(".animation-container", { perspective: 1000 });
@@ -64,8 +64,8 @@ export const useHeroAnimation = (mainRef, setServicesLinkId) => {
         onEnter: () => setServicesLinkId("services"),
         onLeaveBack: () => setServicesLinkId("servicios"),
       });
-    }, mainRef);
+    }, scopeRef);
 
     return () => ctx.revert();
-  }, [mainRef, setServicesLinkId]);
+  }, [scopeRef, setServicesLinkId]);
 };

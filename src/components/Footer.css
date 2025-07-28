@@ -88,6 +88,24 @@
   letter-spacing: 0.1px;
 }
 
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center; /* Centra los links en móvil */
+}
+
+.footer-link {
+  color: #c0c0c0;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s, text-decoration 0.3s;
+}
+
+.footer-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .footer-content {
     flex-direction: column;
@@ -104,6 +122,12 @@
   }
   .footer-social {
     justify-content: center;
+  }
+
+  .footer-links{
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
 
