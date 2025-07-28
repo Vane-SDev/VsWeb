@@ -1,7 +1,7 @@
 import React from 'react';
 import './PageStyles.css';
 import { FaWordpress, FaReact, FaNodeJs, FaFigma, FaStore, FaCode, FaLightbulb } from 'react-icons/fa';
-import ElectronIcon from '../components/Icons/ElectronIcon.jsx'; // Asegúrate de que la ruta sea correcta
+import ElectronIcon from '../components/icons/ElectronIcon.jsx'; // Asegúrate de que la ruta sea correcta
 
 const AboutUs = () => {
     return (
