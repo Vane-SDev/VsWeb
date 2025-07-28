@@ -8,12 +8,7 @@ export default defineConfig({
     sitemap({
       hostname: "https://www.vswebdesign.online",
       generateRobotsTxt: true,
-      robots: [
-        {
-          userAgent: "*",
-          allow: "/",
-        },
-      ],
+      robots: [ ],
       dynamicRoutes: [
         "/",
         "/servicios",
