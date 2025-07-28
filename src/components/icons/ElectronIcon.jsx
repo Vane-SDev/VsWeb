@@ -7,7 +7,7 @@ const ElectronIcon = (props) => (
         width="1em"
         height="1em"
         fill="currentColor"
-        viewBox="0 0 64 64" // viewBox ajustado al SVG original
+        viewBox="0 0 64 64" 
         {...props}
     >
         <path

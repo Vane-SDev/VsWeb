@@ -42,12 +42,12 @@ const contactMethods = [
 const Contact = () => {
   const sectionRef = useRef(null);
 
-  // Estado para controlar qué tarjeta está abierta ---
-  const [expandedCard, setExpandedCard] = useState('WhatsApp'); // Abrimos la primera por defecto
+ 
+  const [expandedCard, setExpandedCard] = useState('WhatsApp'); 
 
-  //  Función para manejar el clic en una tarjeta ---
+  
   const handleCardClick = (label) => {
-    // Si la tarjeta clickeada ya está abierta, la cerramos. Si no, la abrimos.
+    
     setExpandedCard(prev => (prev === label ? null : label));
   };
 
@@ -66,13 +66,13 @@ const Contact = () => {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 80%', // La animación empieza cuando el 80% de la sección es visible
+            start: 'top 80%', 
           }
         }
       );
-    }, sectionRef); // El contexto se aplica a la sección
+    }, sectionRef); 
 
-    return () => ctx.revert(); // Limpieza de GSAP
+    return () => ctx.revert(); 
   }, []);
 
   return (
