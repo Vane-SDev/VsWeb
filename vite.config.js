@@ -1,3 +1,5 @@
+// vite.config.js
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import sitemap from "vite-plugin-sitemap";
@@ -7,16 +9,19 @@ export default defineConfig({
     react(),
     sitemap({
       hostname: "https://www.vswebdesign.online",
-      generateRobotsTxt: true,
-      robots: [ ],
+
+      // 1. Eliminamos por completo la clave 'robots'.
+      //    Dejaremos que el archivo que creaste en /public/robots.txt
+      //    sea la única fuente de verdad, eliminando el conflicto.
+
+      // 2. Corregimos las rutas para que coincidan con las de React Router.
+      //    El plugin encontrará automáticamente la ruta raíz '/',
+      //    así que solo necesitamos añadir las otras.
       dynamicRoutes: [
-        "/",
-        "/servicios",
-        "/proyectos",
-        "/testimonios",
-        "/contacto",
+        "/sobre-nosotros",
+        "/politica-de-privacidad",
+        "/terminos-y-condiciones",
       ],
-      exclude: ["/syjxlwfuc9abb9kq9v80wlcyk57d9l"],
     }),
   ],
 });
