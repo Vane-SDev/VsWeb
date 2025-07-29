@@ -66,11 +66,11 @@ const AboutUs = () => {
             </div>
 
             {/* SECCIÓN 4: El Equipo (DISEÑO REFINADO) */}
-            <div className="team-section-modern">
+{/*             <div className="team-section-modern">
                 <h2 className="section-heading">Nuestro Equipo</h2>
                 <div className="team-grid">
                     <div className="team-member-card">
-                        {/* Agrupamos el ícono y el nombre */}
+                        
                         <div className="team-member-header">
                             <FaCode className="team-member-icon" />
                             <h3>Vanesa</h3>
@@ -78,7 +78,7 @@ const AboutUs = () => {
                         <h4>Fundadora & Arquitecta Digital</h4>
                     </div>
                     <div className="team-member-card">
-                        {/* Agrupamos el ícono y el nombre */}
+                       
                         <div className="team-member-header">
                             <FaLightbulb className="team-member-icon" />
                             <h3>Johana</h3>
@@ -86,7 +86,7 @@ const AboutUs = () => {
                         <h4>Directora de Estrategia y Proyectos</h4>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
